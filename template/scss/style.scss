@@ -12,8 +12,7 @@ $text: lighten($grey, 30%);
 }
 
 .navbar {
-  background: $white;
-  color: $green;
+  background: $green;
 }
 
 nav .container {
@@ -26,13 +25,48 @@ body {
   color: $text;
 }
 
-.form {
+.form, .groups {
   background: $white;
   margin-top: 50px;
   margin-bottom: 50px;
   padding: 40px;
   border: 1px solid lighten($grey, 65%);
   border-radius: 5px;
+}
+
+.modal .modal-dialog .modal-content {
+  background: $dark-white;
+}
+
+.modal .modal-dialog .modal-content .modal-header {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.modal-body {
+  padding: 40px;
+}
+
+.groups {
+  border-radius: 0;
+}
+
+.dashboard {
+  width: 80%;
+  margin: 150px auto;
+}
+
+.dashboard .glyphicon {
+  font-size: 150px;
+}
+
+.dashboard p {
+  font-size: 20px;
+  padding-top: 10px;
+}
+
+.dashboard a {
+  text-decoration: none;
 }
 
 .btn-green {
