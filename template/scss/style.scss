@@ -55,3 +55,13 @@ form .btn-block {
   position: relative;
   left: (100% - (62));
 }
+
+a {
+  color: $orange;
+  &:hover {
+    color: darken($orange, 20%);
+  }
+  &:active {
+    color: $orange;
+  }
+}
