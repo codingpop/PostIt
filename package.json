@@ -1,0 +1,27 @@
+{
+  "name": "postit",
+  "version": "1.0.0",
+  "description": "A group messaging platform",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-config-airbnb": "^15.0.1",
+    "eslint-plugin-import": "^2.2.0",
+    "eslint-plugin-jsx-a11y": "^5.0.1",
+    "eslint-plugin-react": "^7.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tundewritescode/PostIt.git"
+  },
+  "author": "Babatunde Adeyemi",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/tundewritescode/PostIt/issues"
+  },
+  "homepage": "https://github.com/tundewritescode/PostIt#readme"
+}
