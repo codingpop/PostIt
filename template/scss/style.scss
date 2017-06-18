@@ -3,6 +3,7 @@ $orange: #ff672c;
 $grey: #343434;
 $dark-white: #fafafa;
 $white: #fff;
+$text: lighten($grey, 30%);
 
 @mixin box($width, $background: inherit) {
   width: $width;
@@ -15,8 +16,14 @@ $white: #fff;
   color: $green;
 }
 
+nav .container {
+  padding-left: 0;
+  padding-right: 0;
+}
+
 body {
   background: $dark-white;
+  color: $text;
 }
 
 .form {
@@ -24,7 +31,7 @@ body {
   margin-top: 50px;
   margin-bottom: 50px;
   padding: 40px;
-  border: 1px solid lighten($grey, 70%);
+  border: 1px solid lighten($grey, 65%);
   border-radius: 5px;
 }
 
