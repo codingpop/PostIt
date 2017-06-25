@@ -37,6 +37,20 @@ class PostIt {
       })
     );
   }
+
+  /**
+   * Fetches user's details
+   * @param {string} email - Signin email address
+   * @param {*} password - Signin password
+   * @returns {promise} - returns a Bluebird JS Promise
+   */
+  logUserIn(email) {
+    return this.UserModel.findOne({
+      where: {
+        email
+      }
+    });
+  }
 }
 
 export default PostIt;
