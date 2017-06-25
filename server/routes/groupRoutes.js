@@ -4,43 +4,52 @@ import PostIt from './../src/postit';
 const groupRoutes = express.Router();
 const PostItInstance = new PostIt();
 
+const message401 = 'You are not logged in';
+
+// Creates a new group
 groupRoutes.post('/group', (request, response) => {
   if (!request.session.user) {
     response.status(401).json({
-      messgage: 'You are not logged in',
-      status: '401'
+      messgage: message401,
+      status: 401
     });
   } else {
-    const [
-      name,
-      visibility
-    ] = Object.keys(request.body).map(key => request.body[key]);
-
-    PostItInstance.creatGroup(
-      name,
-      visibility,
-      request.session.id
-    ).then((feedback) => {
-      response.json(feedback);
-    }).catch((error) => {
-      response.json(error);
-    });
+    PostItInstance.creatGroup(request.body.name,
+      request.session.user.userId)
+      .then((feedback) => {
+        response.json(feedback);
+      }).catch((error) => {
+        response.json(error);
+      });
   }
 });
 
-groupRoutes.post('/group/:id/user', (request, response) => {
-  if (!request.session.user) {
-    response.json('You got no access!');
-  } else {
-    response.json('Welcome!');
-  }
-});
-
-groupRoutes.post('/group/:id/message', (request, response) => {
+// Posts a message to a group
+groupRoutes.post('/group/:groupId/message', (request, response) => {
   if (!request.session.user) {
     response.json('No access');
   } else {
-    response.json('Welcome');
+    // User is logged in
+    PostItInstance.findGroup(request.params.groupId)
+      .then((feedback) => {
+        if (
+          request.session.user.userId
+          === feedback.userId
+        ) {
+          PostItInstance.postMessage(
+            request.params.groupId,
+            request.session.user.userId,
+            request.body.message,
+            request.body.priority
+          ).then((message) => {
+            response.json(message);
+          });
+        } else {
+          response.json('You do not own this group');
+        }
+      }).catch(() => {
+        response.json('Group does not exist');
+      });
   }
 });
 
