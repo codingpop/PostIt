@@ -61,7 +61,7 @@ describe('Tests for API calls', () => {
           expect(res.body.status).to.equal(200);
           done();
         });
-    }).timeout(10000);
+    });
 
     it('should reject registration of existing email address', (done) => {
       request(api)
@@ -77,7 +77,7 @@ describe('Tests for API calls', () => {
           expect(res.body.status).to.equal(406);
           done();
         });
-    }).timeout(10000);
+    });
 
     it('should reject registration of existing phone number', (done) => {
       request(api)
@@ -93,7 +93,7 @@ describe('Tests for API calls', () => {
           expect(res.body.status).to.equal(406);
           done();
         });
-    }).timeout(10000);
+    });
 
     it('should reject registration of empty fields', (done) => {
       request(api)
@@ -120,7 +120,7 @@ describe('Tests for API calls', () => {
           expect(res.body.status).to.equal(406);
           done();
         });
-    }).timeout(10000);
+    });
   });
 
   describe('Test for user login', () => {
@@ -141,7 +141,7 @@ describe('Tests for API calls', () => {
           expect(res.body.message).to.equal('You are not logged in');
           done();
         });
-    }).timeout(10000);
+    });
 
     it('should prevent posting a message without logging in first', (done) => {
       request(api)
@@ -161,7 +161,7 @@ describe('Tests for API calls', () => {
           expect(res.body.message).to.equal('You are not logged in');
           done();
         });
-    }).timeout(10000);
+    });
 
     it('should prevent retrieving messages without logging in first', (done) => {
       request(api)
@@ -177,7 +177,7 @@ describe('Tests for API calls', () => {
           expect(res.body.message).to.equal('You are not logged in');
           done();
         });
-    }).timeout(10000);
+    });
 
     it('should reject logging in with unregistered email', (done) => {
       request(api)
@@ -197,7 +197,7 @@ describe('Tests for API calls', () => {
           expect(res.body.status).to.equal(401);
           done();
         });
-    }).timeout(10000);
+    });
 
     it('should reject logging in with a wrong password', (done) => {
       request(api)
@@ -217,7 +217,7 @@ describe('Tests for API calls', () => {
           expect(res.body.status).to.equal(401);
           done();
         });
-    }).timeout(10000);
+    });
   });
 
   describe('Test for group endpoints', () => {
@@ -259,7 +259,7 @@ describe('Tests for API calls', () => {
           authSession = testSession;
           done();
         });
-    }).timeout(10000);
+    });
 
     it('should create a new group', (done) => {
       authSession.post('/api/group/')
@@ -277,7 +277,7 @@ describe('Tests for API calls', () => {
           expect(res.body.message).to.equal(`${group.name} created`);
           done();
         });
-    }).timeout(10000);
+    });
 
     it('should reject the name of already existing group', (done) => {
       authSession.post('/api/group/')
@@ -293,7 +293,7 @@ describe('Tests for API calls', () => {
           expect(res.body.message).to.equal(`${group.name} already exists`);
           done();
         });
-    }).timeout(10000);
+    });
 
     it('should reject invalid group name', (done) => {
       authSession.post('/api/group/')
@@ -309,7 +309,7 @@ describe('Tests for API calls', () => {
           expect(res.body.message).to.equal('Please enter a valid group name');
           done();
         });
-    }).timeout(10000);
+    });
 
     it('should post message to any group a user creates', (done) => {
       authSession.post(`/api/group/${groupId}/message`)
@@ -328,7 +328,7 @@ describe('Tests for API calls', () => {
           expect(res.body.message).to.equal('Message posted');
           done();
         });
-    }).timeout(10000);
+    });
 
     it('should reject posting to non-existent groups', (done) => {
       authSession.post(`/api/group/${groupId}788/message`)
@@ -347,6 +347,6 @@ describe('Tests for API calls', () => {
           expect(res.body.message).to.equal('Group does not exist');
           done();
         });
-    }).timeout(10000);
+    });
   });
 });
