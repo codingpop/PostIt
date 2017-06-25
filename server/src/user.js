@@ -1,3 +1,5 @@
+const Sequelize = require('sequelize');
+
 /**
  * The User class
  * @author Babatunde Adeyemi <tundewrites@gmail.com>
@@ -20,40 +22,55 @@ class User {
     this.email = email;
     this.phone = phone;
     this.password = password;
+    this.connection = new Sequelize('postit', 'postgres', 'postgres', {
+      dialect: 'postgres',
+    });
+    this.UserModel = this.connection.define('user', {
+      firstName: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        validate: {
+          len: [2, 100]
+        }
+      },
+      lastName: {
+        type: Sequelize.STRING,
+        allowNull: false
+      },
+      email: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
+      },
+      phone: {
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true
+      },
+      password: {
+        type: Sequelize.STRING,
+        allowNull: false
+      }
+    });
   }
 
   /**
    * Registers new user's info to database
+   * @returns {Promise} - returns a promise
    */
-  register() {
-
-  }
-
-  /**
-   * Creates a group
-   * @param {string} groupName - name of the group
-   */
-  createGroup(groupName) {
-
-  }
-
-  /**
-   * Adds a user to a particular group
-   * @param {number} userId - user's database ID
-   * @param {number} groupId - target group's database ID
-   */
-  addUserToGroup(userId, groupId) {
-
-  }
-
-  /**
-   * Posts a message to a group
-   * @param {string} message - message to be posted
-   * @param {number} groupId - target group's database ID
-   */
-  postMessage(message, groupId) {
-
+  registerUser() {
+    return this.connection.sync({
+      force: true,
+    }).then(() => {
+      this.UserModel.create({
+        firstName: this.firstName,
+        lastName: this.lastName,
+        email: this.email,
+        phone: this.phone,
+        password: this.password
+      });
+    });
   }
 }
 
-export default User;
+module.exports = User;
