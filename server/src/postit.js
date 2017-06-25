@@ -51,6 +51,21 @@ class PostIt {
       }
     });
   }
+
+  /**
+   * Creates a new group for a user
+   * @param {string} name - Name of the group
+   * @param {string} visibility - Public, Private, or Secret
+   * @returns {Promise} - returns a Bluebird JS Promise
+   */
+  creatGroup(name, visibility) {
+    return connection.sync().then(() =>
+      this.GroupModel.create({
+        name,
+        visibility
+      })
+    );
+  }
 }
 
 export default PostIt;
