@@ -53,11 +53,53 @@ groupRoutes.post('/group/:groupId/message', (request, response) => {
   }
 });
 
-groupRoutes.get('/group/:id/messages', (request, response) => {
+// Adds a user to a group
+groupRoutes.post('/group/:groupId/user', (request, response) => {
+  if (!request.session.user) {
+    response.json({
+      message: message401,
+      status: 401
+    });
+  } else {
+    PostItInstance.findGroup(request.params.groupId)
+      .then((feedback) => {
+        if (request.session.user.userId === feedback.userId) {
+          PostItInstance.findUser(request.body.email)
+            .then((message) => {
+              PostItInstance.addGroupMember(message.userId, request.params.groupId)
+                .then((output) => {
+                  response.json(output);
+                });
+            }).catch(() => {
+              response.send('user does not exist');
+            });
+        } else {
+          response.json('You do not own this group');
+        }
+      }).catch(() => {
+        response.json('Group does not exist');
+      });
+  }
+});
+
+// Gets all messages from an accessible group
+groupRoutes.get('/group/:groupId/messages', (request, response) => {
   if (!request.session.user) {
     response.json('Please go away');
   } else {
-    response.json('You are welcome');
+    // Check if user is a member
+    PostItInstance.checkMembership(request.session.user.userId, request.params.groupId)
+    .then((feedback) => {
+      if (feedback) {
+        // User is a member
+        PostItInstance.getMessages(request.params.groupId)
+        .then((messages) => {
+          response.json(messages);
+        });
+      }
+    }).catch(() => {
+      response.json('Something broke');
+    });
   }
 });
 
