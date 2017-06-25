@@ -72,11 +72,11 @@ userRoutes.post('/user/signin', (request, response) => {
     request.body[key]);
 
   PostItInstance.findUser(email, password)
-    .then((feedback) => {
-      bcrypt.compare(password, feedback.password)
+    .then((user) => {
+      bcrypt.compare(password, user.password)
         .then((matched) => {
           if (matched) {
-            request.session.user = feedback;
+            request.session.user = user;
 
             response.status(200).json({
               message: `Welcome ${request.session.user.firstName}`,

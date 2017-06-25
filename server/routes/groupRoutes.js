@@ -6,8 +6,13 @@ const PostItInstance = new PostIt();
 
 const message401 = 'You are not logged in';
 
-// Creates a new group
+/**
+ * Creates a new group
+ * Rejects request if the user is unauthorized
+ * Refuses to create group if group name is empty
+ */
 groupRoutes.post('/group', (request, response) => {
+  // Is session active?
   if (!request.session.user) {
     response.status(401).json({
       messgage: message401,
@@ -16,10 +21,17 @@ groupRoutes.post('/group', (request, response) => {
   } else {
     PostItInstance.creatGroup(request.body.name,
       request.session.user.userId)
-      .then((feedback) => {
-        response.json(feedback);
+      .then((group) => {
+        response.status(200).json({
+          message: `${group.name} created`,
+          status: 200
+        });
       }).catch((error) => {
-        response.json(error);
+        if (error.name === 'SequelizeUniqueConstraintError') {
+          response.status(406).json({
+            message: `${error.errors[0].values} already exists`
+          });
+        }
       });
   }
 });
