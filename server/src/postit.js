@@ -124,6 +124,33 @@ class PostIt {
       }
     });
   }
+
+  /**
+   * Checks if an input is a string
+   * @param {String} input - value to checked
+   * @returns {Boolean} - returns either true or false
+   */
+  static isString(input) {
+    if (typeof input !== 'string' && input.length < 3) {
+      return false;
+    }
+    return true;
+  }
+
+  /**
+   * Checks if an input is a number
+   * @param {Nmber} number - value to be checked
+   * @returns {Boolean} - returns either true or false
+   */
+  static isPhone(number) {
+    if (number.length < 11) {
+      return false;
+    }
+    if (isNaN(Number(number))) {
+      return false;
+    }
+    return true;
+  }
 }
 
 export default PostIt;
