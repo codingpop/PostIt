@@ -110,6 +110,9 @@ describe('Tests for API calls', () => {
           expect(res.body.errors).to.have.a.property('email');
           expect(res.body.errors).to.have.a.property('phone');
           expect(res.body.errors.firstName).to.equal('Invalid input');
+          expect(res.body.errors.lastName).to.equal('Invalid input');
+          expect(res.body.errors.email).to.equal('Invalid input');
+          expect(res.body.errors.phone).to.equal('Invalid input');
           expect(res.body.message).to.equal('Please check your submission');
           expect(res.body.status).to.equal(406);
           done();
@@ -118,6 +121,61 @@ describe('Tests for API calls', () => {
   });
 
   describe('Test for user login', () => {
+    it('should prevent creating a group without logging in first', (done) => {
+      request(api)
+        .post('/api/group')
+        .set('Accept', 'application/x-www-form-urlencoded')
+        .send({
+          name: 'A new group'
+        })
+        .expect('Content-Type', /json/)
+        .expect(401)
+        .end((err, res) => {
+          expect(res.body).to.be.an('object');
+          expect(res.body).to.have.a.property('message');
+          expect(res.body).to.have.a.property('status');
+          expect(res.body.status).to.equal(401);
+          expect(res.body.message).to.equal('You are not logged in');
+          done();
+        });
+    }).timeout(10000);
+
+    it('should prevent posting a message without logging in first', (done) => {
+      request(api)
+        .post('/api/group')
+        .set('Accept', 'application/x-www-form-urlencoded')
+        .send({
+          message: 'A new group',
+          priority: 'urgent'
+        })
+        .expect('Content-Type', /json/)
+        .expect(401)
+        .end((err, res) => {
+          expect(res.body).to.be.an('object');
+          expect(res.body).to.have.a.property('message');
+          expect(res.body).to.have.a.property('status');
+          expect(res.body.status).to.equal(401);
+          expect(res.body.message).to.equal('You are not logged in');
+          done();
+        });
+    }).timeout(10000);
+
+    it('should prevent retrieving messages without logging in first', (done) => {
+      request(api)
+        .get('/api/group/988ac047/messages')
+        .set('Accept', 'application/x-www-form-urlencoded')
+        .expect('Content-Type', /json/)
+        .expect(401)
+        .end((err, res) => {
+          expect(res.body).to.be.an('object');
+          expect(res.body).to.have.a.property('message');
+          expect(res.body).to.have.a.property('status');
+          expect(res.body.status).to.equal(401);
+          expect(res.body.message).to.equal('You are not logged in');
+          done();
+        });
+    }).timeout(10000);
+
     it('should log user in', (done) => {
       request(api)
         .post('/api/user/signin')

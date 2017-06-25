@@ -15,7 +15,7 @@ groupRoutes.post('/group', (request, response) => {
   // Is session active?
   if (!request.session.user) {
     response.status(401).json({
-      messgage: message401,
+      message: message401,
       status: 401
     });
   } else {
@@ -24,12 +24,25 @@ groupRoutes.post('/group', (request, response) => {
       .then((group) => {
         response.status(200).json({
           message: `${group.name} created`,
+          groupId: group.groupId,
           status: 200
         });
       }).catch((error) => {
         if (error.name === 'SequelizeUniqueConstraintError') {
           response.status(406).json({
-            message: `${error.errors[0].values} already exists`
+            message: `${error.fields.name} already exists`,
+            status: 406
+          });
+        }
+        if (error.name === 'SequelizeValidationError') {
+          response.status(406).json({
+            message: 'Please enter a valid group name',
+            status: 406
+          });
+        } else {
+          response.status(500).json({
+            message: 'Oops! Something broke',
+            status: 500
           });
         }
       });
@@ -39,7 +52,10 @@ groupRoutes.post('/group', (request, response) => {
 // Posts a message to a group
 groupRoutes.post('/group/:groupId/message', (request, response) => {
   if (!request.session.user) {
-    response.json('No access');
+    response.status(401).json({
+      message: message401,
+      status: 401
+    });
   } else {
     // User is logged in
     PostItInstance.findGroup(request.params.groupId)
@@ -97,7 +113,10 @@ groupRoutes.post('/group/:groupId/user', (request, response) => {
 // Gets all messages from an accessible group
 groupRoutes.get('/group/:groupId/messages', (request, response) => {
   if (!request.session.user) {
-    response.json('Please go away');
+    response.status(401).json({
+      message: message401,
+      status: 401
+    });
   } else {
     // Check if user is a member
     PostItInstance.checkMembership(request.session.user.userId, request.params.groupId)
