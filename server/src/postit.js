@@ -112,6 +112,18 @@ class PostIt {
     );
   }
 
+  /**
+   * Fetches all messages in a particular group
+   * @param {string} groupId - target group
+   * @returns {Promise} - returns a Promise
+   */
+  getMessages(groupId) {
+    return this.database.Message.findAll({
+      where: {
+        inGroup: groupId
+      }
+    });
+  }
 }
 
 export default PostIt;
