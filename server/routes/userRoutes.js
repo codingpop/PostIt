@@ -49,6 +49,8 @@ userRoutes.post('/user/signin', (request, response) => {
       bcrypt.compare(password, feedback.password)
         .then((matched) => {
           if (matched) {
+            request.session.id = feedback.userId;
+            request.session.user = feedback.firstName;
             response.status(200).json({
               message: `Welcome ${request.session.user}`,
               status: 200
