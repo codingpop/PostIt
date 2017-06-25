@@ -20,7 +20,7 @@ const connection = new Sequelize(
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     dialect: 'postgres',
-    dialectOptions: process.env.NODE_ENV ? {} : production,
+    dialectOptions: process.env.NODE_ENV === 'test' ? {} : production,
     logging: false
   });
 
