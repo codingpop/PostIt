@@ -12,7 +12,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(session({
-  secret: 'dui8w9837@##&*(#&(*#*(@bdhdfAJKHKJHJAHJ',
+  secret: 'dui8w9837@##&*(#&(*#*(@bdhdfAJKHKJHJA',
   resave: false,
   saveUninitialized: true
 }));
