@@ -28,9 +28,9 @@ userRoutes.post('/user/signup', (request, response) => {
           message: 'success',
           status: 200
         });
-      }).catch(() => {
+      }).catch((error) => {
         response.json({
-          message: 'failure',
+          message: error,
           status: 200
         });
       });
@@ -44,15 +44,15 @@ userRoutes.post('/user/signin', (request, response) => {
   ] = Object.keys(request.body).map(key =>
     request.body[key]);
 
-  PostItInstance.logUserIn(email, password)
+  PostItInstance.findUser(email, password)
     .then((feedback) => {
       bcrypt.compare(password, feedback.password)
         .then((matched) => {
           if (matched) {
-            request.session.userId = feedback.userId;
-            request.session.user = feedback.firstName;
+            request.session.user = feedback;
+
             response.status(200).json({
-              message: `Welcome ${request.session.user}`,
+              message: `Welcome ${request.session.user.firstName}`,
               status: 200
             });
           } else {
