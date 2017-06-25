@@ -8,7 +8,10 @@ export default (connection, Sequelize) => {
     name: {
       type: Sequelize.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
+      validate: {
+        notEmpty: true,
+      }
     },
     userId: {
       type: Sequelize.UUID,

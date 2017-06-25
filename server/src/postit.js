@@ -126,15 +126,16 @@ class PostIt {
   }
 
   /**
-   * Checks if an input is a string
-   * @param {String} input - value to checked
+   * Checks if an an array of values are strings
+   * @param {Array} fieldArray - value to checked
    * @returns {Boolean} - returns either true or false
    */
-  static isString(input) {
-    if (typeof input !== 'string' && input.length < 3) {
-      return false;
+  static areFieldsValid(fieldArray) {
+    let result = false;
+    for (let index = 0; index < fieldArray.length; index += 1) {
+      result = (fieldArray[index].length >= 3);
+      if (!result) return result;
     }
-    return true;
   }
 
   /**
@@ -143,13 +144,22 @@ class PostIt {
    * @returns {Boolean} - returns either true or false
    */
   static isPhone(number) {
-    if (number.length < 11) {
+    if (number.length !== 11) {
       return false;
     }
     if (isNaN(Number(number))) {
       return false;
     }
     return true;
+  }
+
+  /**
+   * Checks if email is valid
+   * @param {String} email - email to be checked
+   * @returns {Boolean} - returns true or false
+   */
+  static isEmail(email) {
+    return !!email.match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$/);
   }
 }
 

@@ -6,6 +6,10 @@ const userRoutes = express.Router();
 
 const PostItInstance = new PostIt();
 
+/**
+ * Registers a new user
+ * Rejects users that have already registered
+ */
 userRoutes.post('/user/signup', (request, response) => {
   const [
     firstName,
@@ -25,18 +29,41 @@ userRoutes.post('/user/signup', (request, response) => {
       hash)
       .then(() => {
         response.status(200).json({
-          message: 'success',
+          message: 'Registration successful',
           status: 200
         });
       }).catch((error) => {
-        response.json({
-          message: error,
-          status: 200
-        });
+        if (error.name === 'SequelizeUniqueConstraintError') {
+          response.status(406).json({
+            message: `${error.errors[0].value} is already registered`,
+            status: 406
+          });
+        } else if (error.name === 'SequelizeValidationError') {
+          const errMessage = {};
+
+          error.errors.forEach((err) => {
+            errMessage[err.path] = 'Invalid input';
+          });
+
+          response.status(406).json({
+            message: 'Please check your submission',
+            errors: errMessage,
+            status: 406
+          });
+        } else {
+          response.status(500).json({
+            message: 'Oops! Something broke',
+            status: 500
+          });
+        }
       });
   });
 });
 
+/**
+ * Logs a new user in
+ * Rejects signing in if credentials are wrong
+ */
 userRoutes.post('/user/signin', (request, response) => {
   const [
     email,
@@ -57,16 +84,23 @@ userRoutes.post('/user/signin', (request, response) => {
             });
           } else {
             response.status(401).json({
-              message: 'You entered a wrong password',
+              message: 'You have entered a wrong password',
               status: 401
             });
           }
         });
-    }).catch(() => {
-      response.status(401).json({
-        message: 'You have not registered',
-        status: 401
-      });
+    }).catch((error) => {
+      if (!Object.keys(error).length) {
+        response.status(401).json({
+          message: 'Email is not registered',
+          status: 401
+        });
+      } else {
+        response.status(500).json({
+          message: 'Oops! Something broke',
+          status: 500
+        });
+      }
     });
 });
 

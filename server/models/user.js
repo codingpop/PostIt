@@ -1,30 +1,43 @@
-export default (connection, Sequelizes) => {
+export default (connection, Sequelize) => {
   const User = connection.define('user', {
     userId: {
-      type: Sequelizes.UUID,
-      defaultValue: Sequelizes.UUIDV4,
+      type: Sequelize.UUID,
+      defaultValue: Sequelize.UUIDV4,
       primaryKey: true
     },
     firstName: {
-      type: Sequelizes.STRING,
-      allowNull: false,
+      type: Sequelize.STRING,
+      validate: {
+        isAlpha: true
+      },
+      allowNull: false
     },
     lastName: {
-      type: Sequelizes.STRING,
+      type: Sequelize.STRING,
       allowNull: false,
+      validate: {
+        isAlpha: true
+      }
     },
     email: {
-      type: Sequelizes.STRING,
+      type: Sequelize.STRING,
       allowNull: false,
       unique: true,
+      validate: {
+        isEmail: true,
+      }
     },
     phone: {
-      type: Sequelizes.STRING,
+      type: Sequelize.STRING,
       allowNull: false,
-      unique: true
+      unique: true,
+      validate: {
+        isDecimal: true,
+        len: [10, 11]
+      }
     },
     password: {
-      type: Sequelizes.STRING,
+      type: Sequelize.STRING,
       allowNull: false
     },
   }, {

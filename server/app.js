@@ -23,3 +23,5 @@ app.use('/api', userRoutes);
 app.use('/api', groupRoutes);
 
 app.listen(process.env.PORT);
+
+export default app;
