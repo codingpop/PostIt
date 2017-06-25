@@ -1,8 +1,11 @@
 import chai from 'chai';
 import request from 'supertest';
+import session from 'supertest-session';
 
 import api from './../app';
 import database from './../src/database';
+
+let testSession = null;
 
 const expect = chai.expect;
 
@@ -176,25 +179,6 @@ describe('Tests for API calls', () => {
         });
     }).timeout(10000);
 
-    it('should log user in', (done) => {
-      request(api)
-        .post('/api/user/signin')
-        .set('Accept', 'application/x-www-form-urlencoded')
-        .send({
-          email: sampleData.email,
-          password: sampleData.password
-        })
-        .expect('Content-Type', /json/)
-        .expect(200)
-        .end((err, res) => {
-          expect(res.body).to.be.an('object');
-          expect(res.body).to.have.a.property('message');
-          expect(res.body.message).to.equal('Welcome Babatunde');
-          expect(res.body.status).to.equal(200);
-          done();
-        });
-    }).timeout(10000);
-
     it('should reject logging in with unregistered email', (done) => {
       request(api)
         .post('/api/user/signin')
@@ -231,6 +215,136 @@ describe('Tests for API calls', () => {
           expect(res.body).to.have.a.property('status');
           expect(res.body.message).to.equal('You have entered a wrong password');
           expect(res.body.status).to.equal(401);
+          done();
+        });
+    }).timeout(10000);
+  });
+
+  describe('Test for group endpoints', () => {
+    let authSession;
+    let groupId;
+
+    // Helps persist session for each test
+    beforeEach((done) => {
+      testSession = session(api);
+      testSession.post('/api/user/signin')
+        .send({
+          email: sampleData.email,
+          password: sampleData.password
+        })
+        .expect(200)
+        .end(() => {
+          authSession = testSession;
+          done();
+        });
+    });
+
+    const group = {
+      name: 'A new group'
+    };
+
+    it('should log a user in', (done) => {
+      authSession.post('/api/user/signin')
+        .send({
+          email: sampleData.email,
+          password: sampleData.password
+        })
+        .expect(200)
+        .end((err, res) => {
+          expect(res.body).to.be.an('object');
+          expect(res.body).to.have.a.property('message');
+          expect(res.body).to.have.a.property('status');
+          expect(res.body.status).to.equal(200);
+          expect(res.body.message).to.equal('Welcome Babatunde');
+          authSession = testSession;
+          done();
+        });
+    }).timeout(10000);
+
+    it('should create a new group', (done) => {
+      authSession.post('/api/group/')
+        .set('Accept', 'application/x-www-form-urlencoded')
+        .send(group)
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+          groupId = res.body.groupId;
+          expect(res.body).to.be.an('object');
+          expect(res.body).to.have.a.property('message');
+          expect(res.body).to.have.a.property('status');
+          expect(res.body).to.have.a.property('groupId');
+          expect(res.body.status).to.equal(200);
+          expect(res.body.message).to.equal(`${group.name} created`);
+          done();
+        });
+    }).timeout(10000);
+
+    it('should reject the name of already existing group', (done) => {
+      authSession.post('/api/group/')
+        .set('Accept', 'application/x-www-form-urlencoded')
+        .send(group)
+        .expect('Content-Type', /json/)
+        .expect(406)
+        .end((err, res) => {
+          expect(res.body).to.be.an('object');
+          expect(res.body).to.have.a.property('message');
+          expect(res.body).to.have.a.property('status');
+          expect(res.body.status).to.equal(406);
+          expect(res.body.message).to.equal(`${group.name} already exists`);
+          done();
+        });
+    }).timeout(10000);
+
+    it('should reject invalid group name', (done) => {
+      authSession.post('/api/group/')
+        .set('Accept', 'application/x-www-form-urlencoded')
+        .send({ name: '' })
+        .expect('Content-Type', /json/)
+        .expect(406)
+        .end((err, res) => {
+          expect(res.body).to.be.an('object');
+          expect(res.body).to.have.a.property('message');
+          expect(res.body).to.have.a.property('status');
+          expect(res.body.status).to.equal(406);
+          expect(res.body.message).to.equal('Please enter a valid group name');
+          done();
+        });
+    }).timeout(10000);
+
+    it('should post message to any group a user creates', (done) => {
+      authSession.post(`/api/group/${groupId}/message`)
+        .set('Accept', 'application/x-www-form-urlencoded')
+        .send({
+          message: 'Are we all coding today?',
+          priority: 'critical'
+        })
+        .expect('Content-Type', /json/)
+        .expect(200)
+        .end((err, res) => {
+          expect(res.body).to.be.an('object');
+          expect(res.body).to.have.a.property('message');
+          expect(res.body).to.have.a.property('status');
+          expect(res.body.status).to.equal(200);
+          expect(res.body.message).to.equal('Message posted');
+          done();
+        });
+    }).timeout(10000);
+
+    it('should reject posting to non-existent groups', (done) => {
+      authSession.post(`/api/group/${groupId}788/message`)
+        .set('Accept', 'application/x-www-form-urlencoded')
+        .send({
+          message: 'Are we all coding today?',
+          priority: 'critical'
+        })
+        .expect('Content-Type', /json/)
+        .expect(404)
+        .end((err, res) => {
+          expect(res.body).to.be.an('object');
+          expect(res.body).to.have.a.property('message');
+          expect(res.body).to.have.a.property('status');
+          expect(res.body.status).to.equal(404);
+          expect(res.body.message).to.equal('Group does not exist');
           done();
         });
     }).timeout(10000);

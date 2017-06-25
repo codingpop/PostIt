@@ -33,8 +33,7 @@ groupRoutes.post('/group', (request, response) => {
             message: `${error.fields.name} already exists`,
             status: 406
           });
-        }
-        if (error.name === 'SequelizeValidationError') {
+        } else if (error.name === 'SequelizeValidationError') {
           response.status(406).json({
             message: 'Please enter a valid group name',
             status: 406
@@ -59,24 +58,30 @@ groupRoutes.post('/group/:groupId/message', (request, response) => {
   } else {
     // User is logged in
     PostItInstance.findGroup(request.params.groupId)
-      .then((feedback) => {
+      .then((group) => {
         if (
           request.session.user.userId
-          === feedback.userId
+          === group.userId
         ) {
           PostItInstance.postMessage(
             request.params.groupId,
             request.session.user.userId,
             request.body.message,
             request.body.priority
-          ).then((message) => {
-            response.json(message);
+          ).then(() => {
+            response.status(200).json({
+              message: 'Message posted',
+              status: 200
+            });
           });
         } else {
           response.json('You do not own this group');
         }
       }).catch(() => {
-        response.json('Group does not exist');
+        response.status(404).json({
+          message: 'Group does not exist',
+          status: 404
+        });
       });
   }
 });
