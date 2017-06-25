@@ -1,7 +1,7 @@
-import { connection, UserModel, GroupModel } from './models';
+import database from './database';
 
 /**
- * The User class
+ * The PostIt class
  * @author Babatunde Adeyemi <tundewrites@gmail.com>
  * @class
  */
@@ -13,8 +13,7 @@ class PostIt {
    * @constructor
    */
   constructor() {
-    this.UserModel = UserModel;
-    this.GroupModel = GroupModel;
+    this.database = database;
   }
 
   /**
@@ -24,11 +23,11 @@ class PostIt {
    * @param {string} email - User's email
    * @param {string} phone - User's phone
    * @param {string} password - User's password
-   * @returns {Promise} - returns a Bluebird JS Promise
+   * @returns {Promise} - returns a Promise
    */
   registerUser(firstName, lastName, email, phone, password) {
-    return connection.sync().then(() =>
-      this.UserModel.create({
+    return this.database.connection.sync().then(() =>
+      this.database.User.create({
         firstName,
         lastName,
         email,
@@ -39,13 +38,13 @@ class PostIt {
   }
 
   /**
-   * Fetches user's details
+   * Fetches a user's details
    * @param {string} email - Signin email address
-   * @param {*} password - Signin password
-   * @returns {promise} - returns a Bluebird JS Promise
+   * @param {string} password - Signin password
+   * @returns {Promise} - returns a Promise
    */
-  logUserIn(email) {
-    return this.UserModel.findOne({
+  findUser(email) {
+    return this.database.User.findOne({
       where: {
         email
       }
@@ -53,16 +52,47 @@ class PostIt {
   }
 
   /**
+   * Fetches a group's details
+   * @param {string} groupId - groupId of a particular group
+   * @returns {Promise}- returns a Promise
+   */
+  findGroup(groupId) {
+    return this.database.Group.findOne({
+      where: {
+        groupId
+      }
+    });
+  }
+  /**
    * Creates a new group for a user
    * @param {string} name - Name of the group
-   * @param {string} visibility - Public, Private, or Secret
-   * @returns {Promise} - returns a Bluebird JS Promise
+   * @param {string} userId - userId of the creator
+   * @returns {Promise} - returns a Promise
    */
-  creatGroup(name, visibility) {
-    return connection.sync().then(() =>
-      this.GroupModel.create({
+  creatGroup(name, userId) {
+    return this.database.connection.sync().then(() =>
+      this.database.Group.create({
         name,
-        visibility
+        userId
+      })
+    );
+  }
+
+  /**
+   * Posts a message to a group
+   * @param {string} inGroup - groupId of target group
+   * @param {string} author - userId of the User
+   * @param {string} body - Message content
+   * @param {string} priority - Type of message
+   * @return {Promise} - returns a Promise
+   */
+  postMessage(inGroup, author, body, priority) {
+    return this.database.connection.sync().then(() =>
+      this.database.Message.create({
+        inGroup,
+        author,
+        body,
+        priority
       })
     );
   }
