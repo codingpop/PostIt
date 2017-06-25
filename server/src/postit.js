@@ -124,6 +124,21 @@ class PostIt {
       }
     });
   }
+
+  /**
+   * Checks if a user is a member of a particular group
+   * @param {String} userId - UUID of the user
+   * @param {String} groupId - UUID of the group
+   * @returns {Promise} - returns a Promise
+   */
+  checkMembership(userId, groupId) {
+    return this.database.GroupMember.findOne({
+      where: {
+        userId,
+        groupId
+      }
+    });
+  }
 }
 
 export default PostIt;
