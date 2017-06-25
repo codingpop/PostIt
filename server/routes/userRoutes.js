@@ -23,10 +23,16 @@ userRoutes.post('/user/signup', (request, response) => {
       email,
       phone,
       hash)
-      .then((feedback) => {
-        response.json(feedback);
-      }).catch((error) => {
-        response.json(error.errors[0].message);
+      .then(() => {
+        response.status(200).json({
+          message: 'success',
+          status: 200
+        });
+      }).catch(() => {
+        response.json({
+          message: 'failure',
+          status: 200
+        });
       });
   });
 });
@@ -43,13 +49,22 @@ userRoutes.post('/user/signin', (request, response) => {
       bcrypt.compare(password, feedback.password)
         .then((matched) => {
           if (matched) {
-            response.json(`Welcome ${feedback.firstName}`);
+            response.status(200).json({
+              message: `Welcome ${request.session.user}`,
+              status: 200
+            });
           } else {
-            response.json('You entered a wrong password');
+            response.status(401).json({
+              message: 'You entered a wrong password',
+              status: 401
+            });
           }
         });
     }).catch(() => {
-      response.json('You have not registered');
+      response.status(401).json({
+        message: 'You have not registered',
+        status: 401
+      });
     });
 });
 
