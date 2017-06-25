@@ -40,7 +40,6 @@ class PostIt {
   /**
    * Fetches a user's details
    * @param {string} email - Signin email address
-   * @param {string} password - Signin password
    * @returns {Promise} - returns a Promise
    */
   findUser(email) {
@@ -63,6 +62,7 @@ class PostIt {
       }
     });
   }
+
   /**
    * Creates a new group for a user
    * @param {string} name - Name of the group
@@ -96,6 +96,22 @@ class PostIt {
       })
     );
   }
+
+  /**
+   * Adds a member to a group
+   * @param {string} userId - userId of the user
+   * @param {string} groupId - groupId of the group
+   * @returns {Promise} - returns a Promise
+   */
+  addGroupMember(userId, groupId) {
+    return this.database.connection.sync().then(() =>
+      this.database.GroupMember.create({
+        userId,
+        groupId
+      })
+    );
+  }
+
 }
 
 export default PostIt;
