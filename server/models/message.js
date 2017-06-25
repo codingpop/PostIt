@@ -15,8 +15,7 @@ export default (connection, Sequelize) => {
     },
     body: {
       type: Sequelize.TEXT,
-      allowNull: false,
-      unique: true
+      allowNull: false
     },
     priority: {
       type: Sequelize.ENUM,
