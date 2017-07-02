@@ -11,4 +11,4 @@ env:
     - SESS_SECRET=dfidfjdjakjfkdjkfjkdk
     - PORT=5000
 script:
-    - npm run test
+    - npm test
