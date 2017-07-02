@@ -8,11 +8,6 @@ import Archive from './../models/archive';
 
 dotenv.config();
 
-const production = {
-  ssl: true,
-  native: true,
-};
-
 const connection = new Sequelize(
   process.env.DB_NAME,
   process.env.DB_USER,
@@ -20,7 +15,10 @@ const connection = new Sequelize(
     host: process.env.DB_HOST,
     port: process.env.DB_PORT,
     dialect: 'postgres',
-    dialectOptions: process.env.NODE_ENV === 'test' ? {} : production,
+    dialectOptions: {
+      ssl: true,
+      native: true,
+    },
     logging: false
   });
 
