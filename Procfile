@@ -1,0 +1,1 @@
+web: ./node_modules/.bin/gulp transpile && node ./dist/app
