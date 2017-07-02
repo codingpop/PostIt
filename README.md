@@ -1,6 +1,6 @@
 
 # **PostIt**
-PostIt is a group messaging platform on which anyone can register for an account, create a group, add members to the group, and post messages with one of three priority levels--normal, urgent, critical. Only the memebers of a particular group will see the messages posted by the group's admin (that is, the creator of the group).
+PostIt is a group messaging platform on which anyone can register for an account, create a group, add members to the group, and post messages with one of three priority levels--normal, urgent, critical. Only the members of a particular group will see the messages posted by the group's admin (that is, the creator of the group).
 
 ## **1. Installation**
 On your machine, open your terminal or your command line. Using your terminal, navigate to any directory of your choice and enter the following command to clone this repository to the directory.
@@ -15,7 +15,7 @@ npm install
 ```
 The command will install all the dependencies that PostIt needs to run on your machine without any hiccups.
 
-Next, create a Postgres database with username and password, then create a .env file and configure it in the format specified below:
+Next, create a Postgres database with a username and password, then create a .env file and configure it in the format specified below:
 
 ```
 DB_HOST=database_url
