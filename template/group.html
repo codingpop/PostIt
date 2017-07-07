@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PostIt - Login</title>
+  <title>PostIt - Group</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
   <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -48,31 +48,39 @@
   <section>
     <div class="container">
       <div class="row">
-        <div class="col-sm-4 col-sm-offset-4 form">
-          <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-          <h1 class="text-center form-title">Sign in</h1>
-          <form action="#">
-            <div class="form-group">
-              <label for="email">Email address</label>
-              <input type="email" class="form-control" id="email" placeholder="Email">
-            </div>
+        <div class="col-sm-8 col-sm-offset-2 groups">
+          <h1>Group name here</h1>
+          <span>
+            <a class="btn" data-toggle="modal" data-target="#messageModal">
+              <span class="glyphicon glyphicon-pencil"></span> New message
+            </a>
+            <a class="btn" data-toggle="modal" data-target="#messageModal">
+              <span class="glyphicon glyphicon-plus-sign"></span> Add user
+            </a>
+            <a class="btn" data-toggle="modal" data-target="#messageModal">
+              <span class="glyphicon glyphicon-user"></span> Members
+            </a>
+          </span>
 
-            <div class="form-group">
-              <label for="password">Password</label>
-              <input type="password" class="form-control" id="password" placeholder="Password">
-            </div>
+          <div class="message"></div>
 
-            <button type="submit" class="btn btn-block btn-lg btn-green">Sign in</button>
-            <p class="text-center">Are you a new user? <a href="sign-up.html">Sign up here</a></p>
-          </form>
+          <div class="message">
+
+          </div>
+          <div class="message"></div>
+          <div class="message"></div>
+          <div class="message"></div>
+          <div class="message"></div>
+          <div class="message"></div>
         </div>
       </div>
     </div>
   </section>
 
-  <footer>
+
+  <div class="modal fade" id="messageModal" tabindex="-1" role="dialog">
     
-  </footer>
+  </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 </body>

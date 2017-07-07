@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>PostIt - Login</title>
+  <title>PostIt - Dashboard</title>
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
     crossorigin="anonymous">
   <!--[if lt IE 9]>
@@ -50,7 +50,7 @@
     <div class="container">
       <div class="row dashboard">
         <div class="col-sm-4 text-center">
-          <a data-toggle="modal" data-target="#myModal">
+          <a href="create-group.html">
             <span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
             <p>Create group</p>
           </a>
@@ -73,45 +73,6 @@
     </div>
   </section>
 
-
-  <!-- Create Group Modal -->
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          <h4 class="modal-title" id="myModalLabel">Create new group</h4>
-        </div>
-        <form action="view-group.html">
-          <div class="modal-body">
-            <div class="form-group">
-              <label for="group-name">Group name</label>
-              <input type="text" class="form-control" id="group-name" required>
-            </div>
-
-            <div class="checkbox">
-              <p><strong>Group type</strong></p>
-              <label>
-                <input type="radio" name="group-type"> Public
-              </label>
-
-              <label>
-                <input type="radio" name="group-type"> Private
-              </label>
-
-              <label>
-                <input type="radio" name="group-type"> Secret
-              </label>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            <button type="submit" class="btn btn-green">Save group</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
     crossorigin="anonymous"></script>
