@@ -1,4 +1,5 @@
-[![Build Status](https://travis-ci.org/tundewritescode/PostIt.svg?branch=development)](https://travis-ci.org/tundewritescode/PostIt)[![Code Climate](https://codeclimate.com/github/tundewritescode/PostIt/badges/gpa.svg)](https://codeclimate.com/github/tundewritescode/PostIt)
+[![Build Status](https://travis-ci.org/tundewritescode/PostIt.svg?branch=development)](https://travis-ci.org/tundewritescode/PostIt)
+[![Code Climate](https://codeclimate.com/github/tundewritescode/PostIt/badges/gpa.svg)](https://codeclimate.com/github/tundewritescode/PostIt)
 # **PostIt**
 PostIt is a group messaging platform on which anyone can register for an account, create a group, add members to the group, and post messages with one of three priority levels--normal, urgent, critical. Only the members of a particular group will see the messages posted by the group's admin (that is, the creator of the group).
 
