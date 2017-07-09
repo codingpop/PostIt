@@ -2,8 +2,8 @@ import chai from 'chai';
 import request from 'supertest';
 import session from 'supertest-session';
 
-import api from './../app';
-import database from './../src/database';
+import api from './../server/app';
+import database from './../server/src/database';
 
 let testSession = null;
 
