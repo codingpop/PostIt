@@ -39,9 +39,8 @@
   },
   "scripts": {
     "test": "gulp test",
-    "dev": "./node_modules/.bin/gulp transpile && node ./dist/app",
-    "coveralls": "gulp coveralls",
-    "coverage": "gulp coverage"
+    "dev": "gulp transpile && node ./dist/app",
+    "coveralls": "gulp coveralls"
   },
   "repository": {
     "type": "git",
