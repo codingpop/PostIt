@@ -33,6 +33,9 @@ const sampleData3 = {
   password: ''
 };
 
+/**
+ * Routes test
+ */
 describe('Tests for API calls', () => {
   // Wipes the database clean
   before((done) => {
@@ -347,6 +350,67 @@ describe('Tests for API calls', () => {
           expect(res.body.message).to.equal('Group does not exist');
           done();
         });
+    });
+  });
+});
+
+/**
+ * Modules tests
+ */
+describe('Tests for models', () => {
+  // Wipes the database clean
+  before((done) => {
+    database.connection.sync({
+      force: true
+    }).then(() => {
+      done();
+    }).catch((err) => {
+      done(err);
+    });
+  });
+
+  let userId;
+
+  describe('Test for User model', () => {
+    it('should create a new user', (done) => {
+      database.User.create(sampleData)
+      .then((result) => {
+        userId = result.userId;
+        expect(result).to.have.a.property('userId');
+        expect(result).to.have.a.property('firstName');
+        expect(result).to.have.a.property('lastName');
+        expect(result).to.have.a.property('email');
+        expect(result).to.have.a.property('phone');
+        expect(result).to.have.a.property('password');
+      }).then(done, done);
+    });
+
+    it('should reject registration with existing user details', () => {
+      database.User.create(sampleData)
+      .then()
+      .catch((error) => {
+        expect(error.name).to.equal('SequelizeUniqueConstraintError');
+      });
+    });
+
+    it('should reject registration with invalid input', () => {
+      database.User.create(sampleData3)
+      .then()
+      .catch((error) => {
+        expect(error.name).to.equal('SequelizeValidationError');
+      });
+    });
+  });
+
+  describe('Test for group model', () => {
+    it('should create a new group', (done) => {
+      database.Group.create({
+        name: 'A new group',
+        userId
+      }).then((result) => {
+        expect(result.name).to.equal('A new group');
+        expect(result).to.have.a.property('groupId');
+      }).then(done, done);
     });
   });
 });
