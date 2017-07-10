@@ -1,1 +1,1 @@
-web: gulp transpile && node dist/server/app
+web: gulp transpile && node ./dist/app
