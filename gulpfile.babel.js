@@ -9,29 +9,22 @@ gulp.src(['server/**/*.js'])
 .pipe(babel())
 .pipe(gulp.dest('dist')));
 
-gulp.task('test', () =>
+gulp.task('pre-test', () =>
+gulp.src(['server/**/*.js', '!test/', '!gulpfile.babel.js'])
+.pipe(istanbul({ includeUntested: true }))
+.pipe(istanbul.hookRequire())
+);
+
+gulp.task('test', ['pre-test'], () =>
 gulp.src('test/**/*.js')
-.pipe(babel())
 .pipe(mocha({
   compilers: 'babel-core/register',
   timeout: 100000
 }))
+.pipe(istanbul.writeReports())
 );
 
-gulp.task('coverage', ['test'], () =>
-gulp.src('server/**/*.js')
-.pipe(istanbul())
-.pipe(istanbul.hookRequire())
-.on('finish', () =>
-gulp.src('test/**/*.js')
-.pipe(istanbul.writeReports({
-  dir: 'coverage',
-  reporters: ['lcov'],
-  reportOpts: { dir: 'coverage' }
-})))
-);
-
-gulp.task('coveralls', ['coverage'], () =>
-gulp.src('coverage/**/lcov.info')
+gulp.task('coveralls', () =>
+gulp.src('coverage/lcov.info')
 .pipe(coveralls())
 );
