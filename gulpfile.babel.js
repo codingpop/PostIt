@@ -7,13 +7,7 @@ import coveralls from 'gulp-coveralls';
 gulp.task('transpile', () =>
 gulp.src(['server/**/*.js'])
 .pipe(babel())
-.pipe(gulp.dest('dist/server')));
-
-gulp.task('transpile-test', () =>
-gulp.src('test/**/*.js')
-.pipe(babel())
-.pipe(gulp.dest('dist/test'))
-);
+.pipe(gulp.dest('dist')));
 
 gulp.task('test', () =>
 gulp.src('test/**/*.js')
@@ -26,7 +20,7 @@ gulp.src('test/**/*.js')
 
 gulp.task('coverage', ['test'], () =>
 gulp.src('server/**/*.js')
-.pipe(istanbul({ includeUntested: true }))
+.pipe(istanbul())
 .pipe(istanbul.hookRequire())
 .on('finish', () =>
 gulp.src('test/**/*.js')
