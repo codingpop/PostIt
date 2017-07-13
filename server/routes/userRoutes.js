@@ -20,44 +20,51 @@ userRoutes.post('/user/signup', (request, response) => {
   ] = Object.keys(request.body).map(key =>
     request.body[key]);
 
-  bcrypt.hash(password, 10).then((hash) => {
-    PostItInstance.registerUser(
-      firstName,
-      lastName,
-      email,
-      phone,
-      hash)
-      .then(() => {
-        response.status(200).json({
-          message: 'Registration successful',
-          status: 200
+  if (password.length !== 8) {
+    response.status(406).json({
+      message: 'Please enter a valid password',
+      status: 406
+    });
+  } else {
+    bcrypt.hash(password, 10).then((hash) => {
+      PostItInstance.registerUser(
+        firstName,
+        lastName,
+        email,
+        phone,
+        hash)
+        .then(() => {
+          response.status(200).json({
+            message: 'Registration successful',
+            status: 200
+          });
+        }).catch((error) => {
+          if (error.name === 'SequelizeUniqueConstraintError') {
+            response.status(406).json({
+              message: `${error.errors[0].value} is already registered`,
+              status: 406
+            });
+          } else if (error.name === 'SequelizeValidationError') {
+            const errMessage = {};
+
+            error.errors.forEach((err) => {
+              errMessage[err.path] = 'Invalid input';
+            });
+
+            response.status(406).json({
+              message: 'Please check your submission',
+              errors: errMessage,
+              status: 406
+            });
+          } else {
+            response.status(500).json({
+              message: 'Oops! Something broke',
+              status: 500
+            });
+          }
         });
-      }).catch((error) => {
-        if (error.name === 'SequelizeUniqueConstraintError') {
-          response.status(406).json({
-            message: `${error.errors[0].value} is already registered`,
-            status: 406
-          });
-        } else if (error.name === 'SequelizeValidationError') {
-          const errMessage = {};
-
-          error.errors.forEach((err) => {
-            errMessage[err.path] = 'Invalid input';
-          });
-
-          response.status(406).json({
-            message: 'Please check your submission',
-            errors: errMessage,
-            status: 406
-          });
-        } else {
-          response.status(500).json({
-            message: 'Oops! Something broke',
-            status: 500
-          });
-        }
-      });
-  });
+    });
+  }
 });
 
 /**
