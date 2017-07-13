@@ -20,9 +20,9 @@ userRoutes.post('/user/signup', (request, response) => {
   ] = Object.keys(request.body).map(key =>
     request.body[key]);
 
-  if (password.length !== 8) {
+  if (password.length < 8) {
     response.status(406).json({
-      message: 'Please enter a valid password',
+      message: 'Please enter a password of 8 characters or more',
       status: 406
     });
   } else {
