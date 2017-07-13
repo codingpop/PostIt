@@ -1,23 +1,8 @@
 import chai from 'chai';
 import database from './../server/src/database';
+import testData from './test-data';
 
 const expect = chai.expect;
-
-const sampleData = {
-  firstName: 'Babatunde',
-  lastName: 'Adeyemi',
-  email: 'tunde@yahoo.com',
-  phone: '08127759538',
-  password: 'password1'
-};
-
-const sampleData3 = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  phone: '',
-  password: ''
-};
 
 /**
  * User modules tests
@@ -37,23 +22,22 @@ describe('Tests for models', () => {
 
   describe('Test for User model', () => {
     it('should create a new user', (done) => {
-      database.User.create(sampleData)
+      database.User.create(testData.sampleData)
       .then((result) => {
         userId = result.userId;
         expect(result).to.have.a.property('userId');
-        expect(result).to.have.a.property('firstName');
-        expect(result).to.have.a.property('lastName');
-        expect(result).to.have.a.property('email');
-        expect(result).to.have.a.property('phone');
+        expect(result.firstName).to.equal(testData.sampleData.firstName);
+        expect(result.lastName).to.equal(testData.sampleData.lastName);
+        expect(result.email).to.equal(testData.sampleData.email);
+        expect(result.phone).to.equal(testData.sampleData.phone);
         expect(result).to.have.a.property('password');
       }).then(done, done);
     });
 
     it('should reject registration with existing user details', () => {
-      database.User.create(sampleData)
+      database.User.create(testData.sampleData)
       .then()
       .catch((error) => {
-        expect(error).to.have.a.property('name');
         expect(error.name).to.equal('SequelizeUniqueConstraintError');
         expect(error).to.have.a.property('errors');
         expect(error.errors[0].message).to.equal('email must be unique');
@@ -61,7 +45,7 @@ describe('Tests for models', () => {
     });
 
     it('should reject registration with invalid input', () => {
-      database.User.create(sampleData3)
+      database.User.create(testData.sampleData3)
       .then()
       .catch((error) => {
         expect(error.name).to.equal('SequelizeValidationError');
