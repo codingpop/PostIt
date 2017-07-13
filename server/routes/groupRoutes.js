@@ -22,10 +22,15 @@ groupRoutes.post('/group', (request, response) => {
     PostItInstance.creatGroup(request.body.name,
       request.session.user.userId)
       .then((group) => {
-        response.status(200).json({
-          message: `${group.name} created`,
-          groupId: group.groupId,
-          status: 200
+        PostItInstance.addGroupMember(
+          request.session.user.userId,
+          group.groupId
+        ).then(() => {
+          response.status(200).json({
+            message: `${group.name} created`,
+            groupId: group.groupId,
+            status: 200
+          });
         });
       }).catch((error) => {
         if (error.name === 'SequelizeUniqueConstraintError') {
@@ -75,7 +80,10 @@ groupRoutes.post('/group/:groupId/message', (request, response) => {
             });
           });
         } else {
-          response.json('You do not own this group');
+          response.json.status(401)({
+            message: 'You do not own this group',
+            status: 401
+          });
         }
       }).catch(() => {
         response.status(404).json({
@@ -125,17 +133,17 @@ groupRoutes.get('/group/:groupId/messages', (request, response) => {
   } else {
     // Check if user is a member
     PostItInstance.checkMembership(request.session.user.userId, request.params.groupId)
-    .then((feedback) => {
-      if (feedback) {
-        // User is a member
-        PostItInstance.getMessages(request.params.groupId)
-        .then((messages) => {
-          response.json(messages);
-        });
-      }
-    }).catch(() => {
-      response.json('Something broke');
-    });
+      .then((feedback) => {
+        if (feedback) {
+          // User is a member
+          PostItInstance.getMessages(request.params.groupId)
+            .then((messages) => {
+              response.json(messages);
+            });
+        }
+      }).catch(() => {
+        response.json('Something broke');
+      });
   }
 });
 

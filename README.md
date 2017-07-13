@@ -52,7 +52,7 @@ In your terminal, enter `npm run dev` to start the PostIt server. A live instanc
 * **`/api/group/:groupId/user`**: Create a **POST** request to this endpoint to add a user to a particular group. Use this parameter when sending your request:
   * **`email`**: Email address of the user to be added
 
-* **`/api/group/:groupId/message`**: Create a **GET** request to this endpoint to read all the messages in any group to which the user belongs.
+* **`/api/group/:groupId/messages`**: Create a **GET** request to this endpoint to read all the messages in any group to which the user belongs.
 
 ### **Note**
 This project is still in development. At this point, you can only use PostIt with Postman or with your own frontend, if you decide to roll your own. Keep visiting this page for updates.

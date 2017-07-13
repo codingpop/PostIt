@@ -3,7 +3,6 @@ import bodyParser from 'body-parser';
 import session from 'express-session';
 import dotenv from 'dotenv';
 
-
 import userRoutes from './routes/userRoutes';
 import groupRoutes from './routes/groupRoutes';
 
