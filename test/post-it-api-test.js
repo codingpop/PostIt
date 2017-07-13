@@ -30,6 +30,14 @@ const sampleData3 = {
   lastName: '',
   email: '',
   phone: '',
+  password: 'isdfuiosufiusdf8'
+};
+
+const sampleData4 = {
+  firstName: 'Babatunde',
+  lastName: 'Adeyemi',
+  email: 'tunde@yahoo.net',
+  phone: '08127759538',
   password: ''
 };
 
@@ -123,6 +131,18 @@ describe('Tests for API calls', () => {
           expect(res.body.status).to.equal(406);
           done();
         });
+    });
+
+    it('should reject password less than 8 characters', (done) => {
+      request(api)
+      .post('/api/user/signup')
+      .set('Accept', 'application/x-www-form-urlencoded')
+      .send(sampleData4)
+      .expect(406)
+      .end((err, res) => {
+        expect(res.body.message).to.equal('Please enter a password of 8 characters or more');
+        done();
+      });
     });
   });
 
