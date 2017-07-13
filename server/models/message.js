@@ -22,8 +22,7 @@ export default (connection, Sequelize) => {
     },
     priority: {
       type: Sequelize.ENUM,
-      values: ['normal', 'urgent', 'critical'],
-      defaultValue: 'normal'
+      values: ['normal', 'urgent', 'critical']
     }
   }, {
     paranoid: true

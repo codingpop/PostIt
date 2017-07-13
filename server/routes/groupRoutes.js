@@ -28,7 +28,7 @@ groupRoutes.post('/group', (request, response) => {
           request.session.user.userId,
           group.groupId
         ).then(() => {
-          response.status(200).json({
+          response.json({
             message: `${group.name} created`,
             groupId: group.groupId,
             status: 200
@@ -81,12 +81,20 @@ groupRoutes.post('/group/:groupId/message',
               request.params.groupId,
               request.session.user.userId,
               request.body.message,
-              request.body.priority
+              request.body.priority || 'normal',
             ).then(() => {
-              response.status(200).json({
+              response.json({
                 message: 'Message posted',
                 status: 200
               });
+            }).catch((error) => {
+              if (error.name === 'SequelizeDatabaseError'
+              && error.parent.routine === 'enum_in') {
+                response.status(406).json({
+                  message: 'Invalid priority',
+                  status: 406
+                });
+              }
             });
           } else {
             response.json.status(401)({
@@ -134,7 +142,7 @@ groupRoutes.post('/group/:groupId/user',
                 } else {
                   PostItInstance.addGroupMember(user.userId,
                     request.params.groupId).then(() => {
-                      response.status(200).json({
+                      response.json({
                         message: 'User added',
                         status: 200
                       });
@@ -202,7 +210,7 @@ groupRoutes.get('/group/:groupId/messages',
         }
       }).catch((error) => {
         if (error.name === 'SequelizeDatabaseError'
-        && error.parent.routine === 'string_to_uuid') {
+          && error.parent.routine === 'string_to_uuid') {
           response.status(406).json({
             message: 'Invalid group ID',
             status: 406
