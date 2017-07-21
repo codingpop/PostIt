@@ -25,6 +25,7 @@
     "supertest-session": "^3.0.0"
   },
   "devDependencies": {
+    "chai-as-promised": "^7.1.1",
     "coveralls": "^2.13.1",
     "eslint": "^3.19.0",
     "eslint-config-airbnb": "^15.0.1",

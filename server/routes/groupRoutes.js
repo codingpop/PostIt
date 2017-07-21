@@ -21,7 +21,8 @@ groupRoutes.post('/group', (request, response) => {
       status: 401
     });
   } else {
-    PostItInstance.creatGroup(request.body.name,
+    PostItInstance.createGroup(
+      request.body.name.trim(),
       request.session.user.userId)
       .then((group) => {
         PostItInstance.addGroupMember(
@@ -80,8 +81,8 @@ groupRoutes.post('/group/:groupId/message',
             PostItInstance.postMessage(
               request.params.groupId,
               request.session.user.userId,
-              request.body.message,
-              request.body.priority || 'normal',
+              request.body.message.trim(),
+              request.body.priority.trim() || 'normal',
             ).then(() => {
               response.json({
                 message: 'Message posted',
@@ -132,7 +133,7 @@ groupRoutes.post('/group/:groupId/user',
           } else if (
             request.session.user.userId === feedback.userId
           ) {
-            PostItInstance.findUser(request.body.email)
+            PostItInstance.findUser(request.body.email.trim())
               .then((user) => {
                 if (!user) {
                   response.status(406).json({

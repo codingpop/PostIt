@@ -24,7 +24,10 @@ export default (connection, Sequelize) => {
       allowNull: false,
       unique: true,
       validate: {
-        isEmail: true,
+        isEmail: {
+          args: true,
+          msg: 'Please provide a valid email address'
+        }
       }
     },
     phone: {

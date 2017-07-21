@@ -14,7 +14,6 @@ const expect = chai.expect;
  * Routes test
  */
 describe('Tests for API calls', () => {
-  // Wipes the database clean
   before((done) => {
     database.connection.sync({
       force: true
@@ -34,6 +33,7 @@ describe('Tests for API calls', () => {
         .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {
+          expect(res.body).to.be.an('object');
           expect(res.body.message).to.equal('Registration successful');
           done();
         });
@@ -47,6 +47,7 @@ describe('Tests for API calls', () => {
         .expect('Content-Type', /json/)
         .expect(406)
         .end((err, res) => {
+          expect(res.body).to.be.an('object');
           expect(res.body.message).to.equal(`${testData.sampleData.email} is already registered`);
           done();
         });
@@ -60,6 +61,7 @@ describe('Tests for API calls', () => {
         .expect('Content-Type', /json/)
         .expect(406)
         .end((err, res) => {
+          expect(res.body).to.be.an('object');
           expect(res.body.message).to.equal(`${testData.sampleData2.phone} is already registered`);
           done();
         });
@@ -73,6 +75,7 @@ describe('Tests for API calls', () => {
         .expect('Content-Type', /json/)
         .expect(406)
         .end((err, res) => {
+          expect(res.body).to.be.an('object');
           expect(res.body.errors.firstName).to.equal('Invalid input');
           expect(res.body.errors.lastName).to.equal('Invalid input');
           expect(res.body.errors.email).to.equal('Invalid input');
@@ -89,6 +92,7 @@ describe('Tests for API calls', () => {
       .send(testData.sampleData4)
       .expect(406)
       .end((err, res) => {
+        expect(res.body).to.be.an.object('object');
         expect(res.body.message).to.equal('Please enter a password of 8 characters or more');
         done();
       });
@@ -106,6 +110,7 @@ describe('Tests for API calls', () => {
         .expect('Content-Type', /json/)
         .expect(401)
         .end((err, res) => {
+          expect(res.body).to.be.an('object');
           expect(res.body.message).to.equal('You are not logged in');
           done();
         });
@@ -122,6 +127,7 @@ describe('Tests for API calls', () => {
         .expect('Content-Type', /json/)
         .expect(401)
         .end((err, res) => {
+          expect(res.body).to.be.an('object');
           expect(res.body.message).to.equal('You are not logged in');
           done();
         });
@@ -134,6 +140,7 @@ describe('Tests for API calls', () => {
         .expect('Content-Type', /json/)
         .expect(401)
         .end((err, res) => {
+          expect(res.body).to.be.an('object');
           expect(res.body.message).to.equal('You are not logged in');
           done();
         });
@@ -150,6 +157,7 @@ describe('Tests for API calls', () => {
         .expect('Content-Type', /json/)
         .expect(401)
         .end((err, res) => {
+          expect(res.body).to.be.an('object');
           expect(res.body.message).to.equal('Email is not registered');
           done();
         });
@@ -166,6 +174,7 @@ describe('Tests for API calls', () => {
         .expect('Content-Type', /json/)
         .expect(401)
         .end((err, res) => {
+          expect(res.body).to.be.an('object');
           expect(res.body.message).to.equal('You have entered a wrong password');
           done();
         });
@@ -203,6 +212,7 @@ describe('Tests for API calls', () => {
         })
         .expect(200)
         .end((err, res) => {
+          expect(res.body).to.be.an('object');
           expect(res.body.message).to.equal('Welcome Babatunde');
           authSession = testSession;
           done();
@@ -217,6 +227,7 @@ describe('Tests for API calls', () => {
         .expect(200)
         .end((err, res) => {
           groupId = res.body.groupId;
+          expect(res.body).to.be.an('object');
           expect(res.body.message).to.equal(`${group.name} created`);
           done();
         });
@@ -229,6 +240,7 @@ describe('Tests for API calls', () => {
         .expect('Content-Type', /json/)
         .expect(406)
         .end((err, res) => {
+          expect(res.body).to.be.an('object');
           expect(res.body.message).to.equal(`${group.name} already exists`);
           done();
         });
@@ -241,6 +253,7 @@ describe('Tests for API calls', () => {
         .expect('Content-Type', /json/)
         .expect(406)
         .end((err, res) => {
+          expect(res.body).to.be.an('object');
           expect(res.body.message).to.equal('Please enter a valid group name');
           done();
         });
@@ -256,6 +269,7 @@ describe('Tests for API calls', () => {
         .expect('Content-Type', /json/)
         .expect(200)
         .end((err, res) => {
+          expect(res.body).to.be.an('object');
           expect(res.body.message).to.equal('Message posted');
           done();
         });
@@ -271,6 +285,7 @@ describe('Tests for API calls', () => {
         .expect('Content-Type', /json/)
         .expect(404)
         .end((err, res) => {
+          expect(res.body).to.be.an('object');
           expect(res.body.message).to.equal('Group does not exist');
           done();
         });
