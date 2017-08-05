@@ -76,10 +76,10 @@ describe('Tests for API calls', () => {
         .expect(406)
         .end((err, res) => {
           expect(res.body).to.be.an('object');
-          expect(res.body.errors.firstName).to.equal('Invalid input');
-          expect(res.body.errors.lastName).to.equal('Invalid input');
-          expect(res.body.errors.email).to.equal('Invalid input');
-          expect(res.body.errors.phone).to.equal('Invalid input');
+          expect(res.body.moreInfo.firstName).to.equal('Invalid input');
+          expect(res.body.moreInfo.lastName).to.equal('Invalid input');
+          expect(res.body.moreInfo.email).to.equal('Invalid input');
+          expect(res.body.moreInfo.phone).to.equal('Invalid input');
           expect(res.body.message).to.equal('Please check your submission');
           done();
         });
@@ -92,7 +92,7 @@ describe('Tests for API calls', () => {
       .send(testData.sampleData4)
       .expect(406)
       .end((err, res) => {
-        expect(res.body).to.be.an.object('object');
+        expect(res.body).to.be.an('object');
         expect(res.body.message).to.equal('Please enter a password of 8 characters or more');
         done();
       });
@@ -175,7 +175,7 @@ describe('Tests for API calls', () => {
         .expect(401)
         .end((err, res) => {
           expect(res.body).to.be.an('object');
-          expect(res.body.message).to.equal('You have entered a wrong password');
+          expect(res.body.message).to.equal('Wrong password');
           done();
         });
     });
@@ -213,7 +213,7 @@ describe('Tests for API calls', () => {
         .expect(200)
         .end((err, res) => {
           expect(res.body).to.be.an('object');
-          expect(res.body.message).to.equal('Welcome Babatunde');
+          expect(res.body.message).to.equal('Login successful');
           authSession = testSession;
           done();
         });

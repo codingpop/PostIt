@@ -8,7 +8,10 @@ export default (connection, Sequelize) => {
     firstName: {
       type: Sequelize.STRING,
       validate: {
-        isAlpha: true
+        isAlpha: {
+          args: true,
+          msg: 'Input must contain only latin characters'
+        }
       },
       allowNull: false
     },
@@ -16,7 +19,10 @@ export default (connection, Sequelize) => {
       type: Sequelize.STRING,
       allowNull: false,
       validate: {
-        isAlpha: true
+        isAlpha: {
+          args: true,
+          msg: 'Input must contain only latin characters'
+        }
       }
     },
     email: {
@@ -26,7 +32,7 @@ export default (connection, Sequelize) => {
       validate: {
         isEmail: {
           args: true,
-          msg: 'Please provide a valid email address'
+          msg: 'Invalid email address'
         }
       }
     },
@@ -35,7 +41,10 @@ export default (connection, Sequelize) => {
       allowNull: false,
       unique: true,
       validate: {
-        isDecimal: true,
+        isDecimal: {
+          args: true,
+          msg: 'Invalid phone number'
+        },
         len: [10, 11]
       }
     },

@@ -1,108 +1,101 @@
-$green: #03b898;
-$orange: #ff672c;
-$grey: #343434;
-$dark-white: #fafafa;
+$cyan: #00DAFF;
+$pink: #FF0075;
+$darkYellow: #B2A008;
 $white: #fff;
-$text: lighten($grey, 30%);
-
-@mixin box($width, $background: inherit) {
-  width: $width;
-  height: $width;
-  background: $background;
-}
-
-.navbar {
-  background: $green;
-}
-
-nav .container {
-  padding-left: 0;
-  padding-right: 0;
-}
+$gray: #777;
+$background: darken($white, 2%);
+$border: lighten($gray, 40%);
+$side-nav-bg: #212121;
 
 body {
-  background: $dark-white;
-  color: $text;
+  background-image: url('../img/bg.jpg');
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-color: $white;
+  color: $gray;
 }
 
-.form, .groups {
-  background: $white;
-  margin-top: 50px;
-  margin-bottom: 50px;
-  padding: 40px;
-  border: 1px solid lighten($grey, 65%);
-  border-radius: 5px;
+.internal {
+  background: #E9EBEE;
 }
 
-.modal .modal-dialog .modal-content {
-  background: $dark-white;
-}
-
-.modal .modal-dialog .modal-content .modal-header {
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-}
-
-.modal-body {
-  padding: 40px;
-}
-
-.groups {
-  border-radius: 0;
+.container-fluid {
+  width: 95%;
+  margin: 0 auto;
 }
 
 .dashboard {
-  width: 80%;
-  margin: 150px auto;
-}
-
-.dashboard .glyphicon {
-  font-size: 150px;
-}
-
-.dashboard p {
-  font-size: 20px;
-  padding-top: 10px;
-}
-
-.dashboard a {
-  text-decoration: none;
-}
-
-.btn-green {
-  background: $green;
-  color: $white;
-
-  &:hover {
-    background: lighten($green, 5%);
-    color: $white;
-  }
-}
-
-.form-title {
-  margin-bottom: 30px;
-}
-
-form .btn-block {
-  margin-top: 34px;
-}
-
-.container .glyphicon-user {
-  font-size: 40px;
-  background: $green;
-  border-radius: 50%;
-  padding: 20px;
-  color: $white;
+  display: flex;
+  overflow: hidden;
+  height: 100vh;
+  margin-top: -100px;
+  padding-top: 100px;
   position: relative;
-  left: (100% - (62));
+  width: 100%;
+  backface-visibility: hidden;
+  will-change: overflow;
 }
 
-a {
-  color: $orange;
-  &:hover {
-    color: darken($orange, 10%);
+.dashboard-left, .dashboard-right {
+  overflow: auto;
+  height: auto;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  min-height: 100vh !important;
+}
+.dashboard-left .row, .dashboard-right .row {
+  padding: 20px 0;
+}
+
+.dashboard-left {
+  background: $side-nav-bg;
+}
+
+.dashboard-right {
+  padding-bottom: 250px !important;
+}
+
+nav {
+  background: $pink;
+}
+
+.out-form {
+  box-shadow: 0 0 10px darken($background, 70%);
+  margin: 80px 0;
+  border-radius: 5px;
+  padding: 80px 50px !important;
+  background: $white;
+
+  i {
+    color: $pink;
+    font-size: 100px;
+    margin: 0 auto;
   }
-  &:active {
-    color: $orange;
+
+  .btn-large {
+    background: $pink;
+    width: 100%;
+    text-transform: none;
   }
+
+  h1 {
+    margin: 0;
+    margin-bottom: 15px;
+  }
+}
+
+.page-footer {
+  padding-top: 0;
+  background: $pink;
+  bottom: 0;
+  position: fixed;
+  width: 100%;
+}
+
+.message-box {
+  position: fixed;
+  bottom: 100px;
+  width: 50% !important;
+  margin: 0 auto;
 }

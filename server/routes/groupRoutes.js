@@ -165,6 +165,7 @@ groupRoutes.post('/group/:groupId/user',
             });
           }
         }).catch((error) => {
+          console.log(error);
           if (error.name === 'SequelizeDatabaseError'
             && error.parent.routine === 'string_to_uuid'
           ) {
