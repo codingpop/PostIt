@@ -33,6 +33,7 @@
     "gulp-coveralls": "^0.1.4",
     "gulp-mocha": "~4.0.1",
     "gulp-sass": "^3.1.0",
+    "history": "^4.7.2",
     "html-webpack-plugin": "^2.30.1",
     "immutable": "^3.8.1",
     "jquery": "^3.2.1",
@@ -45,6 +46,7 @@
     "pg-hstore": "^2.3.2",
     "pluralsight-redux-starter": "^1.0.0",
     "prop-types": "^15.5.10",
+    "re-base": "^3.0.3",
     "react": "^15.6.1",
     "react-addons-test-utils": "^15.6.0",
     "react-dom": "^15.6.1",
@@ -86,10 +88,9 @@
     "nodemon": "^1.11.0"
   },
   "scripts": {
+    "start": "babel-node app-dev.js",
     "test": "mocha --compilers js:babel-core/register test/**/*.js --timeout 100000",
-    "clientTest": "mocha --compilers js:babel-core/register tools/testSetup.js client/**/*test.js --timeout 100000",
-    "dev": "nodemon --watch server --exec babel-node -- app.js",
-    "client": "babel-node ./node_modules/.bin/webpack-dev-server",
+    "build:server": "babel app-dev.js --out-file app.js",
     "coverage": "istanbul cover _mocha test/**/*.js -- --require babel-core/register --timeout 100000",
     "coveralls": "npm run coverage && gulp coveralls"
   },
