@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.0/css/materialize.min.css"
+    media="screen,projection" />
+  <link href="https://fonts.googleapis.com/css?family=Cormorant|Work+Sans:500" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+</head>
+
+<body>
+  <header>
+    <div class="navbar-fixed">
+      <nav>
+        <div class="container-fluid">
+          <div class="nav-wrapper">
+            <a href="#" class="brand-logo">ShoutIt</a>
+            <a href="#" data-activates="mobile-links" class="button-collapse"><i class="material-icons">menu</i></a>
+
+            <ul id="nav-mobile" class="right hide-on-med-and-down">
+              <li class="active"><a href="">Home</a></li>
+              <li><a href="#sign-in" class="modal-trigger">Sign in</a></li>
+              <li><a href="#sign-up" class="modal-trigger">Get Started</a></li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </div>
+    <ul id="mobile-links" class="side-nav">
+      <li class="active"><a href="">Home</a></li>
+      <li><a href="#sign-in" class="modal-trigger">Sign in</a></li>
+      <li><a href="#sign-up" class="modal-trigger">Get Started</a></li>
+    </ul>
+  </header>
+
+  <section class="hero valign-wrapper">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col s12">
+          <div class="main-copy center">
+            <h1>Shout It Loud</h1>
+            <p>Create a group. Shout your message.</p>
+            <a href="#sign-up" class="btn-large modal-trigger">Get Started</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="how-it-works">
+    <div class="container-fluid">
+      <div class="row">
+        <h3>How It Works</h3>
+        <div class="col s12 m4">
+          <i class="material-icons">add_box</i>
+          <h5>1. Create A Group</h5>
+          <p>Sign up for free, and create a group.</p>
+        </div>
+        <div class="col s12 m4">
+          <i class="material-icons">account_box</i>
+          <h5>2. Add Users</h5>
+          <p>Find and add users to the group.</p>
+        </div>
+        <div class="col s12 m4">
+          <i class="material-icons">message</i>
+          <h5>3. Shout Your Message</h5>
+          <p>Write your message, set priority, and shout it to the group.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="opt-in">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col s12">
+          <h5>Got a message to share?</h5>
+          <a href="#sign-up" class="btn-large modal-trigger">Get Started</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="page-footer">
+    <div class="footer-copyright">
+      <div class="container-fluid">
+        &copy; 2017 ShoutIt
+        <a class="grey-text text-lighten-4 right" href="#!">Contact</a>
+        <a class="grey-text text-lighten-4 right" href="#!">Sign in</a>
+        <a class="grey-text text-lighten-4 right" href="#!">Sign up</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Sign up modal -->
+  <div id="sign-up" class="modal">
+    <div class="modal-content">
+      <div class="row">
+        <h5 class="center">Join ShoutIt</h5>
+        <form class="col s12" action="dashboard.html">
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="material-icons prefix">account_circle</i>
+              <input id="full-name" type="text" class="validate" required>
+              <label for="full-name">Full name</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="material-icons prefix">email</i>
+              <input id="email" type="email" class="validate" required>
+              <label for="email">Email</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="material-icons prefix">phone</i>
+              <input id="phone" type="tel" class="validate" required>
+              <label for="phone">Phone</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="material-icons prefix">lock</i>
+              <input id="password" type="password" class="validate" required>
+              <label for="password">Password</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="material-icons prefix">lock</i>
+              <input id="confirm-password" type="password" class="validate" required>
+              <label for="confirm-password">Confirm Password</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <button class="btn btn-large waves-effect waves-light" type="submit" name="action">Continue</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer">Already a member? <a href="#sign-in" class="modal-trigger modal-close">Sign in</a></div>
+  </div>
+
+  <!-- Sign in modal -->
+  <div id="sign-in" class="modal">
+    <div class="modal-content">
+      <div class="row">
+        <h5 class="center">Sign in</h5>
+        <form action="dashboard.html" class="col s12">
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="material-icons prefix">email</i>
+              <input id="email" type="email" class="validate" required>
+              <label for="email">Email</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="material-icons prefix">lock</i>
+              <input id="password" type="password" class="validate" required>
+              <label for="password">Password</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <button class="btn btn-large waves-effect waves-light" type="submit" name="action">Continue</button>
+              <a class="forgot-password center-block modal-trigger modal-close" href="#forgot-password">Forgot password?</a>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer">Not a member yet? <a href="#sign-up" class="modal-trigger modal-close">Sign up</a></div>
+  </div>
+
+  <!-- Forgot password modal -->
+  <div id="forgot-password" class="modal">
+    <div class="modal-content">
+      <div class="row">
+        <h4>Reset password</h4>
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s12">
+              <i class="material-icons prefix">email</i>
+              <input id="email" type="email" class="validate" required>
+              <label for="email">Email</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <button class="btn btn-large waves-effect waves-light" type="submit" name="action">Continue</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer">Back to <a href="#sign-in" class="modal-trigger modal-close">Sign in</a></div>
+  </div>
+  <script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.0/js/materialize.min.js"></script>
+  <script src="script.js"></script>
+</body>
+
+</html>

@@ -11,20 +11,19 @@ const PostItInstance = new PostIt();
  * Rejects users that have already registered
  */
 userRoutes.post('/user/signup', (request, response) => {
-  const [
-    firstName,
-    lastName,
-    email,
-    phone,
-    password
-  ] = Object.keys(request.body).map(key =>
-    request.body[key]);
+  const firstName = request.body.firstName;
+  const lastName = request.body.lastName;
+  const email = request.body.email;
+  const phone = request.body.phone;
+  const password = request.body.password.trim();
 
   if (password.length < 8) {
-    response.status(406).json({
-      message: 'Please enter a password of 8 characters or more',
-      status: 406
-    });
+    PostIt.responder(
+      response,
+      'Please enter a password of 8 characters or more',
+      406,
+      null
+    );
   } else {
     bcrypt.hash(password, 10).then((hash) => {
       PostItInstance.registerUser(
@@ -34,16 +33,20 @@ userRoutes.post('/user/signup', (request, response) => {
         phone,
         hash)
         .then(() => {
-          response.status(200).json({
-            message: 'Registration successful',
-            status: 200
-          });
+          PostIt.responder(
+            response,
+            'Registration successful',
+            200,
+            null
+          );
         }).catch((error) => {
           if (error.name === 'SequelizeUniqueConstraintError') {
-            response.status(406).json({
-              message: `${error.errors[0].value} is already registered`,
-              status: 406
-            });
+            PostIt.responder(
+              response,
+              `${error.errors[0].value} is already registered`,
+              406,
+              null
+            );
           } else if (error.name === 'SequelizeValidationError') {
             const errMessage = {};
 
@@ -51,16 +54,14 @@ userRoutes.post('/user/signup', (request, response) => {
               errMessage[err.path] = 'Invalid input';
             });
 
-            response.status(406).json({
-              message: 'Please check your submission',
-              errors: errMessage,
-              status: 406
-            });
+            PostIt.responder(
+              response,
+              'Please check your submission',
+              406,
+              errMessage
+            );
           } else {
-            response.status(500).json({
-              message: 'Oops! Something broke',
-              status: 500
-            });
+            PostIt.responder(response, 'Oops! Something broke', 500);
           }
         });
     });
@@ -72,41 +73,46 @@ userRoutes.post('/user/signup', (request, response) => {
  * Rejects signing in if credentials are wrong
  */
 userRoutes.post('/user/signin', (request, response) => {
-  const [
-    email,
-    password
-  ] = Object.keys(request.body).map(key =>
-    request.body[key]);
+  const email = request.body.email;
+  const password = request.body.password;
 
-  PostItInstance.findUser(email, password)
+  PostItInstance.findUser(email)
     .then((user) => {
       bcrypt.compare(password, user.password)
-        .then((matched) => {
-          if (matched) {
+        .then((passwordMatched) => {
+          if (passwordMatched) {
             request.session.user = user;
 
-            response.status(200).json({
-              message: `Welcome ${request.session.user.firstName}`,
-              status: 200
-            });
+            PostIt.responder(
+            response,
+            'Login successful',
+            200,
+            { firstName: request.session.user.firtName }
+            );
           } else {
-            response.status(401).json({
-              message: 'You have entered a wrong password',
-              status: 401
-            });
+            PostIt.responder(
+              response,
+              'Wrong password',
+              401,
+              null
+            );
           }
         });
     }).catch((error) => {
       if (!Object.keys(error).length) {
-        response.status(401).json({
-          message: 'Email is not registered',
-          status: 401
-        });
+        PostIt.responder(
+          response,
+          'Email is not registered',
+          401,
+          null
+        );
       } else {
-        response.status(500).json({
-          message: 'Oops! Something broke',
-          status: 500
-        });
+        PostIt.responder(
+          response,
+          'Oops! Something broke',
+          500,
+          null
+        );
       }
     });
 });

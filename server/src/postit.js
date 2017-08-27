@@ -69,7 +69,7 @@ class PostIt {
    * @param {string} userId - userId of the creator
    * @returns {Promise} - returns a Promise
    */
-  creatGroup(name, userId) {
+  createGroup(name, userId) {
     return this.database.connection.sync().then(() =>
       this.database.Group.create({
         name,
@@ -137,6 +137,21 @@ class PostIt {
         userId,
         groupId
       }
+    });
+  }
+
+  /**
+   * Formats the response to the routes
+   * @param {Object} response - http response object
+   * @param {String|Object} message - response message
+   * @param {Number} status - http response status
+   * @param {String|Object} moreInfo - additional information
+   * @returns {Object} - returns an object to the routes
+   */
+  static responder(response, message, status, moreInfo) {
+    return response.status(status).json({
+      message,
+      moreInfo
     });
   }
 }

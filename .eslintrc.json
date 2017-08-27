@@ -1,11 +1,14 @@
-
 {
   "root": true,
-  "extends": "airbnb-base",
+  "extends": "airbnb",
   "env": {
     "node": true,
     "es6": true,
-    "mocha": true
+    "mocha": true,
+    "browser": true
+  },
+  "globals": {
+    "$": true
   },
   "rules": {
     "one-var": 0,
