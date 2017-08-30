@@ -1,7 +1,7 @@
 import express from 'express';
-import PostIt from './../src/postit';
+import PostIt from './../src/PostIt';
 
-const groupRoutes = express.Router();
+const groups = express.Router();
 const PostItInstance = new PostIt();
 
 const message401 = 'You are not logged in';
@@ -11,7 +11,7 @@ const message401 = 'You are not logged in';
  * Rejects request if the user is unauthorized
  * Refuses to create group if group name is empty
  */
-groupRoutes.post('/group', (request, response) => {
+groups.post('/group', (request, response) => {
   /**
    * Is session active?
    */
@@ -61,7 +61,7 @@ groupRoutes.post('/group', (request, response) => {
 /**
  * Posts messages to groups
  */
-groupRoutes.post('/group/:groupId/message',
+groups.post('/group/:groupId/message',
   (request, response) => {
     if (!request.session.user) {
       response.status(401).json({
@@ -115,7 +115,7 @@ groupRoutes.post('/group/:groupId/message',
 /**
  * Adds users to groups
  */
-groupRoutes.post('/group/:groupId/user',
+groups.post('/group/:groupId/user',
   (request, response) => {
     if (!request.session.user) {
       response.json({
@@ -186,7 +186,7 @@ groupRoutes.post('/group/:groupId/user',
 /**
  * Gets all messages in a group
  */
-groupRoutes.get('/group/:groupId/messages',
+groups.get('/group/:groupId/messages',
   (request, response) => {
     if (!request.session.user) {
       response.status(401).json({
@@ -222,4 +222,4 @@ groupRoutes.get('/group/:groupId/messages',
     }
   });
 
-export default groupRoutes;
+export default groups;

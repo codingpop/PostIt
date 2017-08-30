@@ -1,6 +1,6 @@
 import dotenv from 'dotenv';
 import Sequelize from 'sequelize';
-import User from './../models/user';
+import User from './../models/User';
 import Group from './../models/group';
 import Message from './../models/message';
 import GroupMember from './../models/groupMember';

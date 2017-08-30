@@ -25,7 +25,7 @@ class PostIt {
    * @param {string} password - User's password
    * @returns {Promise} - returns a Promise
    */
-  registerUser(firstName, lastName, email, phone, password) {
+  register(firstName, lastName, email, phone, password) {
     return this.database.connection.sync().then(() =>
       this.database.User.create({
         firstName,
@@ -137,21 +137,6 @@ class PostIt {
         userId,
         groupId
       }
-    });
-  }
-
-  /**
-   * Formats the response to the routes
-   * @param {Object} response - http response object
-   * @param {String|Object} message - response message
-   * @param {Number} status - http response status
-   * @param {String|Object} moreInfo - additional information
-   * @returns {Object} - returns an object to the routes
-   */
-  static responder(response, message, status, moreInfo) {
-    return response.status(status).json({
-      message,
-      moreInfo
     });
   }
 }
