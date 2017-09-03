@@ -1,6 +1,5 @@
 import express from 'express';
 import bodyParser from 'body-parser';
-import session from 'express-session';
 import dotenv from 'dotenv';
 import path from 'path';
 import webpack from 'webpack';
@@ -8,8 +7,8 @@ import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
 import config from './webpack.config';
-import userRoutes from './server/routes/userRoutes';
-import groupRoutes from './server/routes/groupRoutes';
+import user from './server/middleware/users';
+import group from './server/middleware/groups';
 
 dotenv.config();
 const app = express();
@@ -21,16 +20,10 @@ const HTML_FILE = path.join(__dirname, 'dist');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(session({
-  secret: process.env.SESS_SECRET,
-  resave: false,
-  saveUninitialized: true
-}));
+app.use(express.static(`${DIST_DIR}/client`));
 
-app.use(express.static(`${DIST_DIR}/client/assets`));
-
-app.use('api/v1', userRoutes);
-app.use('api/v1', groupRoutes);
+app.use('/api/v1', user);
+app.use('/api/v1', group);
 
 if (isDevelopment) {
   app.use(webpackDevMiddleware(compiler, {
@@ -39,7 +32,7 @@ if (isDevelopment) {
 
   app.use(webpackHotMiddleware(compiler));
 
-  app.get('/', (request, response, next) => {
+  app.get('*', (request, response, next) => {
     const filename = path.join(DIST_DIR, 'index.html');
 
     compiler.outputFileSystem.readFile(filename, (error, result) => {
@@ -54,7 +47,7 @@ if (isDevelopment) {
 } else {
   app.use(express.static(DIST_DIR));
 
-  app.get('/', (request, response) => response.sendFile(HTML_FILE));
+  app.get('*', (request, response) => response.sendFile(HTML_FILE));
 }
 
 app.listen(process.env.PORT);

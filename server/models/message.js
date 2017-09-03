@@ -17,7 +17,9 @@ export default (connection, Sequelize) => {
       type: Sequelize.TEXT,
       allowNull: false,
       validate: {
-        notEmpty: true
+        notEmpty: {
+          msg: 'Message cannot be empty'
+        }
       }
     },
     priority: {

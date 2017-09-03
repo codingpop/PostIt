@@ -9,51 +9,40 @@ export default (connection, Sequelize) => {
       type: Sequelize.STRING,
       validate: {
         isAlpha: {
-          args: true,
-          msg: 'Input must contain only latin characters'
+          msg: 'First name must contain latin characters only'
         }
-      },
-      allowNull: false
+      }
     },
     lastName: {
       type: Sequelize.STRING,
-      allowNull: false,
       validate: {
         isAlpha: {
-          args: true,
-          msg: 'Input must contain only latin characters'
+          msg: 'Last name must contain latin characters only'
         }
       }
     },
     email: {
       type: Sequelize.STRING,
-      allowNull: false,
       unique: true,
       validate: {
         isEmail: {
-          args: true,
           msg: 'Invalid email address'
         }
       }
     },
     phone: {
       type: Sequelize.STRING,
-      allowNull: false,
       unique: true,
       validate: {
-        isDecimal: {
-          args: true,
+        isMobilePhone: {
+          args: 'en-NG',
           msg: 'Invalid phone number'
-        },
-        len: [10, 11]
+        }
       }
     },
     password: {
       type: Sequelize.STRING,
-      allowNull: false
     },
-  }, {
-    paranoid: true
   });
   return User;
 };

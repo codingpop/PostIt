@@ -14,9 +14,16 @@ export default (connection, Sequelize) => {
     groupId: {
       type: Sequelize.UUID,
       allowNull: false
+    },
+    admin: {
+      type: Sequelize.ENUM,
+      values: ['yes', 'no'],
+      validate: {
+        notEmpty: {
+          msg: 'Please provide a description'
+        }
+      }
     }
-  }, {
-    paranoid: true
   });
   return GroupMember;
 };

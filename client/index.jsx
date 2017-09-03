@@ -1,7 +1,20 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { render } from 'react-dom';
+import { BrowserRouter, Route } from 'react-router-dom';
 
-ReactDOM.render(<h1>I just changed from I am here</h1>, document.getElementById('root'));
+import Header from './components/Header.jsx';
+import App from './components/App.jsx';
+
+const Root = () => (
+  <BrowserRouter>
+    <div>
+      <Header />
+      <App />
+    </div>
+  </BrowserRouter>
+);
+
+render(<Root />, document.getElementById('root'));
 
 if (module.hot) {
   module.hot.accept();

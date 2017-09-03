@@ -25,7 +25,7 @@ class PostIt {
    * @param {string} password - User's password
    * @returns {Promise} - returns a Promise
    */
-  registerUser(firstName, lastName, email, phone, password) {
+  register(firstName, lastName, email, phone, password) {
     return this.database.connection.sync().then(() =>
       this.database.User.create({
         firstName,
@@ -66,14 +66,14 @@ class PostIt {
   /**
    * Creates a new group for a user
    * @param {string} name - Name of the group
-   * @param {string} userId - userId of the creator
+   * @param {string} description - Description of group
    * @returns {Promise} - returns a Promise
    */
-  createGroup(name, userId) {
+  createGroup(name, description) {
     return this.database.connection.sync().then(() =>
       this.database.Group.create({
         name,
-        userId
+        description
       })
     );
   }
@@ -101,13 +101,15 @@ class PostIt {
    * Adds a member to a group
    * @param {string} userId - userId of the user
    * @param {string} groupId - groupId of the group
+   * @param {string} admin - role of the group member
    * @returns {Promise} - returns a Promise
    */
-  addGroupMember(userId, groupId) {
+  addGroupMember(userId, groupId, admin) {
     return this.database.connection.sync().then(() =>
       this.database.GroupMember.create({
         userId,
-        groupId
+        groupId,
+        admin
       })
     );
   }
@@ -137,21 +139,6 @@ class PostIt {
         userId,
         groupId
       }
-    });
-  }
-
-  /**
-   * Formats the response to the routes
-   * @param {Object} response - http response object
-   * @param {String|Object} message - response message
-   * @param {Number} status - http response status
-   * @param {String|Object} moreInfo - additional information
-   * @returns {Object} - returns an object to the routes
-   */
-  static responder(response, message, status, moreInfo) {
-    return response.status(status).json({
-      message,
-      moreInfo
     });
   }
 }
