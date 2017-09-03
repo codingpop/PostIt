@@ -1,57 +1,51 @@
 import express from 'express';
 import PostIt from './../src/PostIt';
+import verifyToken from './verifyToken';
 
 const groups = express.Router();
 const PostItInstance = new PostIt();
-
-const message401 = 'You are not logged in';
 
 /**
  * Creates a new group
  * Rejects request if the user is unauthorized
  * Refuses to create group if group name is empty
  */
-groups.post('/group', (request, response) => {
-  /**
-   * Is session active?
-   */
-  if (!request.session.user) {
+groups.post('/groups', verifyToken, (request, response) => {
+  if (!request.user) {
     response.status(401).json({
-      message: message401,
-      status: 401
+      message: 'You are not logged in',
+    });
+  } else if (!request.body.name || !request.body.description) {
+    response.status(400).json({
+      message: 'Please check your submission'
     });
   } else {
     PostItInstance.createGroup(
       request.body.name.trim(),
-      request.session.user.userId)
+      request.body.description.trim()
+    )
       .then((group) => {
         PostItInstance.addGroupMember(
-          request.session.user.userId,
-          group.groupId
+          request.user.userId,
+          group.groupId,
+          'yes'
         ).then(() => {
-          response.json({
-            message: `${group.name} created`,
-            groupId: group.groupId,
-            status: 200
+          response.status(201).json({
+            groupId: group.groupId
           });
         });
       }).catch((error) => {
-        if (error.name ===
-          'SequelizeUniqueConstraintError') {
+        if (error.name === 'SequelizeUniqueConstraintError') {
           response.status(406).json({
-            message: `${error.fields.name} already exists`,
-            status: 406
+            message: 'Group name already exists'
           });
-        } else if (error.name ===
-          'SequelizeValidationError') {
+        } else if (error.name === 'SequelizeValidationError') {
           response.status(406).json({
-            message: 'Please enter a valid group name',
-            status: 406
+            message: error.errors[0].message
           });
         } else {
           response.status(500).json({
-            message: 'Oops! Something broke',
-            status: 500
+            message: 'Oops! Something broke'
           });
         }
       });
@@ -61,53 +55,57 @@ groups.post('/group', (request, response) => {
 /**
  * Posts messages to groups
  */
-groups.post('/group/:groupId/message',
+groups.post('/groups/:groupId/messages', verifyToken,
   (request, response) => {
-    if (!request.session.user) {
+    if (!request.user) {
       response.status(401).json({
-        message: message401,
-        status: 401
+        message: 'You are not logged in'
+      });
+    } else if (!request.body.message || !request.body.priority) {
+      response.status(400).json({
+        message: 'Please check your submission'
       });
     } else {
-      /**
-       * User is logged in
-       */
-      PostItInstance.findGroup(request.params.groupId)
-        .then((group) => {
-          if (
-            request.session.user.userId
-            === group.userId
-          ) {
+      PostItInstance.checkMembership(request.user.userId, request.params.groupId)
+        .then((member) => {
+          if (member.admin === 'yes') {
             PostItInstance.postMessage(
               request.params.groupId,
-              request.session.user.userId,
+              request.user.userId,
               request.body.message.trim(),
-              request.body.priority.trim() || 'normal',
+              request.body.priority.trim() || 'normal'
             ).then(() => {
-              response.json({
-                message: 'Message posted',
-                status: 200
+              response.status(201).json({
+                message: 'Message posted'
               });
             }).catch((error) => {
               if (error.name === 'SequelizeDatabaseError'
-              && error.parent.routine === 'enum_in') {
+                && error.parent.routine === 'enum_in') {
                 response.status(406).json({
                   message: 'Invalid priority',
-                  status: 406
+                });
+              } else {
+                response.status(406).json({
+                  message: error.errors[0].message
                 });
               }
             });
           } else {
-            response.json.status(401)({
-              message: 'You do not own this group',
-              status: 401
+            response.status(401).json({
+              message: 'You are not a morderator of this group',
+              member
             });
           }
-        }).catch(() => {
-          response.status(404).json({
-            message: 'Group does not exist',
-            status: 404
-          });
+        }).catch((error) => {
+          if (!Object.keys(error)) {
+            response.status(404).json({
+              message: 'Group does not exist',
+            });
+          } else {
+            response.status(500).json({
+              message: 'Oops! Something broke'
+            });
+          }
         });
     }
   });
@@ -115,70 +113,57 @@ groups.post('/group/:groupId/message',
 /**
  * Adds users to groups
  */
-groups.post('/group/:groupId/user',
+groups.post('/groups/:groupId/users', verifyToken,
   (request, response) => {
-    if (!request.session.user) {
-      response.json({
-        message: message401,
-        status: 401
+    if (!request.user) {
+      response.status(401).json({
+        message: 'You are not logged in'
+      });
+    } else if (!request.body.email) {
+      response.status(400).json({
+        message: 'Please check your submission'
       });
     } else {
-      PostItInstance.findGroup(request.params.groupId)
-        .then((feedback) => {
-          if (!feedback) {
-            response.status(406).json({
-              message: 'Group does not exist',
-              status: 406
+      PostItInstance.checkMembership(
+        request.user.userId,
+        request.params.groupId)
+        .then((group) => {
+          if (!group) {
+            response.status(404).json({
+              message: 'Group doesn\'t exist'
             });
-          } else if (
-            request.session.user.userId === feedback.userId
-          ) {
-            PostItInstance.findUser(request.body.email.trim())
+          } else if (group.admin === 'yes') {
+            PostItInstance.findUser(request.body.email)
               .then((user) => {
-                if (!user) {
-                  response.status(406).json({
-                    message: 'User does not exist',
-                    status: 406
+                PostItInstance.addGroupMember(
+                  user.userId,
+                  request.params.groupId,
+                  'no'
+                ).then(() => {
+                  response.status(200).json({
+                    message: 'User added'
                   });
-                } else {
-                  PostItInstance.addGroupMember(user.userId,
-                    request.params.groupId).then(() => {
-                      response.json({
-                        message: 'User added',
-                        status: 200
-                      });
-                    }).catch((error) => {
-                      if (error.name ===
-                        'SequelizeUniqueConstraintError') {
-                        response.status(406).json({
-                          message: 'User is already a member',
-                          status: 406
-                        });
-                      }
+                }).catch((error) => {
+                  if (error.name === 'SequelizeUniqueConstraintError') {
+                    response.json({
+                      message: 'User is already a member'
                     });
+                  }
+                });
+              }).catch((error) => {
+                if (!Object.keys(error).length) {
+                  response.json({
+                    message: 'User is not registered'
+                  });
                 }
               });
           } else {
-            response.status(401).json({
-              message: 'You do not own this group',
-              status: 401
+            response.json({
+              message: 'You are not a morderator of this group'
             });
           }
         }).catch((error) => {
-          console.log(error);
-          if (error.name === 'SequelizeDatabaseError'
-            && error.parent.routine === 'string_to_uuid'
-          ) {
-            response.status(406).json({
-              message: 'Invalid group ID',
-              status: 406
-            });
-          } else {
-            response.status(500).json({
-              message: 'Oops! Something broke',
-              status: 500
-            });
-          }
+          response.send(error);
         });
     }
   });
@@ -186,12 +171,11 @@ groups.post('/group/:groupId/user',
 /**
  * Gets all messages in a group
  */
-groups.get('/group/:groupId/messages',
+groups.get('/groups/:groupId/messages',
   (request, response) => {
-    if (!request.session.user) {
+    if (!request.user) {
       response.status(401).json({
-        message: message401,
-        status: 401
+        message: 'You are not logged in'
       });
     } else {
       PostItInstance.checkMembership(

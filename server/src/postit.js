@@ -66,14 +66,14 @@ class PostIt {
   /**
    * Creates a new group for a user
    * @param {string} name - Name of the group
-   * @param {string} userId - userId of the creator
+   * @param {string} description - Description of group
    * @returns {Promise} - returns a Promise
    */
-  createGroup(name, userId) {
+  createGroup(name, description) {
     return this.database.connection.sync().then(() =>
       this.database.Group.create({
         name,
-        userId
+        description
       })
     );
   }
@@ -101,13 +101,15 @@ class PostIt {
    * Adds a member to a group
    * @param {string} userId - userId of the user
    * @param {string} groupId - groupId of the group
+   * @param {string} admin - role of the group member
    * @returns {Promise} - returns a Promise
    */
-  addGroupMember(userId, groupId) {
+  addGroupMember(userId, groupId, admin) {
     return this.database.connection.sync().then(() =>
       this.database.GroupMember.create({
         userId,
-        groupId
+        groupId,
+        admin
       })
     );
   }

@@ -43,8 +43,6 @@ export default (connection, Sequelize) => {
     password: {
       type: Sequelize.STRING,
     },
-  }, {
-    paranoid: true
   });
   return User;
 };

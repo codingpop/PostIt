@@ -7,18 +7,21 @@ export default (connection, Sequelize) => {
     },
     name: {
       type: Sequelize.STRING,
-      allowNull: false,
       unique: true,
       validate: {
-        notEmpty: true,
+        notEmpty: {
+          msg: 'Group name cannot be empty'
+        },
       }
     },
-    userId: {
-      type: Sequelize.UUID,
-      allowNull: false,
+    description: {
+      type: Sequelize.TEXT,
+      validate: {
+        notEmpty: {
+          msg: 'Please provide a description for your group'
+        }
+      }
     }
-  }, {
-    paranoid: true
   });
   return Group;
 };

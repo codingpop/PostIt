@@ -1,19 +1,21 @@
 import jwt from 'jsonwebtoken';
 
-const authenticate = (request, response, next) => {
+const verifyToken = (request, response, next) => {
   const token = request.headers.token;
   if (token) {
-    jwt.verify(token, process.env.SECRET, (error, userData) => {
+    jwt.verify(token, process.env.SECRET, (error, payload) => {
       if (error) {
         request.user = undefined;
+        next();
       } else {
-        request.user = userData;
+        request.user = payload;
         next();
       }
     });
   } else {
     request.user = undefined;
+    next();
   }
 };
 
-export default authenticate;
+export default verifyToken;

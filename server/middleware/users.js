@@ -12,7 +12,7 @@ const PostItInstance = new PostIt();
  * Registers a new user
  * Rejects users that have already registered
  */
-users.post('/signup', (request, response) => {
+users.post('/users/signup', (request, response) => {
   const { firstName, lastName, email, phone, password } = request.body;
 
   if (password.trim().length < 8) {
@@ -54,7 +54,7 @@ users.post('/signup', (request, response) => {
  * Logs a new user in
  * Rejects signing in if credentials are wrong
  */
-users.post('/signin', (request, response) => {
+users.post('/users/signin', (request, response) => {
   const { email, password } = request.body;
 
   PostItInstance.findUser(email)
@@ -62,16 +62,15 @@ users.post('/signin', (request, response) => {
       bcrypt.compare(password, user.password)
         .then((passwordMatches) => {
           if (passwordMatches) {
-            const { userId, firstName, lastName } = user.userId;
+            const { userId, firstName, lastName } = user;
             const payload = {
               userId,
               firstName,
               lastName,
               email
             };
-
             jwt.sign(payload, process.env.SECRET, { expiresIn: 86400 }, (error, token) => {
-              response.status(201).json({ token });
+              response.status(200).json({ token });
             });
           } else {
             response.status(401).json({
@@ -80,7 +79,7 @@ users.post('/signin', (request, response) => {
           }
         });
     }).catch((error) => {
-      if (Object.is(error, {})) {
+      if (!Object.keys(error)) {
         response.status(404).json({
           message: 'You are not a member'
         });
