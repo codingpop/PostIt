@@ -15,12 +15,12 @@ const app = express();
 const DIST_DIR = path.join(__dirname, 'dist');
 const compiler = webpack(config);
 const isDevelopment = process.env.NODE_ENV !== 'production';
-const HTML_FILE = path.join(__dirname, 'dist');
+const HTML_FILE = path.join(__dirname, 'client/index.html');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static(`${DIST_DIR}/client`));
+app.use(express.static('template'));
 
 app.use('/api/v1', user);
 app.use('/api/v1', group);
@@ -33,7 +33,7 @@ if (isDevelopment) {
   app.use(webpackHotMiddleware(compiler));
 
   app.get('*', (request, response, next) => {
-    const filename = path.join(DIST_DIR, 'index.html');
+    const filename = path.join(DIST_DIR, 'client', 'index.html');
 
     compiler.outputFileSystem.readFile(filename, (error, result) => {
       if (error) {
