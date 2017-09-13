@@ -1,1 +1,1 @@
-web: "babel-node app-dev.js"
+web: babel-node app-dev.js
