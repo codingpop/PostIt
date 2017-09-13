@@ -100,7 +100,7 @@
     "nodemon": "^1.11.0"
   },
   "scripts": {
-    "start": "babel-node app-dev.js",
+    "dev": "babel-node app-dev.js",
     "test": "mocha --compilers js:babel-core/register test/**/*.js --timeout 100000",
     "build:server": "babel app-dev.js --out-file app.js",
     "coverage": "istanbul cover _mocha test/**/*.js -- --require babel-core/register --timeout 100000",

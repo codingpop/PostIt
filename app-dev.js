@@ -45,8 +45,6 @@ if (isDevelopment) {
     });
   });
 } else {
-  app.use(express.static(DIST_DIR));
-
   app.get('*', (request, response) => response.sendFile(HTML_FILE));
 }
 
