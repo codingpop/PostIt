@@ -5,19 +5,11 @@ export default (connection, Sequelize) => {
       defaultValue: Sequelize.UUIDV4,
       primaryKey: true
     },
-    firstName: {
+    userName: {
       type: Sequelize.STRING,
       validate: {
         isAlpha: {
-          msg: 'First name must contain latin characters only'
-        }
-      }
-    },
-    lastName: {
-      type: Sequelize.STRING,
-      validate: {
-        isAlpha: {
-          msg: 'Last name must contain latin characters only'
+          msg: 'Username must contain latin characters only'
         }
       }
     },

@@ -18,18 +18,16 @@ class PostIt {
 
   /**
    * Registers new user's info to database
-   * @param {string} firstName - User's first name
-   * @param {string} lastName - User's last name
+   * @param {string} userName - User's name
    * @param {string} email - User's email
    * @param {string} phone - User's phone
    * @param {string} password - User's password
    * @returns {Promise} - returns a Promise
    */
-  register(firstName, lastName, email, phone, password) {
+  register(userName, email, phone, password) {
     return this.database.connection.sync().then(() =>
       this.database.User.create({
-        firstName,
-        lastName,
+        userName,
         email,
         phone,
         password

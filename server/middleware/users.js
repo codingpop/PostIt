@@ -13,7 +13,7 @@ const PostItInstance = new PostIt();
  * Rejects users that have already registered
  */
 users.post('/users/signup', (request, response) => {
-  const { firstName, lastName, email, phone, password } = request.body;
+  const { userName, email, phone, password } = request.body;
 
   if (password.trim().length < 8) {
     response.status(400).json({
@@ -22,8 +22,7 @@ users.post('/users/signup', (request, response) => {
   } else {
     bcrypt.hash(password, 10).then((hash) => {
       PostItInstance.register(
-        firstName,
-        lastName,
+        userName,
         email,
         phone,
         hash)
@@ -37,6 +36,7 @@ users.post('/users/signup', (request, response) => {
               message: `${error.errors[0].value} already exists`
             });
           } else if (error.name === 'SequelizeValidationError') {
+            console.log(error);
             response.status(400).json({
               message: error.errors[0].message
             });

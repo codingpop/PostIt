@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 const Header = props => (
   <header>
@@ -7,24 +8,24 @@ const Header = props => (
       <nav>
         <div className="container-fluid">
           <div className="nav-wrapper">
-            <a href="/" className="brand-logo">ShoutIt</a>
-            <a href="" data-activates="mobile-as" className="button-collapse">
-              <i className="material-icons">menu</i></a>
+            <Link to="/" className="brand-logo">ShoutIt</Link>
+            <Link to="" data-activates="mobile-as" className="button-collapse">
+              <i className="material-icons">menu</i></Link>
 
             <ul id="nav-mobile" className="right hide-on-med-and-down">
-              <li><a href={props.signInHref} className="modal-trigger">{props.signIn}</a></li>
-              <li><a
-                href={props.getStartedHref}
+              <li><Link to={props.signInHref} className="modal-trigger">{props.signIn}</Link></li>
+              <li><Link
+                to={props.getStartedHref}
                 className="modal-trigger"
-              >{props.getStarted}</a></li>
+              >{props.getStarted}</Link></li>
             </ul>
           </div>
         </div>
       </nav>
     </div>
     <ul id="mobile-links" className="side-nav">
-      <li><a href={props.signInHref} className="modal-trigger">{props.signIn}</a></li>
-      <li><a href={props.getStartedHref} className="modal-trigger">{props.getStarted}</a></li>
+      <li><Link to={props.signInHref} className="modal-trigger">{props.signIn}</Link></li>
+      <li><Link to={props.getStartedHref} className="modal-trigger">{props.getStarted}</Link></li>
     </ul>
   </header>
 );

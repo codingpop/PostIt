@@ -1,6 +1,6 @@
 import React from 'react';
 import Header from './Header.jsx';
-import Landing from './Landing.jsx';
+import Home from './Home.jsx';
 
 const Main = () => (
   <main>
@@ -10,7 +10,7 @@ const Main = () => (
       getStarted="Get Started"
       getStartedHref="#sign-up"
     />
-    <Landing />
+    <Home />
   </main>
 );
 

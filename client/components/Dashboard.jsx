@@ -32,7 +32,6 @@ class Dashboard extends Component {
           </div>
         </div>
         <CreateGroup />
-        <Footer />
       </div>
     );
   }

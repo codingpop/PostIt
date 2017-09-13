@@ -4,6 +4,7 @@
   "description": "A group messaging platform",
   "main": "index.js",
   "dependencies": {
+    "axios": "^0.16.2",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-loader": "^7.1.1",
@@ -63,7 +64,7 @@
     "react-hot-loader": "^1.3.1",
     "react-redux": "^5.0.5",
     "react-router": "^4.0.0-2",
-    "react-router-dom": "^4.1.2",
+    "react-router-dom": "^4.2.2",
     "react-router-redux": "^4.0.8",
     "redux": "^3.7.2",
     "redux-immutable-state-invariant": "^2.0.0",
