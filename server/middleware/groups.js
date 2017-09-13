@@ -11,18 +11,19 @@ const PostItInstance = new PostIt();
  * Refuses to create group if group name is empty
  */
 groups.post('/groups', verifyToken, (request, response) => {
+  const { name, description } = request.body;
   if (!request.user) {
     response.status(401).json({
       message: 'You are not logged in',
     });
-  } else if (!request.body.name || !request.body.description) {
+  } else if (!name || !description) {
     response.status(400).json({
       message: 'Please check your submission'
     });
   } else {
     PostItInstance.createGroup(
-      request.body.name.trim(),
-      request.body.description.trim()
+      name.trim(),
+      description.trim()
     )
       .then((group) => {
         PostItInstance.addGroupMember(

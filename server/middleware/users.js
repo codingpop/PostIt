@@ -13,17 +13,23 @@ const PostItInstance = new PostIt();
  * Rejects users that have already registered
  */
 users.post('/users/signup', (request, response) => {
-  const { firstName, lastName, email, phone, password } = request.body;
+  const { userName, email, phone, password } = request.body;
 
-  if (password.trim().length < 8) {
+  if (!userName ||
+    !email ||
+    !phone ||
+    !password) {
+    response.status(400).json({
+      message: 'Please check your submission'
+    });
+  } else if (password.trim().length < 8) {
     response.status(400).json({
       message: 'Password must be 8 characters or more'
     });
   } else {
     bcrypt.hash(password, 10).then((hash) => {
       PostItInstance.register(
-        firstName,
-        lastName,
+        userName,
         email,
         phone,
         hash)
@@ -55,19 +61,24 @@ users.post('/users/signup', (request, response) => {
  * Rejects signing in if credentials are wrong
  */
 users.post('/users/signin', (request, response) => {
-  const { email, password } = request.body;
+  const { phone, email, userName, password } = request.body;
 
-  PostItInstance.findUser(email)
+  const credential = phone || email || userName;
+
+  if (!credential) {
+    response.status(400).json({
+      message: 'Please check your submission'
+    });
+  } else {
+    PostItInstance.findUser(credential)
     .then((user) => {
       bcrypt.compare(password, user.password)
         .then((passwordMatches) => {
           if (passwordMatches) {
-            const { userId, firstName, lastName } = user;
             const payload = {
-              userId,
-              firstName,
-              lastName,
-              email
+              userId: user.userId,
+              userName: user.userName,
+              email: user.email
             };
             jwt.sign(payload, process.env.SECRET, { expiresIn: 86400 }, (error, token) => {
               response.status(200).json({ token });
@@ -89,6 +100,7 @@ users.post('/users/signin', (request, response) => {
         });
       }
     });
+  }
 });
 
 export default users;
