@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { PropTypes } from 'prop-types';
 
-const DashHeader = () => (
+const DashHeader = props => (
   <header>
     <div className="navbar-fixed">
       <nav>
@@ -26,7 +28,7 @@ const DashHeader = () => (
       <div className="avatar">
         <Link to="">
           <img src="img/avatar.jpg" className="center" alt="" />
-          <p>Babatunde Adeyemi</p>
+          <p>{props.userReducer.userName}</p>
         </Link>
       </div>
       <ul>
@@ -49,7 +51,12 @@ const DashHeader = () => (
           >power_settings_new</i>Sign out</Link></li>
       </ul>
     </div>
-  </header>
+  </header >
 );
 
-export default DashHeader;
+
+DashHeader.propTypes = {
+  userReducer: PropTypes.object.isRequired
+};
+
+export default connect(state => state)(DashHeader);

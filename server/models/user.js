@@ -7,6 +7,7 @@ export default (connection, Sequelize) => {
     },
     userName: {
       type: Sequelize.STRING,
+      unique: true,
       validate: {
         isAlpha: {
           msg: 'Username must contain latin characters only'

@@ -37,13 +37,25 @@ class PostIt {
 
   /**
    * Fetches a user's details
-   * @param {string} email - Signin email address
+   * @param {string} credential - can be username, email or phone number
    * @returns {Promise} - returns a Promise
    */
-  findUser(email) {
+  findUser(credential) {
     return this.database.User.findOne({
       where: {
-        email
+        $or: [{
+          email: {
+            $iLike: `%${credential}%`
+          }
+        }, {
+          userName: {
+            $iLike: `%${credential}%`
+          }
+        }, {
+          phone: {
+            $iLike: `%${credential}%`
+          }
+        }]
       }
     });
   }

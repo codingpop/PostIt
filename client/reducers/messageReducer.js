@@ -1,12 +1,14 @@
-import { SET_MESSAGE } from './../types/message';
+import { POST_MESSAGE } from './../types/POST_MESSAGE';
 
 const initialState = {
-  message: ''
+  messageId: '',
+  message: '',
+  priority: ''
 };
 
 const messageReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SET_MESSAGE:
+    case POST_MESSAGE:
       return { ...state, message: action.payload.message };
     default:
       return state;
