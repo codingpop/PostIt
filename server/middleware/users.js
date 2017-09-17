@@ -71,35 +71,45 @@ users.post('/users/signin', (request, response) => {
     });
   } else {
     PostItInstance.findUser(credential)
-    .then((user) => {
-      bcrypt.compare(password, user.password)
-        .then((passwordMatches) => {
-          if (passwordMatches) {
-            const payload = {
-              userId: user.userId,
-              userName: user.userName,
-              email: user.email
-            };
-            jwt.sign(payload, process.env.SECRET, { expiresIn: 86400 }, (error, token) => {
-              response.status(200).json({ token });
-            });
-          } else {
-            response.status(401).json({
-              message: 'Wrong password'
-            });
-          }
-        });
-    }).catch((error) => {
-      if (!Object.keys(error)) {
-        response.status(404).json({
-          message: 'You are not a member'
-        });
-      } else {
-        response.status(500).json({
-          message: 'Oops! Something broke'
-        });
-      }
-    });
+      .then((user) => {
+        bcrypt.compare(password, user.password)
+          .then((passwordMatches) => {
+            if (passwordMatches) {
+              const payload = {
+                userId: user.userId
+              };
+
+              jwt.sign(payload,
+                process.env.SECRET,
+                { expiresIn: 86400 },
+                (error, token) => {
+                  response.json({
+                    user: {
+                      userId: user.userId,
+                      userName: user.userName,
+                      phone: user.phone,
+                      email: user.email
+                    },
+                    token
+                  });
+                });
+            } else {
+              response.status(401).json({
+                message: 'Wrong password'
+              });
+            }
+          });
+      }).catch((error) => {
+        if (!Object.keys(error).length) {
+          response.status(404).json({
+            message: 'You are not registered'
+          });
+        } else {
+          response.status(500).json({
+            message: 'Oops! Something broke',
+          });
+        }
+      });
   }
 });
 

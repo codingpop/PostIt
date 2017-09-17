@@ -8,19 +8,34 @@ import Archive from './../models/archive';
 
 dotenv.config();
 
-const connection = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER,
-  process.env.DB_PASS, {
-    host: process.env.DB_HOST,
-    port: process.env.DB_PORT,
-    dialect: 'postgres',
-    dialectOptions: {
-      ssl: true,
-      native: true,
-    },
-    logging: false
-  });
+let connection;
+
+if (process.env.NODE_ENV !== 'production') {
+  connection = new Sequelize(
+    process.env.DB_TEST_NAME,
+    process.env.DB_TEST_USER,
+    process.env.DB_TEST_PASS, {
+      host: process.env.DB_TEST_HOST,
+      port: process.env.DB_PORT,
+      dialect: 'postgres',
+      logging: false
+    });
+} else {
+  connection = new Sequelize(
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASS, {
+      host: process.env.DB_HOST,
+      port: process.env.DB_PORT,
+      dialect: 'postgres',
+      dialectOptions: {
+        ssl: true,
+        native: true,
+      },
+      logging: false
+    });
+}
+
 
 const database = {};
 

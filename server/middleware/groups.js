@@ -14,7 +14,7 @@ groups.post('/groups', verifyToken, (request, response) => {
   const { name, description } = request.body;
   if (!request.user) {
     response.status(401).json({
-      message: 'You are not logged in',
+      message: 'You are not logged in'
     });
   } else if (!name || !description) {
     response.status(400).json({
@@ -29,7 +29,7 @@ groups.post('/groups', verifyToken, (request, response) => {
         PostItInstance.addGroupMember(
           request.user.userId,
           group.groupId,
-          'yes'
+          true
         ).then(() => {
           response.status(201).json({
             groupId: group.groupId
@@ -64,7 +64,7 @@ groups.post('/groups/:groupId/messages', verifyToken,
       });
     } else if (!request.body.message || !request.body.priority) {
       response.status(400).json({
-        message: 'Please check your submission'
+        message: 'Both the message and the priority are required'
       });
     } else {
       PostItInstance.checkMembership(request.user.userId, request.params.groupId)

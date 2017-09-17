@@ -5,7 +5,7 @@ export default (connection, Sequelize) => {
       defaultValue: Sequelize.UUIDV4,
       primaryKey: true
     },
-    inGroup: {
+    groupId: {
       type: Sequelize.UUID,
       allowNull: false
     },

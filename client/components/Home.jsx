@@ -1,8 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
 import SignIn from './SignIn.jsx';
 import SignUp from './SignUp.jsx';
 import ResetPassword from './ResetPassword.jsx';
+import signIn from './../actions/signIn';
 
 const Home = () => (
   <div>
@@ -65,4 +67,4 @@ const Home = () => (
   </div>
 );
 
-export default Home;
+export default connect(null, { signIn })(Home);

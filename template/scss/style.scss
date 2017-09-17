@@ -28,6 +28,12 @@ h3 {
   font-size: 1.5em;
 }
 
+.toast {
+  background: #f00;
+  font-weight: bold;
+  font-family: 'Work Sans', sans-serif;
+}
+
 .btn-large, .btn-small {
   background: $green;
   text-transform: none;

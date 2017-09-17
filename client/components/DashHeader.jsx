@@ -28,7 +28,7 @@ const DashHeader = props => (
       <div className="avatar">
         <Link to="">
           <img src="img/avatar.jpg" className="center" alt="" />
-          <p>{props.userReducer.userName}</p>
+          <p>{props.user.userName}</p>
         </Link>
       </div>
       <ul>
@@ -54,9 +54,16 @@ const DashHeader = props => (
   </header >
 );
 
-
 DashHeader.propTypes = {
-  userReducer: PropTypes.object.isRequired
+  user: PropTypes.shape({
+    userName: PropTypes.string
+  }).isRequired
 };
 
-export default connect(state => state)(DashHeader);
+const mapStateToProps = (state, ownProps) => (
+  {
+    user: state.user
+  }
+);
+
+export default connect(mapStateToProps)(DashHeader);

@@ -1,14 +1,15 @@
-import { SIGN_IN } from './../types/SIGN_IN';
+import { Authenticate } from './../types';
 
 const initialState = {
-  userId: '',
-  userName: 'Babatunde'
+  isAuthenticated: false,
+  user: {},
+  groups: [],
 };
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case SIGN_IN:
-      return { ...state, message: action.payload.message };
+    case Authenticate.SIGN_IN_SUCCESS:
+      return { ...state, isAuthenticated: !!Object.keys(action.user).length, user: action.user };
     default:
       return state;
   }

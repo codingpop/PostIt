@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
+import signIn from './../actions/signIn';
 
 class SignIn extends Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.initialState = {
-      credential: '',
+      email: '',
       password: ''
     };
 
@@ -21,8 +23,13 @@ class SignIn extends Component {
 
   handleSubmit(form) {
     form.preventDefault();
-    this.setState(this.initialState);
-    $('#sign-in').modal('close');
+    this.props.signIn(this.state)
+      .then(() => {
+        // this.setState(this.initialState);
+      })
+      .catch((error) => {
+        Materialize.toast(error.response.data.message, 5000);
+      });
   }
 
   render() {
@@ -31,12 +38,12 @@ class SignIn extends Component {
         <div className="modal-content">
           <div className="row">
             <h5 className="center">Sign in</h5>
-            <form onSubmit={form => this.handleSubmit(form)} className="col s12">
+            <form onSubmit={this.handleSubmit} className="col s12">
               <div className="row">
                 <div className="input-field col s12">
                   <i className="material-icons prefix">account_circle</i>
-                  <input id="credential" name="credential" value={this.state.userName} onChange={this.handleChange} type="text" className="validate" required />
-                  <label htmlFor="credential">Username, Email or Phone</label>
+                  <input id="email" name="email" value={this.state.userName} onChange={this.handleChange} type="text" className="validate" required />
+                  <label htmlFor="email">Username, Email or Phone</label>
                 </div>
               </div>
               <div className="row">
@@ -72,4 +79,15 @@ class SignIn extends Component {
     );
   }
 }
-export default SignIn;
+
+SignIn.propTypes = {
+  signIn: PropTypes.func.isRequired
+};
+
+const mapDispatchToProps = dispatch => (
+  {
+    signIn: user => dispatch(signIn(user))
+  }
+);
+
+export default connect(null, mapDispatchToProps)(SignIn);

@@ -15,9 +15,8 @@ export default (connection, Sequelize) => {
       type: Sequelize.UUID,
       allowNull: false
     },
-    admin: {
-      type: Sequelize.ENUM,
-      values: ['yes', 'no'],
+    isAdmin: {
+      type: Sequelize.BOOLEAN,
       validate: {
         notEmpty: {
           msg: 'Please provide a description'
