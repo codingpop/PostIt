@@ -1,11 +1,12 @@
 import React from 'react';
-import DashHeader from './DashHeader.jsx';
+import Header from './Header.jsx';
+import Footer from './Footer.jsx';
 import Group from './Group.jsx';
 import CreateGroup from './CreateGroup.jsx';
 
 const Dashboard = () => (
   <div className="dashboard">
-    <DashHeader />
+    <Header />
     <div className="row content">
       <div className="container-fluid">
         <div className="col m4 s12">
@@ -29,6 +30,7 @@ const Dashboard = () => (
       </div>
     </div>
     <CreateGroup />
+    <Footer />
   </div>
 );
 

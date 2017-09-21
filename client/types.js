@@ -4,3 +4,7 @@ export const Authenticate = {
   SIGN_UP_SUCCESS: 'SIGN_UP_SUCCESS',
   SIGN_UP_FAILURE: 'SIGN_UP_FAILURE',
 };
+
+export const Groups = {
+  GET_GROUPS: 'GET_GROUPS'
+};

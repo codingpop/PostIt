@@ -1,18 +1,25 @@
 import React from 'react';
-import { render } from 'react-dom';
 import { Provider } from 'react-redux';
+import { render } from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { renderRoutes } from 'react-router-config';
+
+
 import './../template/scss/style.scss';
-import Routes from './components/Routes.jsx';
 import configureStore from './store/configureStore';
-import './script';
+// import './script';
+import routes from './routes';
 
-const store = configureStore();
-
-render(
-  <Provider store={store}>
-    <Routes />
-  </Provider>, document.getElementById('root')
+const AppRouter = () => (
+  <Provider store={configureStore}>
+    <BrowserRouter>
+      {renderRoutes(routes)}
+    </BrowserRouter>
+  </Provider>
 );
+
+render(<AppRouter />, document.getElementById('root'));
+
 
 if (module.hot) {
   module.hot.accept();

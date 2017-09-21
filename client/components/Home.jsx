@@ -3,12 +3,47 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import SignIn from './SignIn.jsx';
 import SignUp from './SignUp.jsx';
+import Footer from './Footer.jsx';
 import ResetPassword from './ResetPassword.jsx';
 import signIn from './../actions/signIn';
 
 const Home = () => (
   <div>
+    <header>
+      <div className="navbar-fixed">
+        <nav>
+          <div className="container-fluid">
+            <div className="nav-wrapper">
+              <Link to="/" className="brand-logo">ShoutIt</Link>
+              <Link
+                to=""
+                data-activates="mobile-as"
+                className="button-collapse"
+              >
+                <i className="material-icons">menu</i></Link>
 
+              <ul id="nav-mobile" className="right hide-on-med-and-down">
+                <li><Link
+                  to="#sign-in"
+                  className="modal-trigger"
+                >Sign In</Link></li>
+                <li><Link
+                  to="#sign-up"
+                  className="modal-trigger"
+                >Get Started</Link></li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <ul id="mobile-links" className="side-nav">
+        <li><Link to="#sign-in" className="modal-trigger">Sign In</Link></li>
+        <li><Link
+          to="#sign-up"
+          className="modal-trigger"
+        >Get Started</Link></li>
+      </ul>
+    </header>
     {/* Hero Section */}
     <section className="hero valign-wrapper">
       <div className="container-fluid">
@@ -17,7 +52,10 @@ const Home = () => (
             <div className="main-copy center">
               <h1>Shout It Loud!</h1>
               <p>Create a group. Shout your message.</p>
-              <Link to="#sign-up" className="btn-large modal-trigger">Get Started</Link>
+              <Link
+                to="#sign-up"
+                className="btn-large modal-trigger"
+              >Get Started</Link>
             </div>
           </div>
         </div>
@@ -54,7 +92,10 @@ const Home = () => (
         <div className="row">
           <div className="col s12">
             <h5>Got a message to share?</h5>
-            <Link to="#sign-up" className="btn-large modal-trigger">Get Started</Link>
+            <Link
+              to="#sign-up"
+              className="btn-large modal-trigger"
+            >Get Started</Link>
           </div>
         </div>
       </div>
@@ -64,6 +105,7 @@ const Home = () => (
     <SignIn />
     <SignUp />
     <ResetPassword />
+    <Footer />
   </div>
 );
 

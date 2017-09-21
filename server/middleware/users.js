@@ -61,9 +61,7 @@ users.post('/users/signup', (request, response) => {
  * Rejects signing in if credentials are wrong
  */
 users.post('/users/signin', (request, response) => {
-  const { phone, email, userName, password } = request.body;
-
-  const credential = phone || email || userName;
+  const { credential, password } = request.body;
 
   if (!credential) {
     response.status(400).json({
@@ -76,7 +74,10 @@ users.post('/users/signin', (request, response) => {
           .then((passwordMatches) => {
             if (passwordMatches) {
               const payload = {
-                userId: user.userId
+                userId: user.userId,
+                userName: user.userName,
+                phone: user.phone,
+                email: user.email
               };
 
               jwt.sign(payload,
@@ -84,12 +85,7 @@ users.post('/users/signin', (request, response) => {
                 { expiresIn: 86400 },
                 (error, token) => {
                   response.json({
-                    user: {
-                      userId: user.userId,
-                      userName: user.userName,
-                      phone: user.phone,
-                      email: user.email
-                    },
+                    user: payload,
                     token
                   });
                 });
