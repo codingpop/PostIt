@@ -1,10 +1,5 @@
 import { Authenticate } from './../types';
-
-const initialState = {
-  isAuthenticated: false,
-  user: {},
-  groups: [],
-};
+import initialState from './initialState';
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {

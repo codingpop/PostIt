@@ -6,9 +6,18 @@ import PropTypes from 'prop-types';
 
 import signIn from './../actions/signIn';
 
+/**
+ * @class SignIn
+ * @extends {Component}
+ */
 class SignIn extends Component {
-  constructor(props) {
-    super(props);
+
+/**
+ * Creates an instance of SignIn.
+ * @memberof SignIn
+ */
+  constructor() {
+    super();
 
     this.initialState = {
       credential: '',
@@ -20,35 +29,48 @@ class SignIn extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  /**
+   * Ensures modals stay active
+   * @memberof SignIn
+   * @returns {void}
+   */
   componentDidMount() {
     $('.button-collapse').sideNav();
     $('.modal').modal();
     $('#description').trigger('autoresize');
   }
 
+  /**
+   * Handles the changes in the sign in form
+   * @param {any} event
+   * @memberof SignIn
+   * @return {void}
+   */
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
 
+  /**
+   * Handles sign in form submission
+   * @param {any} form
+   * @memberof SignIn
+   * @returns {void}
+   */
   handleSubmit(form) {
     form.preventDefault();
     this.props.signIn(this.state)
       .then(() => {
-        // return <Redirect push to="/dashboard" />;
-        // console.log('asdjfalsdfjlkaf');
         this.props.history.push('/dashboard');
-        // returncontext.router.history.push('/my-new-location');
-        // location.href = '/dashboard';
       })
       .catch((error) => {
-        // if (error) {
-        //   toastr.options = {
-        //     positionClass: 'toast-top-center',
-        //     preventDuplicates: true,
-        //     timeOut: '1000'
-        //   };
-        //   toastr.error(error.response.data.message);
-        // }
+        if (error) {
+          toastr.options = {
+            positionClass: 'toast-top-center',
+            preventDuplicates: true,
+            timeOut: '1000'
+          };
+          toastr.error(error.response.data.message);
+        }
       });
   }
 
@@ -121,7 +143,10 @@ class SignIn extends Component {
 }
 
 SignIn.propTypes = {
-  signIn: PropTypes.func.isRequired
+  signIn: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired
 };
 
 const mapDispatchToProps = dispatch => (

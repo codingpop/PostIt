@@ -26,13 +26,14 @@ groups.post('/groups', verifyToken, (request, response) => {
       description.trim()
     )
       .then((group) => {
-        PostItInstance.addGroupMember(
+        group.addUser(
           request.user.userId,
           group.groupId,
           true
-        ).then(() => {
+        ).then((user) => {
           response.status(201).json({
-            groupId: group.groupId
+            groupId: group.groupId,
+            user
           });
         });
       }).catch((error) => {
@@ -46,7 +47,8 @@ groups.post('/groups', verifyToken, (request, response) => {
           });
         } else {
           response.status(500).json({
-            message: 'Oops! Something broke'
+            message: 'Oops! Something broke',
+            error
           });
         }
       });
@@ -139,7 +141,7 @@ groups.post('/groups/:groupId/users', verifyToken,
                 PostItInstance.addGroupMember(
                   user.userId,
                   request.params.groupId,
-                  'no'
+                  true
                 ).then(() => {
                   response.status(200).json({
                     message: 'User added'
@@ -168,6 +170,27 @@ groups.post('/groups/:groupId/users', verifyToken,
         });
     }
   });
+
+
+/**
+ * Gets all the groups to which a user belongs
+ */
+groups.get('/groups', verifyToken, (request, response) => {
+  if (!request.user) {
+    response.status(401).json({
+      message: 'You are not logged in'
+    });
+  } else {
+    PostItInstance.findGroups(request.user.userId)
+      .then((user) => {
+        user.getGroups().then((userGroups) => {
+          response.json({
+            groups: userGroups
+          });
+        });
+      });
+  }
+});
 
 /**
  * Gets all messages in a group

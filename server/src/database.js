@@ -49,25 +49,25 @@ database.GroupMember = GroupMember(connection, Sequelize);
 database.Archive = Archive(connection, Sequelize);
 
 // Database 1:M relationships
-database.Group.belongsTo(database.User, {
-  foreignKey: 'userId'
-});
-database.User.hasMany(database.Group, {
-  foreignKey: 'userId'
-});
+// database.Group.belongsTo(database.User, {
+//   foreignKey: 'userId'
+// });
+// database.User.hasMany(database.Group, {
+//   foreignKey: 'userId'
+// });
 
 database.Message.belongsTo(database.Group, {
-  foreignKey: 'inGroup'
+  foreignKey: 'groupId'
 });
 database.Group.hasMany(database.Message, {
-  foreignKey: 'inGroup'
+  foreignKey: 'groupId'
 });
 
 database.Message.belongsTo(database.User, {
-  foreignKey: 'author'
+  foreignKey: 'userId'
 });
 database.User.hasMany(database.Message, {
-  foreignKey: 'author'
+  foreignKey: 'userId'
 });
 
 // Database N:M relationships

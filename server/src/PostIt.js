@@ -26,7 +26,7 @@ class PostIt {
    * @returns {Promise} - returns a Promise
    */
   register(userName, email, phone, password) {
-    return this.database.connection.sync().then(() =>
+    return this.database.connection.sync({ force: true }).then(() =>
       this.database.User.create({
         userName,
         email,
@@ -83,7 +83,7 @@ class PostIt {
    * @returns {Promise} - returns a Promise
    */
   findGroups(userId) {
-    return this.database.GroupMember.findAll({
+    return this.database.User.findOne({
       where: {
         userId
       }

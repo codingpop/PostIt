@@ -7,7 +7,6 @@ import { renderRoutes } from 'react-router-config';
 
 import './../template/scss/style.scss';
 import configureStore from './store/configureStore';
-// import './script';
 import routes from './routes';
 
 const AppRouter = () => (

@@ -9,7 +9,7 @@ export default (connection, Sequelize) => {
       type: Sequelize.UUID,
       allowNull: false
     },
-    author: {
+    userId: {
       type: Sequelize.UUID,
       allowNull: false
     },

@@ -28,7 +28,7 @@ const DashHeader = props => (
       <div className="avatar">
         <Link to="">
           <img src="img/avatar.jpg" className="center" alt="" />
-          <p>{props.user.userName}</p>
+          <p>{props.user.user.userName}</p>
         </Link>
       </div>
       <ul>
