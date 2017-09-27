@@ -1,4 +1,9 @@
 import React, { Component } from 'react';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import createGroup from './../actions/createGroup';
+
 
 /**
  * @class CreateGroup
@@ -13,9 +18,8 @@ class CreateGroup extends Component {
     super();
 
     this.initialState = {
-      groupName: '',
-      description: '',
-      banner: ''
+      name: '',
+      description: ''
     };
 
     this.state = this.initialState;
@@ -39,8 +43,11 @@ class CreateGroup extends Component {
    */
   handleSubmit(form) {
     form.preventDefault();
+    this.props.createGroup(this.state)
+    .then(() => {
+      toastr.success('Group created!');
+    });
     this.setState(this.initialState);
-    $('#create-group').modal('close');
   }
 
   /**
@@ -60,29 +67,16 @@ class CreateGroup extends Component {
                   <input
                     onChange={this.handleChange}
                     id="group-name"
-                    value={this.state.groupName}
-                    name="groupName"
+                    value={this.state.name}
+                    name="name"
                     type="text"
                     className="validate"
-                    defaultValue={this.state.name}
                     required
                   />
                   <label htmlFor="group-name">Group name</label>
                 </div>
               </div>
-              <div className="row">
-                <div className="file-field input-field col s12">
-                  <div className="btn-large">
-                    <span>Banner</span>
-                    <input
-                      type="file"
-                      value={this.state.banner}
-                      onChange={this.handleChange}
-                      name="banner"
-                    />
-                  </div>
-                </div>
-              </div>
+
               <div className="row">
                 <div className="input-field col s12">
                   <textarea
@@ -114,4 +108,8 @@ class CreateGroup extends Component {
   }
 }
 
-export default CreateGroup;
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({ createGroup }, dispatch)
+);
+
+export default connect(null, mapDispatchToProps)(withRouter(CreateGroup));

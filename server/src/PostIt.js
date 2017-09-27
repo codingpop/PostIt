@@ -26,7 +26,9 @@ class PostIt {
    * @returns {Promise} - returns a Promise
    */
   register(userName, email, phone, password) {
-    return this.database.connection.sync({ force: true }).then(() =>
+    return this.database.connection.sync({
+      force: true
+    }).then(() =>
       this.database.User.create({
         userName,
         email,

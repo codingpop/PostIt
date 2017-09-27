@@ -14,12 +14,9 @@ const routes = [
     component: Dashboard
   },
   {
-    path: '/dashboard/:groupId',
-    component: ViewGroup
-  },
-  {
+    path: '/groups/:groupId',
     component: NotFound
-  }
+  },
 ];
 
 export default routes;

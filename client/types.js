@@ -6,5 +6,6 @@ export const Authenticate = {
 };
 
 export const Groups = {
-  GET_GROUPS: 'GET_GROUPS'
+  GET_GROUPS_SUCCESS: 'GET_GROUPS_SUCCESS',
+  CREATE_GROUP_SUCCESS: 'CREATE_GROUP_SUCCESS'
 };

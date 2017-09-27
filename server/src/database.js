@@ -3,8 +3,6 @@ import Sequelize from 'sequelize';
 import User from './../models/User';
 import Group from './../models/Group';
 import Message from './../models/Message';
-import GroupMember from './../models/GroupMember';
-import Archive from './../models/archive';
 
 dotenv.config();
 
@@ -45,16 +43,6 @@ database.connection = connection;
 database.User = User(connection, Sequelize);
 database.Group = Group(connection, Sequelize);
 database.Message = Message(connection, Sequelize);
-database.GroupMember = GroupMember(connection, Sequelize);
-database.Archive = Archive(connection, Sequelize);
-
-// Database 1:M relationships
-// database.Group.belongsTo(database.User, {
-//   foreignKey: 'userId'
-// });
-// database.User.hasMany(database.Group, {
-//   foreignKey: 'userId'
-// });
 
 database.Message.belongsTo(database.Group, {
   foreignKey: 'groupId'
@@ -64,30 +52,27 @@ database.Group.hasMany(database.Message, {
 });
 
 database.Message.belongsTo(database.User, {
-  foreignKey: 'userId'
+  foreignKey: 'author'
 });
 database.User.hasMany(database.Message, {
-  foreignKey: 'userId'
+  foreignKey: 'author'
 });
 
 // Database N:M relationships
 database.User.belongsToMany(database.Group, {
-  through: database.GroupMember,
-  foreignKey: 'userId'
+  through: 'Members',
 });
 
 database.Group.belongsToMany(database.User, {
-  through: database.GroupMember,
-  foreignKey: 'groupId'
+  through: 'Members'
 });
 
 database.User.belongsToMany(database.Message, {
-  through: database.Archive,
-  foreignKey: 'userId'
+  through: 'Archive'
 });
 
 database.Message.belongsToMany(database.User, {
-  through: database.Archive,
+  through: 'Archive',
   foreignKey: 'messageId'
 });
 

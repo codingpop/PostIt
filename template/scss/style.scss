@@ -59,11 +59,16 @@ nav {
   @media #{$medium-and-down} {
     height: 64px;
     line-height: 64px;
+    position: relative !important;
   }
 }
 
 .side-nav {
   background: $gray;
+  @media #{$medium-and-down} {
+    width: 200px;
+    margin-top: 0 !important;
+  }
 }
 
 header {
@@ -115,7 +120,6 @@ header {
 .content {
   @media #{$medium-and-down} {
     margin-left: 0 !important;
-    margin-top: 0 !important;
   }
   margin-left: 300px;
   margin-top: 30px;
@@ -229,6 +233,11 @@ header {
 }
 
 .modal {
+  @media #{$medium-and-down} {
+    width: 95%;
+    height: 80%;
+  }
+
   border-radius: 10px;
   width: 40vw;
   max-height: 90vh !important;

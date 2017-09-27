@@ -37,7 +37,6 @@ class SignIn extends Component {
   componentDidMount() {
     $('.button-collapse').sideNav();
     $('.modal').modal();
-    $('#description').trigger('autoresize');
   }
 
   /**
@@ -97,7 +96,7 @@ class SignIn extends Component {
                     className="validate"
                     required
                   />
-                  <label htmlFor="credential">Username, email, or phone number</label>
+                  <label htmlFor="credential">Username or email</label>
                 </div>
               </div>
               <div className="row">
@@ -154,9 +153,5 @@ const mapDispatchToProps = dispatch => (
 );
 
 const mapStateToProps = state => ({ user: state.user });
-
-SignIn.propTypes = {
-  signIn: PropTypes.func.isRequired
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignIn));

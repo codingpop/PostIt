@@ -1,16 +1,16 @@
 import { Groups } from './../types';
 
-const initialState = {
-  groups: []
-};
+const initialState = [];
 
-const userReducer = (state = initialState, action) => {
+const groupsReducer = (state = initialState, action) => {
   switch (action.type) {
-    case Groups.GET_GROUPS:
-      return { ...state, groups: action.groups };
+    case Groups.GET_GROUPS_SUCCESS:
+      return [...state, ...action.groups];
+    case Groups.CREATE_GROUP_SUCCESS:
+      return [action.group, ...state];
     default:
       return state;
   }
 };
 
-export default userReducer;
+export default groupsReducer;

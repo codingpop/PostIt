@@ -13,6 +13,7 @@ const signIn = credentials => dispatch =>
     .then((response) => {
       localStorage.setItem('token', response.data.token);
       $('#sign-in').modal('close');
+      $('.button-collapse').sideNav('hide');
       dispatch(signInSuccess(response.data.user));
     });
 

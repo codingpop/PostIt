@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Header from './Header.jsx';
@@ -28,6 +29,17 @@ class Dashboard extends Component {
   }
 
   /**
+   * Ensures modals and sidenav work
+   * @memberof Dashboard
+   * @returns {void}
+   */
+  componentDidMount() {
+    $('.button-collapse').sideNav();
+    $('.modal').modal();
+    $('#description').trigger('autoresize');
+  }
+
+  /**
    * Renders the DashBoard component
    * @memberof Dashboard
    * @returns {object} - the Dashboard JSX
@@ -38,24 +50,19 @@ class Dashboard extends Component {
         <Header />
         <div className="row content">
           <div className="container-fluid">
-            <div className="col m4 s12">
-              <Group title="A new group" description="This is the description of a new group of groups in the name of God our Lord Almighty savior of the" />
-            </div>
-            <div className="col m4 s12">
-              <Group title="A new group" description="This is the description of a new group of groups in the name of God our Lord Almighty savior of the" />
-            </div>
-            <div className="col m4 s12">
-              <Group title="A new group" description="This is the description of a new group of groups in the name of God our Lord Almighty savior of the" />
-            </div>
-            <div className="col m4 s12">
-              <Group title="A new group" description="This is the description of a new group of groups in the name of God our Lord Almighty savior of the" />
-            </div>
-            <div className="col m4 s12">
-              <Group title="A new group" description="This is the description of a new group of groups in the name of God our Lord Almighty savior of the" />
-            </div>
-            <div className="col m4 s12">
-              <Group title="A new group" description="This is the description of a new group of groups in the name of God our Lord Almighty savior of the" />
-            </div>
+
+            {
+              this.props.groups.map(group => (
+                <div key={group.groupId} className="col m4 s12">
+                  <Group
+                    url={group.groupId}
+                    name={group.name}
+                    description={group.description}
+                  />
+                </div>
+              ))
+            }
+
           </div>
         </div>
         <CreateGroup />
@@ -65,10 +72,21 @@ class Dashboard extends Component {
   }
 }
 
+Dashboard.propTypes = {
+  getGroups: PropTypes.func.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired
+  }).isRequired,
+  user: PropTypes.shape({
+    isAuthenticated: PropTypes.bool.isRequired
+  }).isRequired,
+  groups: PropTypes.array.isRequired
+};
+
 const mapDispatchToProps = dispatch => (
   bindActionCreators({ getGroups }, dispatch)
 );
 
-const mapStateToProps = state => ({ user: state.user });
+const mapStateToProps = state => ({ user: state.user, groups: state.groups });
 
 export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Dashboard));

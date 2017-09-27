@@ -4,16 +4,15 @@ import headers from './../helpers/headers';
 
 const getGroupsSuccess = groups => (
   {
-    type: Groups.GET_GROUPS,
+    type: Groups.GET_GROUPS_SUCCESS,
     groups
   }
 );
 
-const getGroups = () => dispatch =>
-    axios.get('/api/v1/groups', headers)
+const getGroups = (limit = 2, offset = 0) => dispatch =>
+    axios.get(`/api/v1/groups?limit=${limit}&offset=${offset}`, headers)
     .then((response) => {
-      console.log(response.data.userGroups);
-      dispatch(getGroupsSuccess(response.data.userGroups));
+      dispatch(getGroupsSuccess(response.data.groups));
     });
 
 export default getGroups;

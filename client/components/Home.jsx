@@ -17,7 +17,7 @@ const Home = () => (
               <Link to="/" className="brand-logo">ShoutIt</Link>
               <Link
                 to=""
-                data-activates="mobile-as"
+                data-activates="mobile-links"
                 className="button-collapse"
               >
                 <i className="material-icons">menu</i></Link>

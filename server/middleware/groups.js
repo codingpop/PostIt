@@ -1,5 +1,6 @@
 import express from 'express';
 import PostIt from './../src/PostIt';
+import database from './../src/database';
 import verifyToken from './verifyToken';
 
 const groups = express.Router();
@@ -28,12 +29,10 @@ groups.post('/groups', verifyToken, (request, response) => {
       .then((group) => {
         group.addUser(
           request.user.userId,
-          group.groupId,
-          true
-        ).then((user) => {
+          group.groupId
+        ).then(() => {
           response.status(201).json({
-            groupId: group.groupId,
-            user
+            group
           });
         });
       }).catch((error) => {
@@ -48,7 +47,6 @@ groups.post('/groups', verifyToken, (request, response) => {
         } else {
           response.status(500).json({
             message: 'Oops! Something broke',
-            error
           });
         }
       });
@@ -183,7 +181,9 @@ groups.get('/groups', verifyToken, (request, response) => {
   } else {
     PostItInstance.findGroups(request.user.userId)
       .then((user) => {
-        user.getGroups().then((userGroups) => {
+        const { limit, offset } = request.query;
+        const order = [['createdAt', 'DESC']];
+        user.getGroups({ limit, offset, order }).then((userGroups) => {
           response.json({
             groups: userGroups
           });
