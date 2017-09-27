@@ -9,7 +9,7 @@ const getGroupsSuccess = groups => (
   }
 );
 
-const getGroups = (limit = 2, offset = 0) => dispatch =>
+const getGroups = (limit = 9, offset = 0) => dispatch =>
     axios.get(`/api/v1/groups?limit=${limit}&offset=${offset}`, headers)
     .then((response) => {
       dispatch(getGroupsSuccess(response.data.groups));

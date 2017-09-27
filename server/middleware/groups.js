@@ -1,6 +1,5 @@
 import express from 'express';
 import PostIt from './../src/PostIt';
-import database from './../src/database';
 import verifyToken from './verifyToken';
 
 const groups = express.Router();
