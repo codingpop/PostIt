@@ -1,3 +1,4 @@
+import validate from 'uuid-validate';
 import database from './database';
 
 /**
@@ -26,9 +27,7 @@ class PostIt {
    * @returns {Promise} - returns a Promise
    */
   register(userName, email, phone, password) {
-    return this.database.connection.sync({
-      force: true
-    }).then(() =>
+    return this.database.connection.sync().then(() =>
       this.database.User.create({
         userName,
         email,
@@ -45,6 +44,13 @@ class PostIt {
    * @returns {Promise} - returns a Promise
    */
   findUser(credential) {
+    if (validate(credential)) { // If credential is UUID
+      return this.database.User.findOne({
+        where: {
+          userId: credential
+        }
+      });
+    }
     return this.database.User.findOne({
       where: {
         $or: [{
@@ -65,6 +71,26 @@ class PostIt {
   }
 
   /**
+   * Finds all users with the supplied parameter
+   *
+   * @param {Array} users - array containing usernames or emails
+   * @memberof PostIt
+   *
+   * @returns {Promise} - a promise
+   */
+  findUsers(users) {
+    return this.database.User.findAll({
+      where: {
+        $or: [{
+          email: users
+        }, {
+          userName: users
+        }]
+      }
+    });
+  }
+
+  /**
    * Fetches a group's details
    * @param {string} groupId - groupId of a particular group
    *
@@ -79,20 +105,6 @@ class PostIt {
   }
 
   /**
-   * Fetches all the groups to which a user belongs
-   * @param {string} userId - database id of the user
-   *
-   * @returns {Promise} - returns a Promise
-   */
-  findGroups(userId) {
-    return this.database.User.findOne({
-      where: {
-        userId
-      }
-    });
-  }
-
-  /**
    * Creates a new group for a user
    * @param {string} name - Name of the group
    * @param {string} description - Description of group
@@ -100,12 +112,10 @@ class PostIt {
    * @returns {Promise} - returns a Promise
    */
   createGroup(name, description) {
-    return this.database.connection.sync().then(() =>
-      this.database.Group.create({
-        name,
-        description
-      })
-    );
+    return this.database.Group.create({
+      name,
+      description
+    });
   }
 
   /**
@@ -117,33 +127,13 @@ class PostIt {
    *
    * @return {Promise} - returns a Promise
    */
-  postMessage(groupId, author, body, priority) {
-    return this.database.connection.sync().then(() =>
-      this.database.Message.create({
-        groupId,
-        author,
-        body,
-        priority
-      })
-    );
-  }
-
-  /**
-   * Adds a member to a group
-   * @param {string} userId - userId of the user
-   * @param {string} groupId - groupId of the group
-   * @param {boolean} isAdmin - role of the group member
-   *
-   * @returns {Promise} - returns a Promise
-   */
-  addGroupMember(userId, groupId, isAdmin) {
-    return this.database.connection.sync().then(() =>
-      this.database.GroupMember.create({
-        userId,
-        groupId,
-        isAdmin
-      })
-    );
+  postMessage(groupId, author, body, priority = 'normal') {
+    return this.database.Message.create({
+      groupId,
+      author,
+      body,
+      priority
+    });
   }
 
   /**
@@ -155,22 +145,6 @@ class PostIt {
   getMessages(groupId) {
     return this.database.Message.findAll({
       where: {
-        groupId
-      }
-    });
-  }
-
-  /**
-   * Checks if a user is a member of a particular group
-   * @param {String} userId - UUID of the user
-   * @param {String} groupId - UUID of the group
-   *
-   * @returns {Promise} - returns a Promise
-   */
-  checkMembership(userId, groupId) {
-    return this.database.GroupMember.findOne({
-      where: {
-        userId,
         groupId
       }
     });

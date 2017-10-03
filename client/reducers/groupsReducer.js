@@ -1,13 +1,19 @@
 import { Groups } from './../types';
 
-const initialState = [];
+const initialState = {
+  userGroups: [],
+  totalGroups: 0
+};
 
 const groupsReducer = (state = initialState, action) => {
   switch (action.type) {
     case Groups.GET_GROUPS_SUCCESS:
-      return [...state, ...action.groups];
-    case Groups.CREATE_GROUP_SUCCESS:
-      return [action.group, ...state];
+
+      return {
+        ...state,
+        userGroups: action.userGroups.groups,
+        totalGroups: action.userGroups.totalGroups
+      };
     default:
       return state;
   }

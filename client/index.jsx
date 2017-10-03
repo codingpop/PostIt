@@ -1,19 +1,20 @@
 import React from 'react';
 import { Provider } from 'react-redux';
 import { render } from 'react-dom';
-import { BrowserRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
+import { ConnectedRouter } from 'react-router-redux';
 
 
 import './../template/scss/style.scss';
 import configureStore from './store/configureStore';
 import routes from './routes';
+import history from './helpers/history';
 
 const AppRouter = () => (
   <Provider store={configureStore}>
-    <BrowserRouter>
+    <ConnectedRouter history={history}>
       {renderRoutes(routes)}
-    </BrowserRouter>
+    </ConnectedRouter>
   </Provider>
 );
 

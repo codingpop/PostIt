@@ -103,6 +103,7 @@ users.post('/users/signin', (request, response) => {
         } else {
           response.status(500).json({
             message: 'Oops! Something broke',
+            error
           });
         }
       });

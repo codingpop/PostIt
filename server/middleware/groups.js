@@ -1,24 +1,22 @@
 import express from 'express';
 import PostIt from './../src/PostIt';
 import verifyToken from './verifyToken';
+import verifyGroup from './verifyGroup';
 
 const groups = express.Router();
 const PostItInstance = new PostIt();
 
 /**
  * Creates a new group
- * Rejects request if the user is unauthorized
+ * Rejects request if the user is unauthenticated
  * Refuses to create group if group name is empty
  */
 groups.post('/groups', verifyToken, (request, response) => {
   const { name, description } = request.body;
-  if (!request.user) {
-    response.status(401).json({
-      message: 'You are not logged in'
-    });
-  } else if (!name || !description) {
+
+  if (!name || !description) {
     response.status(400).json({
-      message: 'Please check your submission'
+      message: 'Both name and description are required'
     });
   } else {
     PostItInstance.createGroup(
@@ -26,10 +24,7 @@ groups.post('/groups', verifyToken, (request, response) => {
       description.trim()
     )
       .then((group) => {
-        group.addUser(
-          request.user.userId,
-          group.groupId
-        ).then(() => {
+        group.addUser(request.user.userId).then(() => {
           response.status(201).json({
             group
           });
@@ -55,178 +50,135 @@ groups.post('/groups', verifyToken, (request, response) => {
 /**
  * Posts messages to groups
  */
-groups.post('/groups/:groupId/messages', verifyToken,
-  (request, response) => {
-    if (!request.user) {
-      response.status(401).json({
-        message: 'You are not logged in'
-      });
-    } else if (!request.body.message || !request.body.priority) {
-      response.status(400).json({
-        message: 'Both the message and the priority are required'
-      });
-    } else {
-      PostItInstance.checkMembership(request.user.userId, request.params.groupId)
-        .then((member) => {
-          if (member.admin === 'yes') {
-            PostItInstance.postMessage(
-              request.params.groupId,
-              request.user.userId,
-              request.body.message.trim(),
-              request.body.priority.trim() || 'normal'
-            ).then(() => {
-              response.status(201).json({
-                message: 'Message posted'
-              });
-            }).catch((error) => {
-              if (error.name === 'SequelizeDatabaseError'
-                && error.parent.routine === 'enum_in') {
-                response.status(406).json({
-                  message: 'Invalid priority',
-                });
-              } else {
-                response.status(406).json({
-                  message: error.errors[0].message
-                });
-              }
-            });
-          } else {
-            response.status(401).json({
-              message: 'You are not a morderator of this group',
-              member
-            });
-          }
-        }).catch((error) => {
-          if (!Object.keys(error)) {
-            response.status(404).json({
-              message: 'Group does not exist',
-            });
-          } else {
-            response.status(500).json({
-              message: 'Oops! Something broke'
-            });
-          }
-        });
-    }
-  });
-
-/**
- * Adds users to groups
- */
-groups.post('/groups/:groupId/users', verifyToken,
-  (request, response) => {
-    if (!request.user) {
-      response.status(401).json({
-        message: 'You are not logged in'
-      });
-    } else if (!request.body.email) {
-      response.status(400).json({
-        message: 'Please check your submission'
-      });
-    } else {
-      PostItInstance.checkMembership(
-        request.user.userId,
-        request.params.groupId)
-        .then((group) => {
-          if (!group) {
-            response.status(404).json({
-              message: 'Group doesn\'t exist'
-            });
-          } else if (group.admin === 'yes') {
-            PostItInstance.findUser(request.body.email)
-              .then((user) => {
-                PostItInstance.addGroupMember(
-                  user.userId,
-                  request.params.groupId,
-                  true
-                ).then(() => {
-                  response.status(200).json({
-                    message: 'User added'
-                  });
-                }).catch((error) => {
-                  if (error.name === 'SequelizeUniqueConstraintError') {
-                    response.json({
-                      message: 'User is already a member'
-                    });
-                  }
-                });
-              }).catch((error) => {
-                if (!Object.keys(error).length) {
-                  response.json({
-                    message: 'User is not registered'
-                  });
-                }
-              });
-          } else {
-            response.json({
-              message: 'You are not a morderator of this group'
-            });
-          }
-        }).catch((error) => {
-          response.send(error);
-        });
-    }
-  });
-
-
-/**
- * Gets all the groups to which a user belongs
- */
-groups.get('/groups', verifyToken, (request, response) => {
-  if (!request.user) {
-    response.status(401).json({
-      message: 'You are not logged in'
+groups.post('/groups/:groupId/messages', verifyToken, verifyGroup, (request, response) => {
+  if (!request.body.body) {
+    response.status(400).json({
+      message: 'Message body is required'
     });
   } else {
-    PostItInstance.findGroups(request.user.userId)
-      .then((user) => {
-        const { limit, offset } = request.query;
-        const order = [['createdAt', 'DESC']];
-        user.getGroups({ limit, offset, order }).then((userGroups) => {
-          response.json({
-            groups: userGroups
-          });
+    PostItInstance.postMessage(request.params.groupId,
+      request.user.userId, request.body.body, request.body.priority)
+      .then((message) => {
+        response.json({
+          message
         });
       });
   }
 });
 
 /**
- * Gets all messages in a group
+ * Adds users to groups
  */
-groups.get('/groups/:groupId/messages',
-  (request, response) => {
-    if (!request.user) {
-      response.status(401).json({
-        message: 'You are not logged in'
+groups.post('/groups/:groupId/users',
+  verifyToken, verifyGroup, (request, response) => {
+    if (!request.body.users) {
+      response.status(400).json({
+        message: 'Usernames or emails are required'
       });
     } else {
-      PostItInstance.checkMembership(
-        request.session.user.userId,
-        request.params.groupId
-      ).then((group) => {
-        if (group) {
-          PostItInstance.getMessages(
-            request.params.groupId
-          ).then((messages) => {
-            response.json(messages);
-          });
-        } else {
-          response.status(406).json({
-            message: 'Group does not exist',
-            status: 406
-          });
-        }
-      }).catch((error) => {
-        if (error.name === 'SequelizeDatabaseError'
-          && error.parent.routine === 'string_to_uuid') {
-          response.status(406).json({
-            message: 'Invalid group ID',
-            status: 406
-          });
-        }
-      });
+      PostItInstance.findUsers(JSON.parse(request.body.users))
+        .then((users) => {
+          if (!users.length) {
+            response.status(404).json({
+              message: "Users don't exist"
+            });
+          } else {
+            PostItInstance.findGroup(request.params.groupId)
+              .then((groupData) => {
+                groupData.addUsers(users)
+                  .then((newMembers) => {
+                    if (!newMembers.length) {
+                      response.json({
+                        message: 'Users are already members'
+                      });
+                    } else {
+                      const newMembersCount = newMembers[0].length;
+                      response.json({
+                        message: `${newMembersCount} ${newMembersCount > 1 ?
+                          'members' : 'member'} added`,
+                        newMembers
+                      });
+                    }
+                  });
+              });
+          }
+        });
     }
+  });
+
+
+/**
+ * Gets all the members in a group
+ */
+groups.get('/groups/:groupId/users', verifyToken, verifyGroup,
+  (request, response) => {
+    PostItInstance.findGroup(request.params.groupId)
+      .then((groupData) => {
+        groupData.getUsers().then((users) => {
+          const refinedUsers = users.map(user => (
+            {
+              userId: user.userId,
+              userName: user.userName,
+              phone: user.phone
+            }
+          ));
+          response.json({
+            users: refinedUsers
+          });
+        });
+      });
+  });
+
+/**
+ * Gets all the groups to which a user belongs
+ */
+groups.get('/groups', verifyToken, (request, response) => {
+  PostItInstance.findUser(request.user.userId)
+    .then((userData) => {
+      const { limit, offset } = request.query;
+      const order = [['createdAt', 'DESC']];
+      userData.countGroups().then((totalGroups) => {
+        userData.getGroups({ limit, offset, order }).then((userGroups) => {
+          const refinedGroups = userGroups.map(group => (
+            {
+              groupId: group.groupId,
+              name: group.name,
+              description: group.description
+            }
+          ));
+          response.json({
+            totalGroups,
+            groups: refinedGroups
+          });
+        });
+      });
+    }).catch(() => {
+      response.status(500).json({
+        message: 'Oops! Something broke'
+      });
+    });
+});
+
+/**
+ * Gets all messages in a group
+ */
+groups.get('/groups/:groupId/messages', verifyToken, verifyGroup,
+  (request, response) => {
+    PostItInstance.getMessages(
+      request.params.groupId
+    ).then((messages) => {
+      const refinedMessages = messages.map(message => (
+        {
+          messageId: message.messageId,
+          groupId: message.groupId,
+          author: message.author,
+          body: message.body
+        }
+      ));
+      response.json({
+        messages: refinedMessages
+      });
+    });
   });
 
 export default groups;

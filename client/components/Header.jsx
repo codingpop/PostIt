@@ -3,8 +3,14 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 
-const DashHeader = props => (
-  <header>
+import SideLinks from './SideLinks.jsx';
+import ChatLinks from './ChatLinks.jsx';
+
+const DashHeader = (props) => {
+  const SideNav = props.router.location.pathname === '/dashboard' ?
+  SideLinks : ChatLinks;
+
+  return (<header>
     <div className="navbar-fixed">
       <nav>
         <div className="container-fluid">
@@ -27,32 +33,15 @@ const DashHeader = props => (
     <div id="mobile-links" className="side-nav fixed">
       <div className="avatar">
         <Link to="">
-          <img src="img/avatar.jpg" className="center" alt="" />
+          <img src="/img/avatar.jpg" className="center" alt="" />
           <p>{props.user.userName}</p>
         </Link>
       </div>
-      <ul>
-        <li>
-          <Link
-            to="#create-group"
-            className="modal-trigger"
-          ><i className="material-icons prefix white-text">add</i>Create group</Link></li>
-        <li>
-          <Link
-            to="dashboard"
-            className="active"
-          ><i className="material-icons prefix white-text">dashboard</i>Dashboard</Link></li>
-        <li>
-          <Link
-            to="/"
-            className="white-text"
-          ><i
-            className="material-icons prefix white-text"
-          >power_settings_new</i>Sign out</Link></li>
-      </ul>
+      <SideNav />
     </div>
-  </header >
-);
+  </header>
+  );
+};
 
 DashHeader.propTypes = {
   user: PropTypes.shape({
@@ -62,7 +51,8 @@ DashHeader.propTypes = {
 
 const mapStateToProps = state => (
   {
-    user: state.user
+    user: state.user,
+    router: state.router
   }
 );
 

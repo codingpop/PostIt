@@ -15,7 +15,7 @@ const routes = [
   },
   {
     path: '/groups/:groupId',
-    component: NotFound
+    component: ViewGroup
   },
 ];
 

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -7,6 +6,7 @@ import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 import Group from './Group.jsx';
 import CreateGroup from './CreateGroup.jsx';
+import Paginator from './Paginator.jsx';
 import getGroups from './../actions/getGroups';
 
 /**
@@ -23,8 +23,6 @@ class Dashboard extends Component {
   componentWillMount() {
     if (this.props.user.isAuthenticated) {
       this.props.getGroups();
-    } else {
-      this.props.history.push('/');
     }
   }
 
@@ -52,7 +50,7 @@ class Dashboard extends Component {
           <div className="container-fluid">
 
             {
-              this.props.groups.map(group => (
+              this.props.groups.userGroups.map(group => (
                 <div key={group.groupId} className="col m4 s12">
                   <Group
                     url={group.groupId}
@@ -65,6 +63,8 @@ class Dashboard extends Component {
 
           </div>
         </div>
+
+        <Paginator />
         <CreateGroup />
         <Footer />
       </div>
@@ -74,9 +74,6 @@ class Dashboard extends Component {
 
 Dashboard.propTypes = {
   getGroups: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired
-  }).isRequired,
   user: PropTypes.shape({
     isAuthenticated: PropTypes.bool.isRequired
   }).isRequired,
@@ -89,4 +86,4 @@ const mapDispatchToProps = dispatch => (
 
 const mapStateToProps = state => ({ user: state.user, groups: state.groups });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Dashboard));
+export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

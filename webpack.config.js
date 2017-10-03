@@ -21,10 +21,9 @@ export default {
   },
   module: {
     rules: [
-      { test: /\.js$/, use: 'babel-loader', exclude: /node_modules/ },
-      { test: /\.jsx$/, use: 'babel-loader', exclude: /node_modules/ },
+      { test: /\.(jsx|js)$/, use: 'babel-loader', exclude: /node_modules/ },
       { test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader'], exclude: /node_modules/ },
-      { test: /\.(jpg|png|gif)$/, use: 'file-loader', exclude: /node_modules/ }
+      { test: /\.(jpg|png|gif|svg)$/, use: 'file-loader', exclude: /node_modules/ }
     ]
   },
   plugins: [

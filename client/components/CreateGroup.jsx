@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import createGroup from './../actions/createGroup';
-
 
 /**
  * @class CreateGroup
@@ -43,16 +41,13 @@ class CreateGroup extends Component {
    */
   handleSubmit(form) {
     form.preventDefault();
-    this.props.createGroup(this.state)
-    .then(() => {
-      toastr.success('Group created!');
-    });
+    this.props.createGroup(this.state);
     this.setState(this.initialState);
   }
 
   /**
    * Renders the CreateGroup component
-   * @returns {void}
+   * @returns {object} - CreateGroup Component
    */
   render() {
     return (
@@ -112,4 +107,4 @@ const mapDispatchToProps = dispatch => (
   bindActionCreators({ createGroup }, dispatch)
 );
 
-export default connect(null, mapDispatchToProps)(withRouter(CreateGroup));
+export default connect(null, mapDispatchToProps)(CreateGroup);

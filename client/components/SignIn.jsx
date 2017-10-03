@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
@@ -57,20 +56,7 @@ class SignIn extends Component {
    */
   handleSubmit(form) {
     form.preventDefault();
-    this.props.signIn(this.state)
-      .then(() => {
-        this.props.history.push('/dashboard');
-      })
-      .catch((error) => {
-        if (error) {
-          toastr.options = {
-            positionClass: 'toast-top-center',
-            preventDuplicates: true,
-            timeOut: '1000'
-          };
-          toastr.error(error.response.data.message);
-        }
-      });
+    this.props.signIn(this.state);
   }
 
   /**
@@ -143,9 +129,6 @@ class SignIn extends Component {
 
 SignIn.propTypes = {
   signIn: PropTypes.func.isRequired,
-  history: PropTypes.shape({
-    push: PropTypes.func.isRequired
-  }).isRequired
 };
 
 const mapDispatchToProps = dispatch => (
@@ -154,4 +137,4 @@ const mapDispatchToProps = dispatch => (
 
 const mapStateToProps = state => ({ user: state.user });
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(SignIn));
+export default connect(mapStateToProps, mapDispatchToProps)(SignIn);

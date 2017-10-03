@@ -1,20 +1,19 @@
 import axios from 'axios';
-import { Groups } from './../types';
 import headers from './../helpers/headers';
-
-const createGroupSuccess = group => (
-  {
-    type: Groups.CREATE_GROUP_SUCCESS,
-    group
-  }
-);
+import getGroups from './getGroups';
 
 const createGroups = groupDetails => dispatch =>
-    axios.post('/api/v1/groups', groupDetails, headers)
-    .then((response) => {
-      dispatch(createGroupSuccess(response.data.group));
+  axios.post('/api/v1/groups', groupDetails, headers)
+    .then(() => {
+      dispatch(getGroups());
       $('#create-group').modal('close');
       $('.button-collapse').sideNav('hide');
+    }).then(() => {
+      toastr.options = {
+        preventDuplicates: true,
+        timeOut: '1000'
+      };
+      toastr.success('Group created!');
     });
 
 export default createGroups;
