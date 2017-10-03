@@ -60,7 +60,12 @@ groups.post('/groups/:groupId/messages', verifyToken, verifyGroup, (request, res
       request.user.userId, request.body.body, request.body.priority)
       .then((message) => {
         response.json({
-          message
+          message: {
+            messageId: message.messageId,
+            groupId: message.groupId,
+            author: message.author,
+            body: message.body
+          }
         });
       });
   }
@@ -89,7 +94,7 @@ groups.post('/groups/:groupId/users',
                   .then((newMembers) => {
                     if (!newMembers.length) {
                       response.json({
-                        message: 'Users are already members'
+                        message: 'User(s) are already added'
                       });
                     } else {
                       const newMembersCount = newMembers[0].length;
