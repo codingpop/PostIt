@@ -8,7 +8,6 @@ const initialState = {
 const groupsReducer = (state = initialState, action) => {
   switch (action.type) {
     case Groups.GET_GROUPS_SUCCESS:
-
       return {
         ...state,
         userGroups: action.userGroups.groups,

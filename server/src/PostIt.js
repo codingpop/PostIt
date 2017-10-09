@@ -26,14 +26,16 @@ class PostIt {
    *
    * @returns {Promise} - returns a Promise
    */
-  register(userName, email, phone, password) {
+  registerUser(userName, email, phone, password) {
     return this.database.connection.sync().then(() =>
-      this.database.User.create({
-        userName,
-        email,
-        phone,
-        password
-      })
+      this.database.User.create(
+        {
+          userName,
+          email,
+          phone,
+          password,
+        }
+      )
     );
   }
 
@@ -47,25 +49,23 @@ class PostIt {
     if (validate(credential)) { // If credential is UUID
       return this.database.User.findOne({
         where: {
-          userId: credential
+          userId: credential,
         }
       });
     }
     return this.database.User.findOne({
       where: {
-        $or: [{
-          email: {
-            $iLike: credential
-          }
-        }, {
-          userName: {
-            $iLike: credential
-          }
-        }, {
-          phone: {
-            $iLike: credential
-          }
-        }]
+        $or: [
+          {
+            email: {
+              $iLike: credential
+            }
+          }, {
+            userName: {
+              $iLike: credential
+            },
+          },
+        ]
       }
     });
   }
@@ -81,11 +81,13 @@ class PostIt {
   findUsers(users) {
     return this.database.User.findAll({
       where: {
-        $or: [{
-          email: users
-        }, {
-          userName: users
-        }]
+        $or: [
+          {
+            email: users
+          }, {
+            userName: users
+          },
+        ]
       }
     });
   }
@@ -99,7 +101,7 @@ class PostIt {
   findGroup(groupId) {
     return this.database.Group.findOne({
       where: {
-        groupId
+        groupId,
       }
     });
   }
@@ -114,7 +116,7 @@ class PostIt {
   createGroup(name, description) {
     return this.database.Group.create({
       name,
-      description
+      description,
     });
   }
 
@@ -122,17 +124,19 @@ class PostIt {
    * Posts a message to a group
    * @param {string} groupId - groupId of target group
    * @param {string} author - userId of the User
+   * @param {string} userName - userName
    * @param {string} body - Message content
    * @param {string} priority - Type of message
    *
    * @return {Promise} - returns a Promise
    */
-  postMessage(groupId, author, body, priority = 'normal') {
+  postMessage(groupId, author, userName, body, priority = 'normal') {
     return this.database.Message.create({
       groupId,
       author,
+      userName,
       body,
-      priority
+      priority,
     });
   }
 
@@ -145,7 +149,7 @@ class PostIt {
   getMessages(groupId) {
     return this.database.Message.findAll({
       where: {
-        groupId
+        groupId,
       }
     });
   }

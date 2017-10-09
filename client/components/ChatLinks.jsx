@@ -13,7 +13,7 @@ const ChatLinks = () => (
     </li>
     <li>
       <Link
-        to="#create-group"
+        to="#view-members"
         className="modal-trigger"
       >
         <i className="material-icons prefix white-text">group</i>View members

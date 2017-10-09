@@ -1,7 +1,5 @@
 export default {
   isAuthenticated: false,
-  userId: '',
-  userName: '',
-  phone: '',
-  email: '',
+  user: {},
+  token: ''
 };

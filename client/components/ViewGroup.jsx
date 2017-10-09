@@ -3,11 +3,50 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
-
+import Members from './Members.jsx';
+import getMessages from './../actions/getMessages';
+import getMembers from './../actions/getMembers';
 
 class ViewGroup extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      messages: []
+    };
+  }
+
+  componentWillMount() {
+    localStorage.setItem('currentGroup', this.props.match.params.groupId);
+    this.props.getMessages(this.props.match.params.groupId);
+    this.props.getMembers(localStorage.currentGroup);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (this.props !== nextProps) {
+      this.setState({
+        messages: nextProps.messages
+      });
+    }
+  }
+
+  componentDidMount() {
+    $('.button-collapse').sideNav();
+    $('.modal').modal();
+  }
 
   render() {
+    let messageList;
+    if (this.state.messages.length > 0) {
+      messageList = this.props.messages.map(message => (
+        <div key={message.messageId} className="card chat-card">
+          <div className="card-content">
+            <p className="flow-text">{message.body}</p>
+          </div>
+        </div>
+      ));
+    }
+
     return (
       <div className="dashboard">
         <Header />
@@ -16,101 +55,9 @@ class ViewGroup extends Component {
             <div className="row content chat-area">
               <div className="container-fluid">
                 <div className="col s12">
-                  <div className="card chat-card">
-                    <div className="card-content">
-                      <p className="flow-text">I am a very</p>
-                    </div>
-                  </div>
-                  <div className="card chat-card">
-                    <div className="card-content">
-                      <p className="flow-text">I am a very</p>
-                    </div>
-                  </div>
-                  <div className="card chat-card">
-                    <div className="card-content">
-                      <p className="flow-text">I am a very</p>
-                    </div>
-                  </div>
-                  <div className="card chat-card">
-                    <div className="card-content">
-                      <p className="flow-text">I am a very</p>
-                    </div>
-                  </div>
-                  <div className="card chat-card">
-                    <div className="card-content">
-                      <p className="flow-text">I am a very</p>
-                    </div>
-                  </div>
-                  <div className="card chat-card">
-                    <div className="card-content">
-                      <p className="flow-text">I am a very</p>
-                    </div>
-                  </div>
-                  <div className="card chat-card">
-                    <div className="card-content">
-                      <p className="flow-text">I am a very</p>
-                    </div>
-                  </div>
-                  <div className="card chat-card">
-                    <div className="card-content">
-                      <p className="flow-text">I am a very</p>
-                    </div>
-                  </div>
-                  <div className="card chat-card">
-                    <div className="card-content">
-                      <p className="flow-text">I am a very</p>
-                    </div>
-                  </div>
-                  <div className="card chat-card">
-                    <div className="card-content">
-                      <p className="flow-text">I am a very</p>
-                    </div>
-                  </div>
-                  <div className="card chat-card">
-                    <div className="card-content">
-                      <p className="flow-text">I am a very</p>
-                    </div>
-                  </div>
-                  <div className="card chat-card">
-                    <div className="card-content">
-                      <p className="flow-text">I am a very</p>
-                    </div>
-                  </div>
-                  <div className="card chat-card">
-                    <div className="card-content">
-                      <p className="flow-text">I am a very</p>
-                    </div>
-                  </div>
-                  <div className="card chat-card">
-                    <div className="card-content">
-                      <p className="flow-text">I am a very</p>
-                    </div>
-                  </div>
-                  <div className="card chat-card">
-                    <div className="card-content">
-                      <p className="flow-text">I am a very</p>
-                    </div>
-                  </div>
-                  <div className="card chat-card">
-                    <div className="card-content">
-                      <p className="flow-text">I am a very</p>
-                    </div>
-                  </div>
-                  <div className="card chat-card">
-                    <div className="card-content">
-                      <p className="flow-text">I am a very</p>
-                    </div>
-                  </div>
-                  <div className="card chat-card">
-                    <div className="card-content">
-                      <p className="flow-text">I am a very</p>
-                    </div>
-                  </div>
-                  <div className="card chat-card">
-                    <div className="card-content">
-                      <p className="flow-text">I am a very</p>
-                    </div>
-                  </div>
+                  {
+                    messageList
+                  }
                 </div>
               </div>
             </div>
@@ -147,10 +94,17 @@ class ViewGroup extends Component {
             </div>
           </div> { /* overlay */}
         </section>
+        <Members />
         <Footer />
       </div>
     );
   }
 }
 
-export default ViewGroup;
+const mapStateToProps = state => ({ messages: state.messages });
+
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({ getMessages, getMembers }, dispatch)
+);
+
+export default connect(mapStateToProps, mapDispatchToProps)(ViewGroup);

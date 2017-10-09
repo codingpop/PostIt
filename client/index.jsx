@@ -9,6 +9,11 @@ import './../template/scss/style.scss';
 import configureStore from './store/configureStore';
 import routes from './routes';
 import history from './helpers/history';
+import setToken from './helpers/setToken';
+
+if (localStorage.user) {
+  setToken(JSON.parse(localStorage.user).token);
+}
 
 const AppRouter = () => (
   <Provider store={configureStore}>

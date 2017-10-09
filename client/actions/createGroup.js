@@ -1,19 +1,26 @@
 import axios from 'axios';
-import headers from './../helpers/headers';
+import { push } from 'react-router-redux';
 import getGroups from './getGroups';
 
 const createGroups = groupDetails => dispatch =>
-  axios.post('/api/v1/groups', groupDetails, headers)
-    .then(() => {
+  axios.post('/api/v1/groups', groupDetails)
+    .then((response) => {
       dispatch(getGroups());
+      dispatch(push(`/groups/${response.data.group.groupId}`));
       $('#create-group').modal('close');
       $('.button-collapse').sideNav('hide');
-    }).then(() => {
       toastr.options = {
         preventDuplicates: true,
         timeOut: '1000'
       };
       toastr.success('Group created!');
+    }).catch((error) => {
+      toastr.options = {
+        positionClass: 'toast-top-center',
+        preventDuplicates: true,
+        timeOut: '2000'
+      };
+      toastr.error(error.response.data.message);
     });
 
 export default createGroups;

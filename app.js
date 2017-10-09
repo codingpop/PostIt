@@ -7,23 +7,41 @@ import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackHotMiddleware from 'webpack-hot-middleware';
 
 import config from './webpack.config';
-import user from './server/middleware/users';
-import group from './server/middleware/groups';
 
-dotenv.config();
+import signIn from './server/controllers/signIn';
+import registerUser from './server/controllers/registerUser';
+import createGroup from './server/controllers/createGroup';
+import postMessage from './server/controllers/postMessage';
+import addUsers from './server/controllers/addUsers';
+import getMembers from './server/controllers/getMembers';
+import getGroups from './server/controllers/getGroups';
+import getMessages from './server/controllers/getMessages';
+
 const app = express();
-const DIST_DIR = path.join(__dirname, 'dist');
-const compiler = webpack(config);
-const isDevelopment = process.env.NODE_ENV !== 'production';
-const HTML_FILE = path.join(__dirname, 'client/index.html');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static('template'));
 
-app.use('/api/v1', user);
-app.use('/api/v1', group);
+app.use(
+  '/api/v1',
+  signIn,
+  registerUser,
+  createGroup,
+  postMessage,
+  addUsers,
+  getMembers,
+  getGroups,
+  getMessages,
+);
+
+dotenv.config();
+
+const DIST_DIR = path.join(__dirname, 'dist');
+const compiler = webpack(config);
+const isDevelopment = process.env.NODE_ENV !== 'production';
+const HTML_FILE = path.join(__dirname, 'client/index.html');
 
 if (isDevelopment) {
   app.use(webpackDevMiddleware(compiler, {

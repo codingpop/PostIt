@@ -13,6 +13,9 @@ export default (connection, Sequelize) => {
       type: Sequelize.UUID,
       allowNull: false
     },
+    userName: {
+      type: Sequelize.TEXT
+    },
     body: {
       type: Sequelize.TEXT,
       allowNull: false,
@@ -29,5 +32,6 @@ export default (connection, Sequelize) => {
   }, {
     paranoid: true
   });
+
   return Message;
 };

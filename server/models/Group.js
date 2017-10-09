@@ -8,20 +8,11 @@ export default (connection, Sequelize) => {
     name: {
       type: Sequelize.STRING,
       unique: true,
-      validate: {
-        notEmpty: {
-          msg: 'Group name cannot be empty'
-        },
-      }
     },
     description: {
       type: Sequelize.TEXT,
-      validate: {
-        notEmpty: {
-          msg: 'Please provide a description for your group'
-        }
-      }
     }
   });
+
   return Group;
 };

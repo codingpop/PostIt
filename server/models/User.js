@@ -37,5 +37,6 @@ export default (connection, Sequelize) => {
       type: Sequelize.STRING,
     },
   });
+
   return User;
 };

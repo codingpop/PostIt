@@ -2,7 +2,7 @@ import PostIt from './../src/PostIt';
 
 const PostItInstance = new PostIt();
 
-const verifyGroup = (request, response, next) => {
+const verifyMembership = (request, response, next) => {
   PostItInstance.findGroup(request.params.groupId)
     .then((groupData) => {
       if (!groupData) {
@@ -38,5 +38,5 @@ const verifyGroup = (request, response, next) => {
     });
 };
 
-export default verifyGroup;
+export default verifyMembership;
 

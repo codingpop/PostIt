@@ -1,14 +1,19 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import SignIn from './SignIn.jsx';
 import SignUp from './SignUp.jsx';
 import Footer from './Footer.jsx';
 import ResetPassword from './ResetPassword.jsx';
 import signIn from './../actions/signIn';
+import Dashboard from './Dashboard.jsx';
 
-const Home = () => (
-  <div>
+const Home = (props) => {
+  if (props.isAuthenticated) {
+    return <Dashboard />;
+  }
+  return (<div>
     <header>
       <div className="navbar-fixed">
         <nav>
@@ -105,8 +110,13 @@ const Home = () => (
     <SignIn />
     <SignUp />
     <ResetPassword />
-    <Footer />
-  </div>
+  </div>);
+};
+
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({ signIn }, dispatch)
 );
 
-export default connect(null, { signIn })(Home);
+const mapStateToProps = state => ({ isAuthenticated: state.user.isAuthenticated });
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
