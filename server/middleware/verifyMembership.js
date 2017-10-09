@@ -6,7 +6,7 @@ const verifyMembership = (request, response, next) => {
   PostItInstance.findGroup(request.params.groupId)
     .then((groupData) => {
       if (!groupData) {
-        response.json({
+        response.status(404).json({
           message: "Group doesn't exist"
         });
       } else {
@@ -16,7 +16,7 @@ const verifyMembership = (request, response, next) => {
           ));
 
           if (!userIsAMember) {
-            response.json({
+            response.status(401).json({
               message: "You don't belong to this group"
             });
           } else if (userIsAMember) {
@@ -27,7 +27,7 @@ const verifyMembership = (request, response, next) => {
     }).catch((error) => {
       if (error.name === 'SequelizeDatabaseError' &&
         error.parent.routine === 'string_to_uuid') {
-        response.json({
+        response.status(400).json({
           message: 'Invalid groupId'
         });
       } else {

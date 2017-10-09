@@ -6,8 +6,8 @@ const verifyToken = (request, response, next) => {
   if (token) {
     jwt.verify(token, process.env.SECRET, (error, payload) => {
       if (error) {
-        response.json({
-          message: 'Invalid token'
+        response.status(400).json({
+          message: 'Invalid authentication token'
         });
       } else {
         request.user = payload;
@@ -15,7 +15,7 @@ const verifyToken = (request, response, next) => {
       }
     });
   } else {
-    response.json({
+    response.status(403).json({
       message: 'You are not logged in'
     });
   }

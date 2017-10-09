@@ -19,7 +19,7 @@ addUsers.post(
         message: 'Usernames or emails are required',
       });
     } else {
-      postIt.findUsers(JSON.parse(request.body.users))
+      postIt.findUsers(request.body.users)
         .then((users) => {
           if (!users.length) {
             response.status(404).json({

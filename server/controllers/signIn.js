@@ -15,9 +15,9 @@ const postIt = new PostIt();
 signIn.post('/users/signin', (request, response) => {
   const { credential, password } = request.body;
 
-  if (!credential) {
+  if (!credential || !password) {
     response.status(400).json({
-      message: 'Please check your submission'
+      message: 'You userName (or email) and password are required'
     });
   } else {
     postIt.findUser(credential)
