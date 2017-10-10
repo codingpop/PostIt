@@ -20,9 +20,10 @@ export default {
     filename: 'bundle.js',
   },
   module: {
-    loaders: [
-      { test: /\.js$/, loader: 'babel-loader', exclude: /node_modules/ },
-      { test: /\.jsx$/, loader: 'babel-loader', exclude: /node_modules/ }
+    rules: [
+      { test: /\.(jsx|js)$/, use: 'babel-loader', exclude: /node_modules/ },
+      { test: /\.scss$/, use: ['style-loader', 'css-loader', 'sass-loader'], exclude: /node_modules/ },
+      { test: /\.(jpg|png|gif|svg)$/, use: 'file-loader', exclude: /node_modules/ }
     ]
   },
   plugins: [

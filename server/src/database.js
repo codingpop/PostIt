@@ -1,66 +1,33 @@
-import dotenv from 'dotenv';
 import Sequelize from 'sequelize';
+import dotenv from 'dotenv';
+
 import User from './../models/User';
 import Group from './../models/Group';
 import Message from './../models/Message';
-import GroupMember from './../models/GroupMember';
-import Archive from './../models/archive';
+import postgresConfig from './../config/postgresConfig';
+import postgresConfigProd from './../config/postgresConfigProd';
 
 dotenv.config();
 
-let connection;
+const connection = process.env.NODE_ENV !== 'production' ?
+  postgresConfig : postgresConfigProd;
 
-if (process.env.NODE_ENV !== 'production') {
-  connection = new Sequelize(
-    process.env.DB_TEST_NAME,
-    process.env.DB_TEST_USER,
-    process.env.DB_TEST_PASS, {
-      host: process.env.DB_TEST_HOST,
-      port: process.env.DB_PORT,
-      dialect: 'postgres',
-      logging: false
-    });
-} else {
-  connection = new Sequelize(
-    process.env.DB_NAME,
-    process.env.DB_USER,
-    process.env.DB_PASS, {
-      host: process.env.DB_HOST,
-      port: process.env.DB_PORT,
-      dialect: 'postgres',
-      dialectOptions: {
-        ssl: true,
-        native: true,
-      },
-      logging: false
-    });
-}
+const database = {
+  connection,
+  Sequelize,
+  User: User(connection, Sequelize),
+  Group: Group(connection, Sequelize),
+  Message: Message(connection, Sequelize),
+};
 
-
-const database = {};
-
-// Database models
-database.Sequelize = Sequelize;
-database.connection = connection;
-database.User = User(connection, Sequelize);
-database.Group = Group(connection, Sequelize);
-database.Message = Message(connection, Sequelize);
-database.GroupMember = GroupMember(connection, Sequelize);
-database.Archive = Archive(connection, Sequelize);
-
-// Database 1:M relationships
-database.Group.belongsTo(database.User, {
-  foreignKey: 'userId'
-});
-database.User.hasMany(database.Group, {
-  foreignKey: 'userId'
-});
-
+/**
+ * 1:M relationships
+ */
 database.Message.belongsTo(database.Group, {
-  foreignKey: 'inGroup'
+  foreignKey: 'groupId'
 });
 database.Group.hasMany(database.Message, {
-  foreignKey: 'inGroup'
+  foreignKey: 'groupId'
 });
 
 database.Message.belongsTo(database.User, {
@@ -70,24 +37,23 @@ database.User.hasMany(database.Message, {
   foreignKey: 'author'
 });
 
-// Database N:M relationships
+/**
+ * N:M relationships
+ */
 database.User.belongsToMany(database.Group, {
-  through: database.GroupMember,
-  foreignKey: 'userId'
+  through: 'Members',
 });
 
 database.Group.belongsToMany(database.User, {
-  through: database.GroupMember,
-  foreignKey: 'groupId'
+  through: 'Members'
 });
 
 database.User.belongsToMany(database.Message, {
-  through: database.Archive,
-  foreignKey: 'userId'
+  through: 'Archive'
 });
 
 database.Message.belongsToMany(database.User, {
-  through: database.Archive,
+  through: 'Archive',
   foreignKey: 'messageId'
 });
 

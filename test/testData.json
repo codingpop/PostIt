@@ -1,0 +1,86 @@
+{
+  "newUser1": {
+    "userName": "Babatunde",
+    "email": "babatunde@yahoo.com",
+    "phone": "08127759538",
+    "password": "password1"
+  },
+  "newUser2": {
+    "userName": "Blessing",
+    "email": "blessing@yahoo.com",
+    "phone": "08127740427",
+    "password": "password2"
+  },
+  "newUser3": {
+    "userName": "Temi",
+    "email": "temi@yahoo.com",
+    "phone": "08127140427",
+    "password": "password2"
+  },
+  "newUser4": {
+    "userName": "Mark",
+    "email": "mark@yahoo.com",
+    "phone": "08127120427",
+    "password": "password2"
+  },
+  "malformedUser1": {
+    "email": "dummy@dummy.com",
+    "phone": "02929292",
+    "password": "dkdkdkdj"
+  },
+  "malformedUser2": {
+    "userName": "blah",
+    "phone": "02929292",
+    "password": "dkdkdkdj"
+  },
+  "malformedUser3": {
+    "userName": "blah",
+    "email": "dummy@dummy.com",
+    "password": "dkdkdkdj"
+  },
+  "malformedUser4": {
+    "userName": "blah",
+    "email": "dummy@dummy.com",
+    "phone": "32324323432"
+  },
+  "malformedUser5": {
+    "userName": "blah",
+    "email": "dummy@dummy.com",
+    "phone": "32324323432",
+    "password": "sdf"
+  },
+  "malformedUser6": {
+    "userName": "blah",
+    "email": "dummy",
+    "phone": "32324323432",
+    "password": "sdfzkjhahjkhjkfhajkf"
+  },
+  "newGroupData1": {
+    "name": "a brand new group",
+    "description": "this is andela"
+  },
+  "newGroupData2": {
+    "name": "a really brand new group",
+    "description": "this is not andela"
+  },
+  "malformedGroup1": {
+    "description": "this is andela"
+  },
+  "malformedGroup2": {
+    "name": "this is andela"
+  },
+  "addUsers": {
+    "users": ["Blessing"]
+  },
+  "addUsers2": {
+    "users": ["Temi", "Mark"]
+  },
+  "message1": {
+    "body": "This is a message",
+    "priortiy": "normal"
+  },
+  "message2": {
+    "body": "Actually, this is a message",
+    "priortiy": "normal"
+  }
+}

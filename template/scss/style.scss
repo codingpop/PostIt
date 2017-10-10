@@ -28,6 +28,16 @@ h3 {
   font-size: 1.5em;
 }
 
+.zero-padding-margin {
+  padding: 0;
+  margin: 0 !important;
+}
+
+.toast {
+  font-weight: bold;
+  font-family: 'Work Sans', sans-serif;
+}
+
 .btn-large, .btn-small {
   background: $green;
   text-transform: none;
@@ -53,11 +63,16 @@ nav {
   @media #{$medium-and-down} {
     height: 64px;
     line-height: 64px;
+    position: relative !important;
   }
 }
 
 .side-nav {
   background: $gray;
+  @media #{$medium-and-down} {
+    width: 200px;
+    margin-top: 0 !important;
+  }
 }
 
 header {
@@ -104,12 +119,84 @@ header {
       }
     }
   }
+
+  .board {
+    background-image: url('../img/chat.jpg');
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100%;
+    margin-bottom: 0;
+  }
+
+  .overlay {
+    background: rgba(0, 0, 0, 0.2);
+    height: 100%;
+  }
+
+  .chat-box {
+    @media #{$medium-and-down} {
+      width: 100%;
+    }
+
+    width: calc(100% - 300px);
+    background: #E8E8E8;
+    position: fixed;
+    bottom: 50px;
+
+    form {
+      padding: 26px !important;
+      // width: calc(90% - 48px);
+      width: 90%;
+      margin-left: auto;
+      margin-right: auto;
+      
+      textarea {
+        border-radius: 10px;
+        background: #fff;
+        margin-bottom: 13px !important;
+        box-shadow: 0 !important;
+        height: 65px;
+        padding: 15px 24px;
+        font-size: 20px;
+        border:none;
+        outline: none;
+
+        &:active {
+          border: none !important;
+          box-shadow: none;
+        }
+      }
+
+      .priority {
+        margin: 0;
+        padding: 0;
+        font-family: 'Work Sans', sans-serif;
+
+        p {
+          padding: 0;
+          margin: 0;
+          height: 19px;
+
+          &.normal {
+            margin-top: -10px;
+          }
+
+          &.urgent, &.critical {
+            margin-top: 4px;
+          }
+
+          
+        }
+      }
+    }
+
+  }
 }
 
 .content {
   @media #{$medium-and-down} {
     margin-left: 0 !important;
-    margin-top: 0 !important;
   }
   margin-left: 300px;
   margin-top: 30px;
@@ -133,7 +220,23 @@ header {
     color: $gray;
     font-weight: bold;
     font-size: 0.7em;
-    
+  }
+}
+
+.chat-area {
+  margin-top: -60px;
+  margin-bottom: 130px;
+
+  .chat-card {
+    width: 90%;
+    border-radius: 20px;
+    margin: 15px auto 0 auto;
+    &:last-child {
+      margin-bottom: 35px;
+    }
+    &:first-child {
+      margin-top: 115px;
+    }
   }
 }
 
@@ -171,6 +274,10 @@ header {
       margin-top: 20px;
     }
   }
+}
+
+.small {
+  font-size: small;
 }
 
 .how-it-works {
@@ -223,6 +330,11 @@ header {
 }
 
 .modal {
+  @media #{$medium-and-down} {
+    width: 95%;
+    height: 80%;
+  }
+
   border-radius: 10px;
   width: 40vw;
   max-height: 90vh !important;
@@ -251,4 +363,9 @@ header {
   h4 {
     text-align: center;
   }
+}
+
+
+.page-footer .footer-copyright {
+  min-height: 53px;
 }
