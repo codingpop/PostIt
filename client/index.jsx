@@ -1,20 +1,30 @@
 import React from 'react';
+import { Provider } from 'react-redux';
 import { render } from 'react-dom';
-import { BrowserRouter, Route } from 'react-router-dom';
+import { renderRoutes } from 'react-router-config';
+import { ConnectedRouter } from 'react-router-redux';
 
-import Header from './components/Header.jsx';
-import App from './components/App.jsx';
 
-const Root = () => (
-  <BrowserRouter>
-    <div>
-      <Header />
-      <App />
-    </div>
-  </BrowserRouter>
+import './../template/scss/style.scss';
+import configureStore from './store/configureStore';
+import routes from './routes';
+import history from './helpers/history';
+import setToken from './helpers/setToken';
+
+if (localStorage.user) {
+  setToken(JSON.parse(localStorage.user).token);
+}
+
+const AppRouter = () => (
+  <Provider store={configureStore}>
+    <ConnectedRouter history={history}>
+      {renderRoutes(routes)}
+    </ConnectedRouter>
+  </Provider>
 );
 
-render(<Root />, document.getElementById('root'));
+render(<AppRouter />, document.getElementById('root'));
+
 
 if (module.hot) {
   module.hot.accept();
