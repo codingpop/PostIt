@@ -36,7 +36,7 @@ signIn.post('/users/signin', (request, response) => {
                 process.env.SECRET,
                 { expiresIn: 86400 },
                 (error, token) => {
-                  response.json({
+                  response.status(200).json({
                     user: payload,
                     token
                   });

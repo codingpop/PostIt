@@ -25,7 +25,7 @@ getMessages.get(
             body: message.body,
           }
         ));
-        response.json({
+        response.status(200).json({
           messages: refinedMessages,
         });
       })

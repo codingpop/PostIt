@@ -25,7 +25,7 @@ getGroups.get('/groups', verifyToken, (request, response) => {
                   description: group.description,
                 }
               ));
-              response.json({
+              response.status(200).json({
                 totalGroups,
                 groups: refinedGroups,
               });

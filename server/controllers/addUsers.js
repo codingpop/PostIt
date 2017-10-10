@@ -36,7 +36,7 @@ addUsers.post(
                       });
                     } else {
                       const newMembersCount = newMembers[0].length;
-                      response.json({
+                      response.status(200).json({
                         message: `${newMembersCount} ${newMembersCount > 1 ?
                           'members' : 'member'} added`,
                         newMembers,

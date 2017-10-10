@@ -28,7 +28,7 @@ postMessage.post(
         priority,
       )
         .then((message) => {
-          response.json({
+          response.status(200).json({
             message: {
               messageId: message.messageId,
               groupId: message.groupId,

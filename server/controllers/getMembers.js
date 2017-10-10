@@ -25,7 +25,7 @@ getMembers.get(
                 phone: user.phone,
               }
             ));
-            response.json({
+            response.status(200).json({
               users: refinedUsers,
             });
           });
