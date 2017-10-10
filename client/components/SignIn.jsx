@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
 import signIn from './../actions/signIn';
 
@@ -118,10 +119,10 @@ class SignIn extends Component {
         </div>
         <div
           className="modal-footer"
-        >Not a member yet?<a
-          href="#sign-up"
+        >Not a member yet?<Link
+          to="#sign-up"
           className="modal-trigger modal-close"
-        >Sign up</a></div>
+        > Sign up</Link></div>
       </div>
     );
   }
@@ -135,6 +136,4 @@ const mapDispatchToProps = dispatch => (
   bindActionCreators({ signIn }, dispatch)
 );
 
-const mapStateToProps = state => ({ user: state.user });
-
-export default connect(mapStateToProps, mapDispatchToProps)(SignIn);
+export default connect(null, mapDispatchToProps)(SignIn);

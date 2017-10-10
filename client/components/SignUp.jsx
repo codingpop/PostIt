@@ -1,7 +1,22 @@
 import React, { Component } from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
+import signUp from './../actions/signUp';
+
+/**
+ * @class SignUp
+ * @extends {Component}
+ * @author Babatunde Adeyemi <tundewrites@gmail.com>
+ */
 class SignUp extends Component {
+
+  /**
+   * Creates an instance of SignUp.
+   * @memberof SignUp
+   */
   constructor() {
     super();
 
@@ -14,72 +29,103 @@ class SignUp extends Component {
 
     this.state = this.initialState;
     this.handleChange = this.handleChange.bind(this);
-    this.registerUser = this.registerUser.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+  /**
+   * Handles onChange event on input fields
+   * @param {object} event - the input field onChange event
+   * @memberof SignUp
+   * @returns {void}
+   */
   handleChange(event) {
     this.setState({ [event.target.name]: event.target.value });
   }
 
-  registerUser(form) {
+  /**
+   * Handles onSubit event on form submission
+   * @param {object} form - the form onSubmit event
+   * @memberof SignUp
+   * @returns {void}
+   */
+  handleSubmit(form) {
     form.preventDefault();
-
-    const baseUrl = window.location.host;
-    const url = `http://${baseUrl}/api/v1/users/signup`;
-
-    axios.post(url, this.state)
-      .then((response) => {
-        console.log(response);
-        this.setState(this.initialState);
-        $('#sign-up').modal('close');
-        $('#sign-in').modal('open');
-      }).catch((error) => {
-        console.log(error.response);
-      });
+    this.props.signUp(this.state);
+    this.setState(this.initialState);
   }
 
+  /**
+   * Renders the SignUp component
+   * @memberof SignUp
+   * @returns {object} - SignUp Component
+   */
   render() {
     return (
       <div id="sign-up" className="modal">
         <div className="modal-content">
           <div className="row">
             <h5 className="center">Join ShoutIt</h5>
-            <form className="col s12" onSubmit={this.registerUser} action="dashboard.html">
+            <form className="col s12" onSubmit={this.handleSubmit}>
               <div className="row">
                 <div className="input-field col s12">
                   <i className="material-icons prefix">account_circle</i>
-                  <input id="name" onChange={this.handleChange} value={this.state.userName} type="text" name="userName" className="validate" required />
-                  <label htmlFor="name">Name</label>
+                  <input
+                    id="name"
+                    onChange={this.handleChange}
+                    value={this.state.userName}
+                    type="text"
+                    name="userName"
+                    className="validate"
+                    required
+                  />
+                  <label htmlFor="name">Username</label>
                 </div>
               </div>
               <div className="row">
                 <div className="input-field col s12">
                   <i className="material-icons prefix">email</i>
-                  <input id="email" type="email" onChange={this.handleChange} value={this.state.email} name="email" className="validate" required />
+                  <input
+                    id="email"
+                    type="email"
+                    onChange={this.handleChange}
+                    value={this.state.email}
+                    name="email"
+                    className="validate"
+                    required
+                  />
                   <label htmlFor="email">Email</label>
                 </div>
               </div>
               <div className="row">
                 <div className="input-field col s12">
                   <i className="material-icons prefix">phone</i>
-                  <input id="phone" type="tel" onChange={this.handleChange} value={this.state.phone} name="phone" className="validate" required />
+                  <input
+                    id="phone"
+                    type="tel"
+                    onChange={this.handleChange}
+                    value={this.state.phone}
+                    name="phone"
+                    className="validate"
+                    required
+                  />
                   <label htmlFor="phone">Phone</label>
                 </div>
               </div>
               <div className="row">
                 <div className="input-field col s12">
                   <i className="material-icons prefix">lock</i>
-                  <input id="password" type="password" onChange={this.handleChange} value={this.state.password} name="password" className="validate" required />
+                  <input
+                    id="password"
+                    type="password"
+                    onChange={this.handleChange}
+                    value={this.state.password}
+                    name="password"
+                    className="validate"
+                    required
+                  />
                   <label htmlFor="password">Password</label>
                 </div>
               </div>
-              {/*<div className="row">
-                <div className="input-field col s12">
-                  <i className="material-icons prefix">lock</i>
-                  <input id="confirm-password" type="password" name="comfirmPassword" className="validate" required />
-                  <label htmlFor="confirm-password">Confirm Password</label>
-                </div>
-              </div>*/}
               <div className="row">
                 <div className="input-field col s12">
                   <button
@@ -94,10 +140,20 @@ class SignUp extends Component {
         </div>
         <div
           className="modal-footer"
-        >Already a member? <a href="#sign-in" className="modal-trigger modal-close">Sign in</a></div>
+        >Already a member?
+        <Link to="#sign-in" className="modal-trigger modal-close"> Sign in</Link>
+        </div>
       </div>
     );
   }
 }
 
-export default SignUp;
+SignUp.propTypes = {
+  signUp: PropTypes.func.isRequired,
+};
+
+const mapDispatchToProps = dispatch => (
+  bindActionCreators({ signUp }, dispatch)
+);
+
+export default connect(null, mapDispatchToProps)(SignUp);

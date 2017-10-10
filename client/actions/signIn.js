@@ -20,14 +20,12 @@ const signIn = credentials => dispatch =>
       dispatch(signInSuccess(response.data));
       dispatch(push('/dashboard'));
     }).catch((error) => {
-      if (error) {
-        toastr.options = {
-          positionClass: 'toast-top-center',
-          preventDuplicates: true,
-          timeOut: '1000'
-        };
-        toastr.error(error.response.data.message);
-      }
+      toastr.options = {
+        positionClass: 'toast-top-center',
+        preventDuplicates: true,
+        timeOut: '1000'
+      };
+      toastr.error(error.response.data.message);
     });
 
 export default signIn;

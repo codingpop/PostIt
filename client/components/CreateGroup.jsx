@@ -5,12 +5,14 @@ import createGroup from './../actions/createGroup';
 
 /**
  * @class CreateGroup
+ * @extends {Component}
  * @author Babatunde Adeyemi <tundewrites@gmail.com>
  */
 class CreateGroup extends Component {
 
   /**
-   * Initializes the initial component state
+   * Creates an instance of CreateGroup.
+   * @memberof CreateGroup
    */
   constructor() {
     super();
@@ -27,7 +29,7 @@ class CreateGroup extends Component {
 
   /**
    * Handles onChange event on input fields
-   * @param {object} event
+   * @param {object} event - the input field onChange event
    * @returns {void}
    */
   handleChange(event) {
@@ -36,7 +38,7 @@ class CreateGroup extends Component {
 
   /**
    * Handles onSubmit event on form submission
-   * @param {object} form
+   * @param {object} form - the form onSubmit event
    * @returns {void}
    */
   handleSubmit(form) {
@@ -47,6 +49,7 @@ class CreateGroup extends Component {
 
   /**
    * Renders the CreateGroup component
+   * @memberof CreateGroup
    * @returns {object} - CreateGroup Component
    */
   render() {

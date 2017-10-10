@@ -2,7 +2,7 @@ import axios from 'axios';
 import { push } from 'react-router-redux';
 import getGroups from './getGroups';
 
-const createGroups = groupDetails => dispatch =>
+const createGroup = groupDetails => dispatch =>
   axios.post('/api/v1/groups', groupDetails)
     .then((response) => {
       dispatch(getGroups());
@@ -23,4 +23,4 @@ const createGroups = groupDetails => dispatch =>
       toastr.error(error.response.data.message);
     });
 
-export default createGroups;
+export default createGroup;
