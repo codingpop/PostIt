@@ -17,7 +17,7 @@ engines:
      linebreak-style:
        enabled: true
 exclude_paths:
-- "server/tests/"
+- "server/test/"
 - "dist/"
 ratings:
   paths:
