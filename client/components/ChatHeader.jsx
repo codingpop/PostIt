@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 
 import ChatSideNav from './ChatSideNav.jsx';
+import NavLinks from './NavLinks.jsx';
 
 const DashHeader = props => (
   <header>
@@ -18,10 +19,7 @@ const DashHeader = props => (
               className="button-collapse"
             ><i className="material-icons">menu</i></Link>
 
-            <ul id="nav-mobile" className="right hide-on-med-and-down">
-              <li className="active"><Link to="/dashboard">Dashboard</Link></li>
-              <li><Link to="/" className="white-text">Sign out</Link></li>
-            </ul>
+            <NavLinks />
           </div>
         </div>
       </nav>

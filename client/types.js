@@ -4,6 +4,7 @@ export const Authenticate = {
   SIGN_IN_FAILURE: 'SIGN_IN_FAILURE',
   SIGN_UP_SUCCESS: 'SIGN_UP_SUCCESS',
   SIGN_UP_FAILURE: 'SIGN_UP_FAILURE',
+  SIGN_OUT_SUCCESS: 'SIGN_OUT_SUCCESS'
 };
 
 export const Groups = {

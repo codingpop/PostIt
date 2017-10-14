@@ -6,12 +6,20 @@ import groups from './groupsReducer';
 import messages from './messageReducer';
 import members from './membersReducer';
 
-const rootReducer = combineReducers({
+const appReducer = combineReducers({
   user,
   groups,
   messages,
   members,
   router
 });
+
+const rootReducer = (state, action) => {
+  if (action.type === 'SIGN_OUT_SUCCESS') {
+    state = undefined;
+  }
+
+  return appReducer(state, action);
+};
 
 export default rootReducer;
