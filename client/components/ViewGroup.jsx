@@ -1,15 +1,24 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import Header from './Header.jsx';
+import ChatHeader from './ChatHeader.jsx';
 import Footer from './Footer.jsx';
 import Members from './Members.jsx';
 import getMessages from './../actions/getMessages';
 import getMembers from './../actions/getMembers';
-
+/**
+ * The ViewGroup Component
+ * @class ViewGroup
+ * @extends {Component}
+ */
 class ViewGroup extends Component {
-  constructor(props) {
-    super(props);
+
+  /**
+   * Creates an instance of ViewGroup.
+   * @memberof ViewGroup
+   */
+  constructor() {
+    super();
 
     this.state = {
       messages: []
@@ -19,8 +28,11 @@ class ViewGroup extends Component {
   componentWillMount() {
     localStorage.setItem('currentGroup', this.props.match.params.groupId);
     this.props.getMessages(this.props.match.params.groupId);
-    this.props.getMembers(localStorage.currentGroup);
   }
+
+  // componentDidMount() {
+  //   this.props.getMembers(this.props.match.params.groupId);
+  // }
 
   componentWillReceiveProps(nextProps) {
     if (this.props !== nextProps) {
@@ -49,7 +61,7 @@ class ViewGroup extends Component {
 
     return (
       <div className="dashboard">
-        <Header />
+        <ChatHeader />
         <section className="board">
           <div className="overlay">
             <div className="row content chat-area">
@@ -94,8 +106,8 @@ class ViewGroup extends Component {
             </div>
           </div> { /* overlay */}
         </section>
-        <Members />
         <Footer />
+        <Members />
       </div>
     );
   }

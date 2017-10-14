@@ -1,16 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-const ChatLinks = () => (
+const ChatSideNav = () => (
   <ul>
-    <li>
-      <Link
-        to="#create-group"
-        className="modal-trigger"
-      >
-        <i className="material-icons prefix white-text">group_add</i>Add members
-          </Link>
-    </li>
     <li>
       <Link
         to="#view-members"
@@ -37,4 +29,4 @@ const ChatLinks = () => (
   </ul>
 );
 
-export default ChatLinks;
+export default ChatSideNav;

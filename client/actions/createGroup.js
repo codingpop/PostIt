@@ -5,10 +5,10 @@ import getGroups from './getGroups';
 const createGroup = groupDetails => dispatch =>
   axios.post('/api/v1/groups', groupDetails)
     .then((response) => {
-      dispatch(getGroups());
-      dispatch(push(`/groups/${response.data.group.groupId}`));
       $('#create-group').modal('close');
       $('.button-collapse').sideNav('hide');
+      dispatch(getGroups());
+      dispatch(push(`/groups/${response.data.group.groupId}`));
       toastr.options = {
         preventDuplicates: true,
         timeOut: '1000'

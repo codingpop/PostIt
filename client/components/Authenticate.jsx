@@ -1,34 +1,50 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { PropTypes } from 'prop-types';
 import { bindActionCreators } from 'redux';
-import redirect from './../actions/redirect';
 import setUser from './../actions/setUser';
-import Header from './Header.jsx';
-import Footer from './Footer.jsx';
 
 export default (ComposedComponent) => {
+  /**
+   * @class Authenticate
+   * @extends {Component}
+   */
   class Authenticate extends Component {
+
+    /**
+     * Pre sets the user data to the redux store
+     * @memberof Authenticate
+     * @returns {void}
+     */
     componentWillMount() {
-      this.props.setUser();
+      this.props.setUser(this.props.isAuthenticated, this.props.pathName);
     }
 
+    /**
+     * Renders any child component passed to it
+     * @memberof Authenticate
+     * @returns {void}
+     */
     render() {
       return (
-        <div className="dashboard">
-          <ComposedComponent {...this.props} />
-          <Footer />
-        </div>
+        <ComposedComponent {...this.props} />
       );
     }
   }
 
+  Authenticate.propTypes = {
+    setUser: PropTypes.func.isRequired,
+    isAuthenticated: PropTypes.bool.isRequired,
+    pathName: PropTypes.string.isRequired
+  };
+
   const mapDispatchToProps = dispatch => (
-    bindActionCreators({ redirect, setUser }, dispatch)
+    bindActionCreators({ setUser }, dispatch)
   );
 
   const mapStateToProps = state => ({
-    user: state.user,
-    router: state.router
+    isAuthenticated: state.user.isAuthenticated,
+    pathName: state.router.location.pathname
   });
 
   return connect(mapStateToProps, mapDispatchToProps)(Authenticate);

@@ -1,6 +1,6 @@
 import { Groups } from './../types';
 
-const initialState = {};
+const initialState = [];
 
 const membersReducer = (state = initialState, action) => {
   switch (action.type) {

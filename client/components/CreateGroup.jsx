@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import { PropTypes } from 'prop-types';
 import createGroup from './../actions/createGroup';
 
 /**
@@ -105,6 +106,10 @@ class CreateGroup extends Component {
     );
   }
 }
+
+CreateGroup.propTypes = {
+  createGroup: PropTypes.func.isRequired
+};
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({ createGroup }, dispatch)

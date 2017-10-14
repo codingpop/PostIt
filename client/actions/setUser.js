@@ -1,6 +1,5 @@
 import { push } from 'react-router-redux';
 import { Authenticate } from './../types';
-import getGroups from './getGroups';
 
 const setUserSuccess = user => (
   {
@@ -9,11 +8,15 @@ const setUserSuccess = user => (
   }
 );
 
-const setUser = () => (dispatch) => {
-  // const user = JSON.parse(localStorage.getItem('user'));
-
-  if (localStorage.user) {
+const setUser = (isAuthenticated, pathName) => (dispatch) => {
+  if (localStorage.user || isAuthenticated) {
     dispatch(setUserSuccess(JSON.parse(localStorage.user)));
+
+    if (pathName === '/') {
+      dispatch(push('/dashboard'));
+    } else {
+      dispatch(push(pathName));
+    }
   } else {
     dispatch(push('/'));
   }

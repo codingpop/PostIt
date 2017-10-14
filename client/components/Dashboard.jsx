@@ -8,13 +8,18 @@ import Group from './Group.jsx';
 import CreateGroup from './CreateGroup.jsx';
 import Paginator from './Paginator.jsx';
 import getGroups from './../actions/getGroups';
-import redirect from './../actions/redirect';
 
 /**
  * @class Dashboard
  * @extends {Component}
  */
 class Dashboard extends Component {
+
+  /**
+   * Creates an instance of Dashboard.
+   * @param {any} props
+   * @memberof Dashboard
+   */
   constructor(props) {
     super(props);
     this.state = {
@@ -22,24 +27,40 @@ class Dashboard extends Component {
     };
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props !== nextProps) {
-      this.setState({
-        groups: nextProps.groups.userGroups
-      });
-    }
+  /**
+   * Prefetches the user's groups
+   * @memberof Dashboard
+   * @returns {void}
+   */
+  componentWillMount() {
+    this.props.getGroups();
   }
+
   /**
    * Ensures modals and sidenav work
    * @memberof Dashboard
    * @returns {void}
    */
   componentDidMount() {
-    this.props.getGroups();
     $('.button-collapse').sideNav();
     $('.modal').modal();
     $('#description').trigger('autoresize');
   }
+
+  /**
+   * Receives delayed props
+   * @param {object} nextProps - delayed props
+   * @memberof Dashboard
+   * @returns {void}
+   */
+  componentWillReceiveProps(nextProps) {
+    if (this.props !== nextProps) {
+      this.setState({
+        groups: nextProps.groups
+      });
+    }
+  }
+
 
   /**
    * Renders the DashBoard component
@@ -48,7 +69,7 @@ class Dashboard extends Component {
    */
   render() {
     let groupList;
-    if (this.state.groups.length > 0) {
+    if (this.state.groups.length) {
       groupList = this.state.groups.map(group => (
         <div key={group.groupId} className="col m4 s12">
           <Group
@@ -58,6 +79,12 @@ class Dashboard extends Component {
           />
         </div>
       ));
+    } else {
+      groupList = (
+        <div className="col m4 s12">
+          <p className="flow-text">You do not belong to any group</p>
+        </div>
+      );
     }
     return (
       <div className="dashboard">
@@ -73,6 +100,7 @@ class Dashboard extends Component {
         </div>
 
         <Paginator />
+        <Footer />
         <CreateGroup />
       </div>
     );
@@ -81,16 +109,17 @@ class Dashboard extends Component {
 
 Dashboard.propTypes = {
   getGroups: PropTypes.func.isRequired,
-  user: PropTypes.shape({
-    isAuthenticated: PropTypes.bool.isRequired
-  }).isRequired,
-  groups: PropTypes.shape.isRequired
+  groups: PropTypes.arrayOf(PropTypes.object).isRequired
 };
 
 const mapDispatchToProps = dispatch => (
-  bindActionCreators({ getGroups, redirect }, dispatch)
+  bindActionCreators({ getGroups }, dispatch)
 );
 
-const mapStateToProps = state => ({ user: state.user, groups: state.groups });
+const mapStateToProps = state => (
+  {
+    user: state.user,
+    groups: state.groups.userGroups
+  });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

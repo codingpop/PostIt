@@ -12,7 +12,6 @@ const routes = [
   },
   {
     path: '/dashboard',
-    exact: true,
     component: Authenticate(Dashboard)
   },
   {

@@ -8,7 +8,8 @@ class Members extends Component {
     super(props);
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    this.props.getMembers(localStorage.currentGroup);
   }
 
   render() {
@@ -17,7 +18,11 @@ class Members extends Component {
         <div className="modal-content">
           <div className="row">
             <h5 className="center">Members</h5>
-            
+            {
+              this.props.members.map(member => (
+                <p key={member.userName} className="member">{member.userName}</p>
+              ))
+            }
           </div>
         </div>
       </div>

@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 
-import DashSideNav from './DashSideNav.jsx';
+import ChatSideNav from './ChatSideNav.jsx';
 
 const DashHeader = props => (
   <header>
@@ -33,7 +33,7 @@ const DashHeader = props => (
           <p>{props.user.userName}</p>
         </Link>
       </div>
-      <DashSideNav user={props.user} />
+      <ChatSideNav />
     </div>
   </header>
 );
@@ -46,9 +46,9 @@ DashHeader.propTypes = {
 
 const mapStateToProps = state => (
   {
-    user: state.user.user.user,
+    user: state.user,
     router: state.router
   }
 );
 
-export default connect(mapStateToProps, null)(DashHeader);
+export default connect(mapStateToProps)(DashHeader);
