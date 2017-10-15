@@ -29,8 +29,6 @@ class ViewGroup extends Component {
     };
 
     this.groupId = '';
-
-    this.bottom = document.getElementById('bottom');
   }
 
   componentWillMount() {
