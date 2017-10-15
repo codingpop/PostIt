@@ -104,6 +104,7 @@
   },
   "scripts": {
     "dev": "babel-node app.js",
+    "build": "webpack -p --config webpack.config.prod.js",
     "test": "mocha --compilers js:babel-core/register test/**/*.js --timeout 100000",
     "build:server": "babel app-dev.js --out-file app.js",
     "coverage": "istanbul cover _mocha test/**/*.js -- --require babel-core/register --timeout 100000",

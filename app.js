@@ -22,6 +22,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+app.use(express.static('dist/client'));
 app.use(express.static('template'));
 
 app.use(
@@ -41,7 +42,7 @@ dotenv.config();
 const DIST_DIR = path.join(__dirname, 'dist');
 const compiler = webpack(config);
 const isDevelopment = process.env.NODE_ENV !== 'production';
-const HTML_FILE = path.join(__dirname, 'client/index.html');
+const HTML_FILE = path.join(__dirname, 'dist/client/index.html');
 
 if (isDevelopment) {
   app.use(webpackDevMiddleware(compiler, {
