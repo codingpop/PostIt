@@ -30,10 +30,6 @@ class ViewGroup extends Component {
     this.props.getMessages(this.props.match.params.groupId);
   }
 
-  // componentDidMount() {
-  //   this.props.getMembers(this.props.match.params.groupId);
-  // }
-
   componentWillReceiveProps(nextProps) {
     if (this.props !== nextProps) {
       this.setState({
@@ -57,10 +53,20 @@ class ViewGroup extends Component {
           </div>
         </div>
       ));
+    } else {
+      messageList = (
+        <div>
+          <div className="card chat-card">
+            <div className="card-content">
+              <p className="flow-text">No messages</p>
+            </div>
+          </div>
+        </div>
+      );
     }
 
     return (
-      <div className="dashboard">
+      <div className="dashboard chatboard">
         <ChatHeader />
         <section className="board">
           <div className="overlay">

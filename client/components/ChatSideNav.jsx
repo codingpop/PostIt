@@ -8,7 +8,7 @@ const ChatSideNav = () => (
         to="#view-members"
         className="modal-trigger"
       >
-        <i className="material-icons prefix white-text">group</i>View members
+        <i className="material-icons prefix white-text">group</i>Members
           </Link>
     </li>
     <li>
