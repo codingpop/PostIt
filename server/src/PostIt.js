@@ -150,7 +150,8 @@ class PostIt {
     return this.database.Message.findAll({
       where: {
         groupId,
-      }
+      },
+      order: [['createdAt', 'DESC']]
     });
   }
 }

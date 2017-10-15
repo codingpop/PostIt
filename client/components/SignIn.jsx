@@ -57,7 +57,6 @@ class SignIn extends Component {
    */
   handleSubmit(form) {
     form.preventDefault();
-    // console.log(this.state)
     this.props.signIn(this.state);
   }
 

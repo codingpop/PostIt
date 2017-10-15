@@ -10,8 +10,6 @@ const userReducer = (state = initialState, action) => {
         user: action.user,
         token: action.token
       };
-    case Authenticate.SIGN_IN_FAILURE:
-      return { ...state, user: action.user };
     default:
       return state;
   }

@@ -9,7 +9,7 @@ class Members extends Component {
   }
 
   componentDidMount() {
-    this.props.getMembers(localStorage.currentGroup);
+    this.props.getMembers(this.props.groupId);
   }
 
   render() {

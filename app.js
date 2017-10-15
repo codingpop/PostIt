@@ -22,8 +22,7 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.use(express.static('dist/client'));
-app.use(express.static('template'));
+app.use(express.static('dist/client'), express.static('template'));
 
 app.use(
   '/api/v1',

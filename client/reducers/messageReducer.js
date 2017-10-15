@@ -1,8 +1,6 @@
 import { Messages } from './../types';
 
-const initialState = {
-  messages: []
-};
+const initialState = [];
 
 const messageReducer = (state = initialState, action) => {
   switch (action.type) {
@@ -16,6 +14,8 @@ const messageReducer = (state = initialState, action) => {
           body: message.body
         }
       ));
+    case Messages.POST_MESSAGE_SUCCESS:
+      return [action.message, ...state];
     default:
       return state;
   }

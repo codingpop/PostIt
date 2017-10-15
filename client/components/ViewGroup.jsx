@@ -1,11 +1,15 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
 import ChatHeader from './ChatHeader.jsx';
 import Footer from './Footer.jsx';
 import Members from './Members.jsx';
+import PostMessage from './PostMessage.jsx';
+
 import getMessages from './../actions/getMessages';
 import getMembers from './../actions/getMembers';
+
 /**
  * The ViewGroup Component
  * @class ViewGroup
@@ -23,11 +27,15 @@ class ViewGroup extends Component {
     this.state = {
       messages: []
     };
+
+    this.groupId = '';
+
+    this.bottom = document.getElementById('bottom');
   }
 
   componentWillMount() {
-    localStorage.setItem('currentGroup', this.props.match.params.groupId);
-    this.props.getMessages(this.props.match.params.groupId);
+    this.groupId = this.props.match.params.groupId;
+    this.props.getMessages(this.groupId);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -79,41 +87,11 @@ class ViewGroup extends Component {
                 </div>
               </div>
             </div>
-
-            <div className="row content">
-              <div className="row chat-box zero-padding-margin">
-                <form>
-                  <div className="col s12">
-                    <div className="col m9 l10">
-                      <textarea id="textarea1" className="zero-padding-margin" />
-                    </div>
-                    <div className="priority m2 col l1">
-                      <p className="normal">
-                        <input className="with-gap" name="group1" type="radio" id="normal" defaultChecked />
-                        <label htmlFor="normal">Normal</label>
-                      </p>
-                      <p className="urgent">
-                        <input className="with-gap" name="group1" type="radio" id="urgent" />
-                        <label htmlFor="urgent">Urgent</label>
-                      </p>
-                      <p className="critical">
-                        <input className="with-gap" name="group1" type="radio" id="critical" />
-                        <label htmlFor="critical">Critical</label>
-                      </p>
-                    </div>
-                    <div className="col s1">
-                      <button className="btn btn-large waves-effect waves-light" type="submit" name="action">
-                        <i className="material-icons">send</i>
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
+            <PostMessage />
           </div> { /* overlay */}
         </section>
         <Footer />
-        <Members />
+        <Members groupId={this.groupId} />
       </div>
     );
   }
