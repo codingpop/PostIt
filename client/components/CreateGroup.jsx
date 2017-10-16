@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { PropTypes } from 'prop-types';
+
 import createGroup from './../actions/createGroup';
 
 /**
@@ -31,6 +32,8 @@ class CreateGroup extends Component {
   /**
    * Handles onChange event on input fields
    * @param {object} event - the input field onChange event
+   * @memberof CreateGroup
+   *
    * @returns {void}
    */
   handleChange(event) {
@@ -40,6 +43,8 @@ class CreateGroup extends Component {
   /**
    * Handles onSubmit event on form submission
    * @param {object} form - the form onSubmit event
+   * @memberof CreateGroup
+   *
    * @returns {void}
    */
   handleSubmit(form) {
@@ -51,6 +56,7 @@ class CreateGroup extends Component {
   /**
    * Renders the CreateGroup component
    * @memberof CreateGroup
+   *
    * @returns {object} - CreateGroup Component
    */
   render() {

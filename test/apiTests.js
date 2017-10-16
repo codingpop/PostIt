@@ -558,7 +558,7 @@ describe('Given an API request', () => {
         .then((response) => {
           expect(response.body.messages).to.be.an('array');
           expect(response.body.messages.length).to.equal(2);
-          expect(response.body.messages[1].body).to.equal(testData.message2.body);
+          expect(response.body.messages[0].body).to.equal(testData.message2.body);
         });
     });
   });

@@ -5,7 +5,16 @@ import { connect } from 'react-redux';
 
 import postMessage from './../actions/postMessage';
 
+/**
+ * @class PostMessage
+ * @extends {Component}
+ */
 class PostMessage extends Component {
+
+  /**
+   * Creates an instance of PostMessage.
+   * @memberof PostMessage
+   */
   constructor() {
     super();
 
@@ -22,6 +31,7 @@ class PostMessage extends Component {
   /**
    * Handles onChange event on input fields
    * @param {object} event - the input field onChange event
+   *
    * @memberof SignUp
    * @returns {void}
    */
@@ -33,14 +43,21 @@ class PostMessage extends Component {
    * Handles onSubit event on form submission
    * @param {object} form - the form onSubmit event
    * @memberof SignUp
+   *
    * @returns {void}
    */
   handleSubmit(form) {
     form.preventDefault();
-    this.props.postMessage(this.state, localStorage.currentGroup);
+    this.props.postMessage(this.state, this.props.groupId);
     this.setState(this.initialState);
   }
 
+  /**
+   * PostMessage
+   * @memberof PostMessage
+   *
+   * @returns {object} - PostMessage Component
+   */
   render() {
     return (
       <div className="row content">
@@ -107,6 +124,11 @@ class PostMessage extends Component {
     );
   }
 }
+
+PostMessage.propTypes = {
+  groupId: PropTypes.string.isRequired,
+  postMessage: PropTypes.func.isRequired,
+};
 
 const mapDispatchToProps = dispatch => (
   bindActionCreators({ postMessage }, dispatch)

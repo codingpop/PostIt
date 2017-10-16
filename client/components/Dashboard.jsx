@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
 import Group from './Group.jsx';
 import CreateGroup from './CreateGroup.jsx';
-import Paginator from './Paginator.jsx';
+
 import getGroups from './../actions/getGroups';
 
 /**
@@ -61,7 +62,6 @@ class Dashboard extends Component {
     }
   }
 
-
   /**
    * Renders the DashBoard component
    * @memberof Dashboard
@@ -69,6 +69,7 @@ class Dashboard extends Component {
    */
   render() {
     let groupList;
+
     if (this.state.groups.length) {
       groupList = this.state.groups.map(group => (
         <div key={group.groupId} className="col m4 s12">
@@ -81,11 +82,13 @@ class Dashboard extends Component {
       ));
     } else {
       groupList = (
-        <div className="col m4 s12">
-          <p className="flow-text">You do not belong to any group</p>
+        <div className="col s12 center-align">
+          <h1>Welcome!</h1>
+          <p className="flow-text">Create your first group to begin</p>
         </div>
       );
     }
+
     return (
       <div className="dashboard">
         <Header />
@@ -99,7 +102,6 @@ class Dashboard extends Component {
           </div>
         </div>
 
-        <Paginator />
         <Footer />
         <CreateGroup />
       </div>
@@ -109,7 +111,7 @@ class Dashboard extends Component {
 
 Dashboard.propTypes = {
   getGroups: PropTypes.func.isRequired,
-  groups: PropTypes.arrayOf(PropTypes.object).isRequired
+  groups: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 const mapDispatchToProps = dispatch => (
@@ -119,7 +121,8 @@ const mapDispatchToProps = dispatch => (
 const mapStateToProps = state => (
   {
     user: state.user,
-    groups: state.groups.userGroups
+    groups: state.groups.userGroups,
+    totalGroups: state.groups.totalGroups
   });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Dashboard);

@@ -1,17 +1,31 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
+
 import getMembers from './../actions/getMembers';
 
+/**
+ * @class Members
+ * @extends {Component}
+ */
 class Members extends Component {
-  constructor(props) {
-    super(props);
-  }
 
+  /**
+   * Pre-loads the group members
+   * @memberof Members
+   *
+   * @returns {void}
+   */
   componentDidMount() {
     this.props.getMembers(this.props.groupId);
   }
 
+  /**
+   * @memberof Members
+   *
+   * @returns {object} - Members component
+   */
   render() {
     return (
       <div id="view-members" className="modal">
@@ -29,6 +43,12 @@ class Members extends Component {
     );
   }
 }
+
+Members.propTypes = {
+  groupId: PropTypes.string.isRequired,
+  members: PropTypes.shape(PropTypes.arrayOf(PropTypes.object)).isRequired,
+  getMembers: PropTypes.func.isRequired
+};
 
 const mapStateToProps = state => ({ members: state.members });
 

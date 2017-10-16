@@ -6,6 +6,13 @@ import { PropTypes } from 'prop-types';
 import ChatSideNav from './ChatSideNav.jsx';
 import NavLinks from './NavLinks.jsx';
 
+/**
+ * Dashboard Header
+ *
+ * @param {object} props - data from Redux store
+ *
+ * @returns {object} - the Header component for the dashboard
+ */
 const DashHeader = props => (
   <header>
     <div className="navbar-fixed">

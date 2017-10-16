@@ -1,6 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+/**
+ * Side navigation for the chat board
+ *
+ * @returns {object} - ChatSideNav component
+ */
 const ChatSideNav = () => (
   <ul>
     <li>

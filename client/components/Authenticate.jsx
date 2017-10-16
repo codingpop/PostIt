@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { bindActionCreators } from 'redux';
+
 import setUser from './../actions/setUser';
 
 export default (ComposedComponent) => {
@@ -14,6 +15,7 @@ export default (ComposedComponent) => {
     /**
      * Pre sets the user data to the redux store
      * @memberof Authenticate
+     *
      * @returns {void}
      */
     componentWillMount() {
@@ -23,6 +25,7 @@ export default (ComposedComponent) => {
     /**
      * Renders any child component passed to it
      * @memberof Authenticate
+     *
      * @returns {void}
      */
     render() {

@@ -2,12 +2,19 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+
 import SignIn from './SignIn.jsx';
 import SignUp from './SignUp.jsx';
 import Footer from './Footer.jsx';
 import ResetPassword from './ResetPassword.jsx';
+
 import signIn from './../actions/signIn';
 
+/**
+ * Landing page (Home)
+ *
+ * @returns {object} - Home component
+ */
 const Home = () => (<div>
   <header>
     <div className="navbar-fixed">
@@ -44,7 +51,6 @@ const Home = () => (<div>
       >Get Started</Link></li>
     </ul>
   </header>
-  {/* Hero Section */}
   <section className="hero valign-wrapper">
     <div className="container-fluid">
       <div className="row">
@@ -62,7 +68,6 @@ const Home = () => (<div>
     </div>
   </section>
 
-  {/* How It Works */}
   <section className="how-it-works">
     <div className="container-fluid">
       <div className="row">
@@ -86,7 +91,6 @@ const Home = () => (<div>
     </div>
   </section>
 
-  {/* Opt-in Section */}
   <section className="opt-in">
     <div className="container-fluid">
       <div className="row">
@@ -101,7 +105,6 @@ const Home = () => (<div>
     </div>
   </section>
 
-  {/* Modals */}
   <SignIn />
   <SignUp />
   <ResetPassword />

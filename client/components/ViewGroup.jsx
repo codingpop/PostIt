@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import PropTypes from 'prop-types';
 
 import ChatHeader from './ChatHeader.jsx';
 import Footer from './Footer.jsx';
@@ -31,11 +32,35 @@ class ViewGroup extends Component {
     this.groupId = '';
   }
 
+  /**
+   * Prefetches the messages in a group
+   * @memberof ViewGroup
+   *
+   * @returns {void}
+   */
   componentWillMount() {
     this.groupId = this.props.match.params.groupId;
     this.props.getMessages(this.groupId);
   }
 
+  /**
+   * Ensures the Materialize modals work
+   * @memberof ViewGroup
+   *
+   * @returns {void}
+   */
+  componentDidMount() {
+    $('.button-collapse').sideNav();
+    $('.modal').modal();
+  }
+
+  /**
+   * Catches the delayed props
+   * @param {any} nextProps - delayed props
+   * @memberof ViewGroup
+   *
+   * @returns {void}
+   */
   componentWillReceiveProps(nextProps) {
     if (this.props !== nextProps) {
       this.setState({
@@ -44,13 +69,15 @@ class ViewGroup extends Component {
     }
   }
 
-  componentDidMount() {
-    $('.button-collapse').sideNav();
-    $('.modal').modal();
-  }
-
+  /**
+   * ViewGroup
+   * @memberof ViewGroup
+   *
+   * @returns {object} - ViewGroup component
+   */
   render() {
     let messageList;
+
     if (this.state.messages.length > 0) {
       messageList = this.props.messages.map(message => (
         <div key={message.messageId} className="card chat-card">
@@ -85,8 +112,8 @@ class ViewGroup extends Component {
                 </div>
               </div>
             </div>
-            <PostMessage />
-          </div> { /* overlay */}
+            <PostMessage groupId={this.groupId} />
+          </div>
         </section>
         <Footer />
         <Members groupId={this.groupId} />
@@ -94,6 +121,16 @@ class ViewGroup extends Component {
     );
   }
 }
+
+ViewGroup.propTypes = {
+  getMessages: PropTypes.func.isRequired,
+  messages: PropTypes.arrayOf(PropTypes.object.isRequired).isRequired,
+  match: PropTypes.shape({
+    params: PropTypes.shape({
+      groupId: PropTypes.string.isRequired
+    }).isRequired
+  }).isRequired
+};
 
 const mapStateToProps = state => ({ messages: state.messages });
 

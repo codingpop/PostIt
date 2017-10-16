@@ -2,6 +2,12 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
+/**
+ * Group Card
+ * @param {object} props - properties from parent components
+ *
+ * @returns {object} - Group component
+ */
 const Group = props => (
   <Link to={`/groups/${props.url}`}>
     <div className="card">

@@ -1,4 +1,6 @@
 import React from 'react';
+import Gravatar from 'react-gravatar';
+import md5 from 'md5';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
@@ -6,6 +8,12 @@ import { PropTypes } from 'prop-types';
 import DashSideNav from './DashSideNav.jsx';
 import NavLinks from './NavLinks.jsx';
 
+/**
+ * Header
+ * @param {object} props - data from redux store
+ *
+ * @returns {object} - Header component
+ */
 const DashHeader = props => (
   <header>
     <div className="navbar-fixed">
@@ -27,7 +35,12 @@ const DashHeader = props => (
     <div id="mobile-links" className="side-nav fixed">
       <div className="avatar">
         <Link to="">
-          <img src="/img/avatar.jpg" className="center" alt="" />
+          <Gravatar
+            md5={md5(props.user.email)}
+            default="monsterid"
+            className="center"
+            size={150}
+          />
           <p>{props.user.userName}</p>
         </Link>
       </div>
@@ -38,13 +51,15 @@ const DashHeader = props => (
 
 DashHeader.propTypes = {
   user: PropTypes.shape({
-    userName: PropTypes.string
+    userName: PropTypes.string,
+    email: PropTypes.string,
   }).isRequired
 };
 
 const mapStateToProps = state => (
   {
     user: state.user.user.user,
+    email: state.user.user.email,
     router: state.router
   }
 );

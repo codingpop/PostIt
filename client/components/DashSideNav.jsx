@@ -1,6 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
+/**
+ * Side navigation for the dashboard
+ *
+ * @returns {object} - DashSideNav component
+ */
 const DashSideNav = () => (
   <ul>
     <li>

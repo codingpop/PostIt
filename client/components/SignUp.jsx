@@ -141,7 +141,10 @@ class SignUp extends Component {
         <div
           className="modal-footer"
         >Already a member?
-        <Link to="#sign-in" className="modal-trigger modal-close"> Sign in</Link>
+        <Link
+          to="#sign-in"
+          className="modal-trigger modal-close"
+        > Sign in</Link>
         </div>
       </div>
     );
