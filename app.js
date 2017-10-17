@@ -16,6 +16,7 @@ import addUsers from './server/controllers/addUsers';
 import getMembers from './server/controllers/getMembers';
 import getGroups from './server/controllers/getGroups';
 import getMessages from './server/controllers/getMessages';
+import searchUsers from './server/controllers/searchUsers';
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use(
   getMembers,
   getGroups,
   getMessages,
+  searchUsers,
 );
 
 dotenv.config();

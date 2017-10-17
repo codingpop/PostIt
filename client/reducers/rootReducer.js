@@ -5,12 +5,14 @@ import user from './userReducer';
 import groups from './groupsReducer';
 import messages from './messageReducer';
 import members from './membersReducer';
+import search from './searchReducer';
 
 const appReducer = combineReducers({
   user,
   groups,
   messages,
   members,
+  search,
   router
 });
 

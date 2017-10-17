@@ -19,7 +19,8 @@ class NavLinks extends Component {
    */
   constructor() {
     super();
-    this.signOut = this.signOut.bind(this);
+
+    this.handleClick = this.handleClick.bind(this);
   }
 
   /**
@@ -38,7 +39,13 @@ class NavLinks extends Component {
     return (
       <ul id="nav-mobile" className="right hide-on-med-and-down">
         <li className="active"><Link to="/dashboard">Dashboard</Link></li>
-        <li><Link to="/" className="white-text" onClick={this.handleClick}>Sign out</Link></li>
+        <li>
+          <Link
+            to="/"
+            className="white-text"
+            onClick={this.handleClick}
+          >Sign out</Link>
+        </li>
       </ul>
     );
   }

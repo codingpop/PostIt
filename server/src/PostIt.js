@@ -46,7 +46,7 @@ class PostIt {
    * @returns {Promise} - returns a Promise
    */
   findUser(credential) {
-    if (validate(credential)) { // If credential is UUID
+    if (validate(credential)) {
       return this.database.User.findOne({
         where: {
           userId: credential,
@@ -87,6 +87,33 @@ class PostIt {
           }, {
             userName: users
           },
+        ]
+      }
+    });
+  }
+
+  /**
+   * Searches all users containing the characters in the search query
+   *
+   * @param {any} query - search query
+   * @memberof PostIt
+   *
+   * @returns {Promise} - a promise
+   */
+  searchUsers(query) {
+    return this.database.User.findAll({
+      where: {
+        $or: [
+          {
+            email: {
+              $iLike: `%${query}%`
+            }
+          },
+          {
+            userName: {
+              $iLike: `%${query}%`
+            }
+          }
         ]
       }
     });

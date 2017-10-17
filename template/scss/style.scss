@@ -195,6 +195,22 @@ header {
   }
 }
 
+.search-result {
+  font-family: 'Work Sans', sans-serif;
+  font-size: 17px;
+  padding: 11px !important;
+  margin-top: -35px;
+}
+
+.middle {
+  color: $black;
+}
+
+.collapsible-body, .collapsible-header {
+  font-family: 'Work Sans', sans-serif;
+  font-size: 17px;
+}
+
 .content {
   @media #{$medium-and-down} {
     margin-left: 0 !important;

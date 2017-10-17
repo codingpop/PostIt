@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import Header from './Header.jsx';
+import DashHeader from './DashHeader.jsx';
 import Footer from './Footer.jsx';
 import Group from './Group.jsx';
 import CreateGroup from './CreateGroup.jsx';
@@ -18,11 +18,11 @@ class Dashboard extends Component {
 
   /**
    * Creates an instance of Dashboard.
-   * @param {any} props
    * @memberof Dashboard
    */
-  constructor(props) {
-    super(props);
+  constructor() {
+    super();
+
     this.state = {
       groups: []
     };
@@ -85,13 +85,14 @@ class Dashboard extends Component {
         <div className="col s12 center-align">
           <h1>Welcome!</h1>
           <p className="flow-text">Create your first group to begin</p>
+          <img src="/img/hand.png" alt="point-left" width="400" />
         </div>
       );
     }
 
     return (
       <div className="dashboard">
-        <Header />
+        <DashHeader />
         <div className="row content">
           <div className="container-fluid">
 
@@ -120,7 +121,6 @@ const mapDispatchToProps = dispatch => (
 
 const mapStateToProps = state => (
   {
-    user: state.user,
     groups: state.groups.userGroups,
     totalGroups: state.groups.totalGroups
   });

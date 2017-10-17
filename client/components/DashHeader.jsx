@@ -59,7 +59,6 @@ DashHeader.propTypes = {
 const mapStateToProps = state => (
   {
     user: state.user.user.user,
-    email: state.user.user.email,
     router: state.router
   }
 );
