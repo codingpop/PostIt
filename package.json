@@ -33,7 +33,7 @@
     "express-session": "^1.15.3",
     "extract-text-webpack-plugin": "^3.0.0",
     "file-loader": "^0.11.2",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.0",
     "gulp-babel": "^6.1.2",
     "gulp-babel-istanbul": "^1.6.0",
     "gulp-coveralls": "^0.1.4",
