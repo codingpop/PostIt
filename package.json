@@ -73,7 +73,7 @@
     "redux-thunk": "^2.2.0",
     "rimraf": "^2.6.1",
     "sass-loader": "^6.0.6",
-    "sequelize": "^4.2.0",
+    "sequelize": "^6.6.5",
     "style-loader": "^0.18.2",
     "supertest": "^3.0.0",
     "supertest-session": "^3.0.0",
