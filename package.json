@@ -4,7 +4,7 @@
   "description": "A group messaging platform",
   "main": "index.js",
   "dependencies": {
-    "axios": "^0.16.2",
+    "axios": "^0.21.3",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.24.1",
     "babel-loader": "^7.1.1",
