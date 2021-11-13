@@ -40,7 +40,7 @@
     "gulp-mocha": "~4.0.1",
     "gulp-sass": "^3.1.0",
     "history": "^4.7.2",
-    "html-webpack-plugin": "^2.30.1",
+    "html-webpack-plugin": "^4.0.0",
     "image-webpack-loader": "^3.4.2",
     "immutable": "^3.8.1",
     "jquery": "^3.2.1",
@@ -80,7 +80,7 @@
     "toastr": "^2.1.2",
     "url-loader": "^0.5.9",
     "uuid-validate": "0.0.2",
-    "webpack": "^3.4.1",
+    "webpack": "^4.26.0",
     "webpack-dev-middleware": "^1.11.0",
     "webpack-dev-server": "^2.6.1",
     "webpack-hot-middleware": "^2.18.2"
